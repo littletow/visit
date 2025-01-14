@@ -38,10 +38,11 @@ App({
     // 同步接口
     try {
       const res = fs.readFileSync(`${wx.env.USER_DATA_PATH}/data.json`, 'utf8', 0)
-      console.log(res)
-      return res.data;
+      // console.log(res)
+      return res;
     } catch (e) {
       console.error(e)
+      return "";
     }
   },
 
@@ -66,7 +67,7 @@ App({
             success(res) {
               // 取消动画
               wx.hideLoading({
-                success: (res) => { },
+                success: (res) => {},
               })
               // console.log(res.data)
               // 记录到本地缓存
@@ -105,7 +106,7 @@ App({
               wx.setStorageSync('chkVerTs', now);
               // 取消动画
               wx.hideLoading({
-                success: (res) => { },
+                success: (res) => {},
               })
               // console.log(res.data)
               const onlineVersion = Number(res.data);
@@ -146,20 +147,22 @@ App({
 
   login() {
     const that = this;
-    // 每次启动都加载文章数据
-    // let artData = wx.getStorageSync("artData");// 从缓存中获取
-    let artData = that.readDataFile(); // 从用户文件中获取
-    if (!utils.isEmpty(artData)) {
-      const dataList = utils.json2ObjArr(artData);
-      that.globalData.artData = dataList;
-    }
+
     // 检查版本更新
     let chkVerTs = wx.getStorageSync("chkVerTs");
     if (!utils.isEmpty(chkVerTs)) {
       let chkVerTsNum = Number(chkVerTs);
-      let tzms = utils.getTodayZeroMsTime();// 获取今日零时毫秒时间戳
+      let tzms = utils.getTodayZeroMsTime(); // 获取今日零时毫秒时间戳
       if (chkVerTsNum < tzms) {
         that.dlArtVersion();
+      }else{
+         // let artData = wx.getStorageSync("artData");// 从缓存中获取
+         let artData = that.readDataFile(); // 从用户文件中获取
+        //  console.log(artData);
+         if (!utils.isEmpty(artData)) {
+           const dataList = utils.json2ObjArr(artData);
+           that.globalData.artData = dataList;
+         }
       }
     } else {
       that.dlArtVersion();
@@ -168,11 +171,13 @@ App({
     let seeAdTs = wx.getStorageSync("seeAdTs");
     if (!utils.isEmpty(seeAdTs)) {
       let seeAdTsNum = Number(seeAdTs);
-      let tzms = utils.getTodayZeroMsTime();// 获取今日零时毫秒时间戳
+      let tzms = utils.getTodayZeroMsTime(); // 获取今日零时毫秒时间戳
       if (seeAdTsNum > tzms) {
         that.globalData.isSeeAd = true; // 今天是否看了广告？
       }
     }
+
+
   },
 
   // 小程序每次启动都会调用
@@ -182,7 +187,7 @@ App({
 
   globalData: {
     isSeeAd: false, // 是否看了广告？
-    artData: [],// 文章数据列表
+    artData: [], // 文章数据列表
   },
 
 });
