@@ -16,6 +16,35 @@ App({
     });
   },
 
+  // 写入文件
+  writeDataFile: function (data) {
+    const fs = wx.getFileSystemManager();
+    const filePath = `${wx.env.USER_DATA_PATH}/data.json`;
+    fs.writeFile({
+      filePath: filePath,
+      data: data,
+      encoding: 'utf8',
+      success: res => {
+        console.log('write file success')
+      },
+      fail: err => {
+        console.error('write file error,', err)
+      }
+    })
+  },
+  // 读取文件
+  readDataFile: function () {
+    const fs = wx.getFileSystemManager();
+    // 同步接口
+    try {
+      const res = fs.readFileSync(`${wx.env.USER_DATA_PATH}/data.json`, 'utf8', 0)
+      console.log(res)
+      return res.data;
+    } catch (e) {
+      console.error(e)
+    }
+  },
+
   // 下载 data.json 文件
   dlArtData: function () {
     const that = this;
@@ -37,11 +66,13 @@ App({
             success(res) {
               // 取消动画
               wx.hideLoading({
-                success: (res) => {},
+                success: (res) => { },
               })
               // console.log(res.data)
               // 记录到本地缓存
-              wx.setStorageSync('artData', res.data);
+              // wx.setStorageSync('artData', res.data);
+              // 记录到本地用户文件
+              that.writeDataFile(res.data);
               const dataList = utils.json2ObjArr(res.data);
               that.globalData.artData = dataList;
             },
@@ -74,7 +105,7 @@ App({
               wx.setStorageSync('chkVerTs', now);
               // 取消动画
               wx.hideLoading({
-                success: (res) => {},
+                success: (res) => { },
               })
               // console.log(res.data)
               const onlineVersion = Number(res.data);
@@ -115,32 +146,32 @@ App({
 
   login() {
     const that = this;
+    // 每次启动都加载文章数据
+    // let artData = wx.getStorageSync("artData");// 从缓存中获取
+    let artData = that.readDataFile(); // 从用户文件中获取
+    if (!utils.isEmpty(artData)) {
+      const dataList = utils.json2ObjArr(artData);
+      that.globalData.artData = dataList;
+    }
     // 检查版本更新
-    let chkVerTs = wx.getStorageSync("chkVerTs"); 
+    let chkVerTs = wx.getStorageSync("chkVerTs");
     if (!utils.isEmpty(chkVerTs)) {
-      let chkVerTsNum =Number(chkVerTs);
+      let chkVerTsNum = Number(chkVerTs);
       let tzms = utils.getTodayZeroMsTime();// 获取今日零时毫秒时间戳
       if (chkVerTsNum < tzms) {
         that.dlArtVersion();
-      } 
-    } else{
+      }
+    } else {
       that.dlArtVersion();
-    } 
+    }
     // 检查广告
-    let seeAdTs = wx.getStorageSync("seeAdTs"); 
+    let seeAdTs = wx.getStorageSync("seeAdTs");
     if (!utils.isEmpty(seeAdTs)) {
-      let seeAdTsNum =Number(seeAdTs);
+      let seeAdTsNum = Number(seeAdTs);
       let tzms = utils.getTodayZeroMsTime();// 获取今日零时毫秒时间戳
       if (seeAdTsNum > tzms) {
         that.globalData.isSeeAd = true; // 今天是否看了广告？
       }
-    }  
-    
-    // 加载文章数据
-    let artData = wx.getStorageSync("artData");// 每次启动都加载 
-    if (!utils.isEmpty(artData)) {
-      const dataList = utils.json2ObjArr(artData);
-      that.globalData.artData = dataList;
     }
   },
 

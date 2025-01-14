@@ -224,7 +224,7 @@ Page({
         if (res && res.isEnded) {
           app.logSeeAd();
           wx.showToast({
-            title: '谢谢观看！',
+            title: '谢谢支持！',
           })
         } else {
           wx.showToast({
