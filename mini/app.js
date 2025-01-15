@@ -19,48 +19,49 @@ App({
   // 上报设备信息
   rptDevInfo: function () {
     const that = this;
-    wx.getSystemInfo({
-      success(res) {
-        console.log(res.model) // 设备型号
-        console.log(res.pixelRatio) // 设备像素比
-        console.log(res.windowWidth) // 可使用窗口宽度
-        console.log(res.windowHeight) // 可使用窗口高度
-        console.log(res.language) // 微信设置的语言
-        console.log(res.version) // 微信版本号
-        console.log(res.platform) // 客户端平台
-        const devinfo = 'platform:' + res.platform + ',model:' + res.model + ',version:' + res.version
-        const content = 'report device info';
-        wx.request({
-          url: 'https://mp.91demo.top/mp/rptInfo', // 请求的URL
-          method: 'POST', // 请求方法
-          data: {
-            rtype: 1, // 信息
-            robj: 1, // 本项目
-            devinfo: devinfo, // 设备信息
-            content: content, // 上报内容
-          },
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: function (res) {
-            // 请求成功的回调函数
-            console.log('数据提交成功:', res.data);
-            // 可以在此处对数据进行处理
-            if (res.data.code === 1) {
-              wx.setStorageSync('devInfo', devinfo)
-            }
-          },
-          fail: function (err) {
-            // 请求失败的回调函数
-            console.error('数据提交失败:', err);
-          },
-          complete: function () {
-            // 请求完成的回调函数（成功或失败都会执行）
-            console.log('请求完成');
-          }
-        });
+    const deviceInfo = wx.getDeviceInfo();
+    const appBaseInfo = wx.getAppBaseInfo();
+    const windowInfo = wx.getWindowInfo();
+
+    const devInfoObj = {
+      devInfo:deviceInfo,
+      appInfo:appBaseInfo,
+      winInfo:windowInfo,
+    }
+    
+    const devinfo = JSON.stringify(devInfoObj);
+    console.log(devInfoObj,devinfo.length);
+    const content = 'report device info';
+    wx.request({
+      url: 'https://mp.91demo.top/mp/rptInfo', // 请求的URL
+      method: 'POST', // 请求方法
+      data: {
+        rtype: 1, // 信息
+        robj: 1, // 本项目
+        devinfo: devinfo, // 设备信息
+        content: content, // 上报内容
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        // 请求成功的回调函数
+        console.log('数据提交成功:', res.data);
+        // 可以在此处对数据进行处理
+        if (res.data.code === 1) {
+          wx.setStorageSync('devInfo', devinfo);
+        }
+      },
+      fail: function (err) {
+        // 请求失败的回调函数
+        console.error('数据提交失败:', err);
+      },
+      complete: function () {
+        // 请求完成的回调函数（成功或失败都会执行）
+        console.log('请求完成');
       }
-    })
+    });
+    
   },
 
   // 写入文件
