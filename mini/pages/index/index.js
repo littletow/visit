@@ -277,6 +277,10 @@ Page({
    */
   onLoad: function (options) {
     console.log("index onload")
+    const loadTime = Date.now();
+    const startTime = app.globalData.startTime;
+    const launchTime = loadTime - startTime;
+    console.log(`index onLoad: ${launchTime} ms`);
   },
 
   /**

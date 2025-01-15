@@ -67,7 +67,7 @@ App({
             success(res) {
               // 取消动画
               wx.hideLoading({
-                success: (res) => {},
+                success: (res) => { },
               })
               // console.log(res.data)
               // 记录到本地缓存
@@ -106,7 +106,7 @@ App({
               wx.setStorageSync('chkVerTs', now);
               // 取消动画
               wx.hideLoading({
-                success: (res) => {},
+                success: (res) => { },
               })
               // console.log(res.data)
               const onlineVersion = Number(res.data);
@@ -155,14 +155,18 @@ App({
       let tzms = utils.getTodayZeroMsTime(); // 获取今日零时毫秒时间戳
       if (chkVerTsNum < tzms) {
         that.dlArtVersion();
-      }else{
-         // let artData = wx.getStorageSync("artData");// 从缓存中获取
-         let artData = that.readDataFile(); // 从用户文件中获取
+      } else {
+        let artData = that.readDataFile(); // 从用户文件中获取
         //  console.log(artData);
-         if (!utils.isEmpty(artData)) {
-           const dataList = utils.json2ObjArr(artData);
-           that.globalData.artData = dataList;
-         }
+        if (!utils.isEmpty(artData)) {
+          const dataList = utils.json2ObjArr(artData);
+          that.globalData.artData = dataList;
+        } else {
+          // 兼容以前版本
+          let artData1 = wx.getStorageSync("artData");// 从缓存中获取
+          const dataList1 = utils.json2ObjArr(artData1);
+          that.globalData.artData = dataList1;
+        }
       }
     } else {
       that.dlArtVersion();
@@ -182,10 +186,16 @@ App({
 
   // 小程序每次启动都会调用
   onLaunch: function () {
+    const startTime = Date.now();
+    this.globalData.startTime = startTime;
     this.login();
+    const loginTime = Date.now();
+    const launchTime = loginTime - startTime;
+    console.log(`app onLaunch: ${launchTime} ms`);
   },
 
   globalData: {
+    startTime: 0,
     isSeeAd: false, // 是否看了广告？
     artData: [], // 文章数据列表
   },
