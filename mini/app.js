@@ -16,27 +16,36 @@ App({
     });
   },
 
-  // 上报设备信息
-  rptDevInfo: function () {
+  // 本地缓存中记录设备信息
+  logDevInfo: function () {
     const that = this;
     const deviceInfo = wx.getDeviceInfo();
     const appBaseInfo = wx.getAppBaseInfo();
     const windowInfo = wx.getWindowInfo();
 
     const devInfoObj = {
-      devInfo:deviceInfo,
-      appInfo:appBaseInfo,
-      winInfo:windowInfo,
+      devInfo: deviceInfo,
+      appInfo: appBaseInfo,
+      winInfo: windowInfo,
     }
-    
+
     const devinfo = JSON.stringify(devInfoObj);
-    console.log(devInfoObj,devinfo.length);
-    const content = 'report device info';
+    wx.setStorageSync('devInfo', devinfo);
+  },
+
+  // 上报错误信息
+  rptErrInfo: function (content) {
+    const that = this;
+    let devinfo = '';
+    let locDevInfo = wx.getStorageSync("devInfo");
+    if (!utils.isEmpty(locDevInfo)) {
+      devinfo = locDevInfo;
+    }
     wx.request({
       url: 'https://mp.91demo.top/mp/rptInfo', // 请求的URL
       method: 'POST', // 请求方法
       data: {
-        rtype: 1, // 信息
+        rtype: 2, // 错误
         robj: 1, // 本项目
         devinfo: devinfo, // 设备信息
         content: content, // 上报内容
@@ -49,7 +58,7 @@ App({
         console.log('数据提交成功:', res.data);
         // 可以在此处对数据进行处理
         if (res.data.code === 1) {
-          wx.setStorageSync('devInfo', devinfo);
+          console.log('上报成功');
         }
       },
       fail: function (err) {
@@ -61,7 +70,7 @@ App({
         console.log('请求完成');
       }
     });
-    
+
   },
 
   // 写入文件
@@ -231,7 +240,7 @@ App({
     // 检查设备信息
     let devInfo = wx.getStorageSync("devInfo");
     if (utils.isEmpty(devInfo)) {
-      that.rptDevInfo();
+      that.logDevInfo();
     }
   },
 

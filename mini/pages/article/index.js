@@ -1,6 +1,6 @@
 // pages/mkart/index.js
 const app = getApp();
- 
+
 Page({
 
   /**
@@ -12,13 +12,13 @@ Page({
   },
 
   // 加载文章资源，现在从Git获取，下载Markdown文件，然后解析文件。
-  getArt(category,artId) {
+  getArt(category, artId) {
     const that = this;
     // wx.showLoading({
     //   title: '加载中...',
     // })
     // 修改此处可以切换Git地址
-    let url = 'https://gitee.com/littletow/visit/raw/master/content/'+category+'/' + artId;
+    let url = 'https://gitee.com/littletow/visit/raw/master/content/' + category + '/' + artId;
     wx.downloadFile({
       url: url,
       success(res) {
@@ -49,6 +49,10 @@ Page({
             },
           })
         }
+      },
+      fail(err) {
+        app.rptErrInfo('download file err,', err)
+        console.log('download file err,', err)
       }
     })
   },
@@ -58,7 +62,7 @@ Page({
    */
   onLoad(options) {
     // console.log(options);
-    this.getArt(options.category,options.id);
+    this.getArt(options.category, options.id);
   },
 
   /**
@@ -87,7 +91,7 @@ Page({
    */
   onUnload() {
     // console.log('article unload')
-  
+
   },
 
   /**

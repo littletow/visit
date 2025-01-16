@@ -186,7 +186,22 @@ Page({
       that.jumpToPage(art.category, art.id);
     } else if (art.label == "gzh") {
       that.jumpToGzh(art.id);
+    } else if (art.label == "mp") {
+      that.jumpToMiniApp(art.id);
     }
+  },
+
+  // 跳转到小程序
+  jumpToMiniApp: function (id) {
+    wx.navigateToMiniProgram({
+      appId: id,
+      path: '',
+      extraData: {},
+      envVersion: 'release',
+      success(res) {
+        // 打开成功
+      }
+    })
   },
 
   // 跳公众号页面
@@ -218,6 +233,7 @@ Page({
       hasLoadAd = true
     }),
       vAd.onError((err) => {
+        app.rptErrInfo('load ad err,', err)
         console.error('激励视频广告加载失败,', err)
       }),
       vAd.onClose((res) => {
@@ -256,6 +272,7 @@ Page({
             vAd.show()
           })
           .catch(err => {
+            app.rptErrInfo('show ad err,', err)
             wx.hideLoading()
             wx.showToast({
               title: '请重试一次',
@@ -264,8 +281,10 @@ Page({
           })
       })
     } else {
+      // 上报错误
+      app.rptErrInfo('play ad err.')
       wx.hideLoading()
-      // 广告太多，会跳转到这里。需要稍后再试。
+      // 未加载到广告，需要稍后再试。
       wx.showToast({
         title: '请稍后重试',
       })
