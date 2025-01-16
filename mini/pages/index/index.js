@@ -255,7 +255,7 @@ Page({
       title: '加载广告中',
     })
     const that = this;
-    console.log('aa', hasLoadAd);
+    // console.log('aa', hasLoadAd);
     if (!hasLoadAd) {
       // 还未加载广告，则先加载广告，这是广告的核心点，如果直接在OnLoad方法中调用，页面会有卡顿现象。
       that.loadAd();

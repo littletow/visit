@@ -29,7 +29,7 @@ TCP 状态有：TCP 建立连接，TCP 断开连接，TCP 传输数据。
 
 **对于建链接的 3 次握手，** 主要是要初始化 Sequence Number 的初始值。通信的双方要互相通知对方自己的初始化的 Sequence Number（缩写为 ISN：Inital Sequence Number）——所以叫 SYN，全称 Synchronize Sequence Numbers。也就上图中的 x 和 y。这个号要作为以后的数据通信的序号，以保证应用层接收到的数据不会因为网络上的传输的问题而乱序（TCP 会用这个序号来拼接数据）。
 
-**对于 4 次挥手，**其实你仔细看是 2 次，因为 TCP 是全双工的，所以，发送方和接收方都需要 Fin 和 Ack。只不过，有一方是被动的，所以看上去就成了所谓的 4 次挥手。如果两边同时断连接，那就会就进入到 CLOSING 状态，然后到达 TIME_WAIT 状态。下图是双方同时断连接的示意图（你同样可以对照着 TCP 状态机看）
+**对于 4 次挥手，** 其实你仔细看是 2 次，因为 TCP 是全双工的，所以，发送方和接收方都需要 Fin 和 Ack。只不过，有一方是被动的，所以看上去就成了所谓的 4 次挥手。如果两边同时断连接，那就会就进入到 CLOSING 状态，然后到达 TIME_WAIT 状态。下图是双方同时断连接的示意图（你同样可以对照着 TCP 状态机看）
 
 ![alt TCP打开关闭连接](https://gitee.com/littletow/visit/raw/master/content/images/tcp_open_close.jpg)
 
