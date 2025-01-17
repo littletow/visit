@@ -1,14 +1,14 @@
 [
   {
     "id": "visit.md",
-    "name": "豆子碎片",
+    "name": "豆子碎片项目",
     "kw": "",
     "category": "projects",
     "label": "md"
   },
   {
     "id": "https://mp.weixin.qq.com/s/JaH2zh0so9sOTJ9IXE8qRQ",
-    "name": "公众号关联小程序入口",
+    "name": "公众号文章",
     "kw": "公众号，小程序",
     "category": "projects",
     "label": "gzh"
@@ -24,28 +24,28 @@
     "id": "feelings-1.md",
     "name": "聊聊工匠情怀-我只是认真",
     "kw": "",
-    "category": "projects",
+    "category": "feelings",
     "label": "md"
   },
   {
     "id": "feelings-2.md",
     "name": "别让自己“墙”了自己",
     "kw": "",
-    "category": "projects",
+    "category": "feelings",
     "label": "md"
   },
   {
     "id": "feelings-3.md",
     "name": "程序员如何把控自己的职业",
     "kw": "",
-    "category": "projects",
+    "category": "feelings",
     "label": "md"
   },
   {
     "id": "feelings-4.md",
     "name": "谈谈我的“三观”",
     "kw": "",
-    "category": "projects",
+    "category": "feelings",
     "label": "md"
   },
   {
