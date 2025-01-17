@@ -14,6 +14,41 @@
     "label": "gzh"
   },
   {
+    "id": "wx4f0e6ddeb1080cd3",
+    "name": "豆子工具小程序",
+    "kw": "跳转，小程序",
+    "category": "projects",
+    "label": "mp"
+  },
+  {
+    "id": "feelings-1.md",
+    "name": "聊聊工匠情怀-我只是认真",
+    "kw": "",
+    "category": "projects",
+    "label": "md"
+  },
+  {
+    "id": "feelings-2.md",
+    "name": "别让自己“墙”了自己",
+    "kw": "",
+    "category": "projects",
+    "label": "md"
+  },
+  {
+    "id": "feelings-3.md",
+    "name": "程序员如何把控自己的职业",
+    "kw": "",
+    "category": "projects",
+    "label": "md"
+  },
+  {
+    "id": "feelings-4.md",
+    "name": "谈谈我的“三观”",
+    "kw": "",
+    "category": "projects",
+    "label": "md"
+  },
+  {
     "id": "mqtt.md",
     "name": "MQTT 轻量消息传输协议",
     "kw": "",
