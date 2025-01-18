@@ -91,7 +91,7 @@ App({
       },
       fail: err => {
         console.error('write file error,', err)
-        const title = 'write article file error';
+        const title = '写入本地用户文件错误';
         const content = err.toString();
         that.rptErrInfo(title, content);
       }

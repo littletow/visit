@@ -51,7 +51,7 @@ Page({
         }
       },
       fail(err) {
-        const title = 'download article file error';
+        const title = '下载文件时错误';
         const content = err.toString();
         app.rptErrInfo(title, content);
         console.log('download file err,', err)

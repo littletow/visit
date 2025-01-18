@@ -143,7 +143,7 @@ Page({
     wx.hideLoading()
     if (utils.isEmpty(searchList)) {
       // 记录为空
-      const title = 'quick button search report';
+      const title = '快捷按钮查询内容为空';
       const content = 'quick button search article is empty';
       app.rptErrInfo(title, content);
       wx.showToast({
@@ -237,7 +237,7 @@ Page({
       hasLoadAd = true
     }),
       vAd.onError((err) => {
-        const title = 'load video ad error';
+        const title = '加载激励视频广告时错误';
         const content = err.toString();
         app.rptErrInfo(title, content);
         console.error('激励视频广告加载失败,', err)
@@ -278,7 +278,7 @@ Page({
             vAd.show()
           })
           .catch(err => {
-            const title = 'show video ad error';
+            const title = '展示激励视频广告时错误';
             const content = err.toString();
             app.rptErrInfo(title, content);
             wx.hideLoading()
@@ -289,7 +289,7 @@ Page({
           })
       })
     } else {
-      const title = 'play video ad error';
+      const title = '播放激励视频广告时错误';
       const content = 'playAd 函数ad对象为空';
       app.rptErrInfo(title, content);
       wx.hideLoading()
