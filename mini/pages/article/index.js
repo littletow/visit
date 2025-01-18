@@ -51,7 +51,9 @@ Page({
         }
       },
       fail(err) {
-        app.rptErrInfo('download file err,', err)
+        const title = 'download article file error';
+        const content = err.toString();
+        app.rptErrInfo(title, content);
         console.log('download file err,', err)
       }
     })

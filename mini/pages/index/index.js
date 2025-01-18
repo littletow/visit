@@ -142,8 +142,12 @@ Page({
     // console.log('btnList,', searchList);
     wx.hideLoading()
     if (utils.isEmpty(searchList)) {
+      // 记录为空
+      const title = 'quick button search report';
+      const content = 'quick button search article is empty';
+      app.rptErrInfo(title, content);
       wx.showToast({
-        title: '没有找到记录',
+        title: '下拉刷新试试',
       })
     } else {
       const count = searchList.length / 10;
@@ -233,7 +237,9 @@ Page({
       hasLoadAd = true
     }),
       vAd.onError((err) => {
-        app.rptErrInfo('load ad err,', err)
+        const title = 'load video ad error';
+        const content = err.toString();
+        app.rptErrInfo(title, content);
         console.error('激励视频广告加载失败,', err)
       }),
       vAd.onClose((res) => {
@@ -272,7 +278,9 @@ Page({
             vAd.show()
           })
           .catch(err => {
-            app.rptErrInfo('show ad err,', err)
+            const title = 'show video ad error';
+            const content = err.toString();
+            app.rptErrInfo(title, content);
             wx.hideLoading()
             wx.showToast({
               title: '请重试一次',
@@ -281,8 +289,9 @@ Page({
           })
       })
     } else {
-      // 上报错误
-      app.rptErrInfo('play ad err.')
+      const title = 'play video ad error';
+      const content = 'playAd 函数ad对象为空';
+      app.rptErrInfo(title, content);
       wx.hideLoading()
       // 未加载到广告，需要稍后再试。
       wx.showToast({
@@ -362,7 +371,12 @@ Page({
       pages: 0,
       category: '',
     })
+    // 停止刷新动画
     wx.stopPullDownRefresh()
+    // 检测artData是否为空，为空则下载数据文件
+    if (utils.isEmpty(app.globalData.artData)) {
+      app.dlArtData();
+    }
   },
   /**
    * 用户点击右上角分享

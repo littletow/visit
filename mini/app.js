@@ -34,21 +34,24 @@ App({
   },
 
   // 上报错误信息
-  rptErrInfo: function (content) {
+  rptErrInfo: function (title, content) {
     const that = this;
     let devinfo = '';
-    let locDevInfo = wx.getStorageSync("devInfo");
+    const locDevInfo = wx.getStorageSync("devInfo");
     if (!utils.isEmpty(locDevInfo)) {
       devinfo = locDevInfo;
     }
+    const uptime = utils.getNowStr();
     wx.request({
       url: 'https://mp.91demo.top/mp/rptInfo', // 请求的URL
       method: 'POST', // 请求方法
       data: {
         rtype: 2, // 错误
         robj: 1, // 本项目
+        title: title,
         devinfo: devinfo, // 设备信息
         content: content, // 上报内容
+        uptime: uptime,
       },
       header: {
         'content-type': 'application/json' // 默认值
@@ -75,8 +78,10 @@ App({
 
   // 写入文件
   writeDataFile: function (data) {
+    const that = this;
     const fs = wx.getFileSystemManager();
     const filePath = `${wx.env.USER_DATA_PATH}/data.json`;
+    // TODO 测试是否会覆盖写入？
     fs.writeFile({
       filePath: filePath,
       data: data,
@@ -86,6 +91,9 @@ App({
       },
       fail: err => {
         console.error('write file error,', err)
+        const title = 'write article file error';
+        const content = err.toString();
+        that.rptErrInfo(title, content);
       }
     })
   },
@@ -204,6 +212,11 @@ App({
 
   login() {
     const that = this;
+    // 检查设备信息
+    let devInfo = wx.getStorageSync("devInfo");
+    if (utils.isEmpty(devInfo)) {
+      that.logDevInfo();
+    }
     // 检查版本更新
     let chkVerTs = wx.getStorageSync("chkVerTs");
     if (!utils.isEmpty(chkVerTs)) {
@@ -212,16 +225,19 @@ App({
       if (chkVerTsNum < tzms) {
         that.dlArtVersion();
       } else {
-        let artData = that.readDataFile(); // 从用户文件中获取
+        const fileArtData = that.readDataFile(); // 从用户文件中获取
         //  console.log(artData);
-        if (!utils.isEmpty(artData)) {
-          const dataList = utils.json2ObjArr(artData);
-          that.globalData.artData = dataList;
+        if (!utils.isEmpty(fileArtData)) {
+          const fileDataList = utils.json2ObjArr(fileArtData);
+          that.globalData.artData = fileDataList;
         } else {
           // 兼容以前版本
-          let artData1 = wx.getStorageSync("artData");// 从缓存中获取
-          const dataList1 = utils.json2ObjArr(artData1);
-          that.globalData.artData = dataList1;
+          const cacheArtData = wx.getStorageSync("artData");// 从缓存中获取
+          // 修复bug，如果缓存为空，会直接赋予空值
+          if (!utils.isEmpty(cacheArtData)) {
+            const cacheDataList = utils.json2ObjArr(cacheArtData);
+            that.globalData.artData = cacheDataList;
+          }
         }
       }
     } else {
@@ -235,12 +251,6 @@ App({
       if (seeAdTsNum > tzms) {
         that.globalData.isSeeAd = true; // 今天是否看了广告？
       }
-    }
-
-    // 检查设备信息
-    let devInfo = wx.getStorageSync("devInfo");
-    if (utils.isEmpty(devInfo)) {
-      that.logDevInfo();
     }
   },
 
