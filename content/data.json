@@ -1,17 +1,10 @@
 [
   {
     "id": "visit.md",
-    "name": "豆子碎片项目",
+    "name": "豆子碎片项目介绍",
     "kw": "",
     "category": "projects",
     "label": "md"
-  },
-  {
-    "id": "https://mp.weixin.qq.com/s/JaH2zh0so9sOTJ9IXE8qRQ",
-    "name": "公众号文章",
-    "kw": "公众号，小程序",
-    "category": "projects",
-    "label": "gzh"
   },
   {
     "id": "wx4f0e6ddeb1080cd3",
@@ -19,6 +12,62 @@
     "kw": "跳转，小程序",
     "category": "projects",
     "label": "mp"
+  },
+  {
+    "id": "https://mp.weixin.qq.com/s/JaH2zh0so9sOTJ9IXE8qRQ",
+    "name": "公众号关联小程序入口",
+    "kw": "公众号，小程序",
+    "category": "projects",
+    "label": "gzh"
+  },
+  {
+    "id": "https://mp.weixin.qq.com/s/nL-ktNkqbjGi7MT2caO8rg",
+    "name": "不用服务器即可搭建一个内容类小程序",
+    "kw": "",
+    "category": "projects",
+    "label": "gzh"
+  },
+  {
+    "id": "https://mp.weixin.qq.com/s/j6DhXfB_criDhF_4nHPIeA",
+    "name": "不用服务器即可搭建一个内容类小程序（续）",
+    "kw": "",
+    "category": "projects",
+    "label": "gzh"
+  },
+  {
+    "id": "https://mp.weixin.qq.com/s/TzuoSk1u5075AwvtfqE3mg",
+    "name": "为小程序添加自动更新功能",
+    "kw": "",
+    "category": "projects",
+    "label": "gzh"
+  },
+  {
+    "id": "https://mp.weixin.qq.com/s/MhglpSJDB9yJFsXOib5urw",
+    "name": "系列·零基础学习开发小程序（一）",
+    "kw": "",
+    "category": "projects",
+    "label": "gzh"
+  },
+  {
+    "id": "https://mp.weixin.qq.com/s/Pyb4NSd1vaLL4VM-MubD4w",
+    "name": "系列·零基础学习开发小程序（二）",
+    "kw": "",
+    "category": "projects",
+    "label": "gzh"
+  },
+  {
+    "id": "https://mp.weixin.qq.com/s/1sr0txig5uY_3pB662K96w",
+    "name": "系列·零基础学习开发小程序（三）",
+    "kw": "",
+    "category": "projects",
+    "label": "gzh"
+  },
+  {
+    "id": "https://mp.weixin.qq.com/s/WHhwl9ydn-h-nH2Z9It2pw",
+    "name": "系列·零基础学习开发小程序（四）",
+    "kw": "",
+    "category": "projects",
+    "label": "gzh"
   },
   {
     "id": "feelings-1.md",
