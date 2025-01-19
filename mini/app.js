@@ -58,10 +58,10 @@ App({
       },
       success: function (res) {
         // 请求成功的回调函数
-        console.log('数据提交成功:', res.data);
+        // console.log('数据提交成功:', res.data);
         // 可以在此处对数据进行处理
-        if (res.data.code === 1) {
-          console.log('上报成功');
+        if (res.data.code != 1) {
+          console.log('上报失败,',res.data);
         }
       },
       fail: function (err) {
@@ -81,13 +81,13 @@ App({
     const that = this;
     const fs = wx.getFileSystemManager();
     const filePath = `${wx.env.USER_DATA_PATH}/data.json`;
-    // TODO 测试是否会覆盖写入？
+    // 会覆盖写入
     fs.writeFile({
       filePath: filePath,
       data: data,
       encoding: 'utf8',
       success: res => {
-        console.log('write file success')
+        // console.log('write file success')
       },
       fail: err => {
         console.error('write file error,', err)
@@ -130,6 +130,7 @@ App({
             filePath: tmpfile,
             encoding: 'utf8',
             success(res) {
+              // console.log('版本12');
               // 取消动画
               wx.hideLoading({
                 success: (res) => { },
@@ -178,17 +179,24 @@ App({
               // 查看本地版本号
               const artVer = wx.getStorageSync("artVer");
               if (utils.isEmpty(artVer)) {
+                // console.log('版本9');
                 // 记录到本地缓存
                 wx.setStorageSync('artVer', res.data);
                 // 下载文章数据
                 that.dlArtData();
               } else {
+                // console.log('版本10');
                 const localVersion = Number(artVer);
                 // console.log('调试',localVersion,onlineVersion);
                 // 和线上进行对比，需要升级则重新下载数据
                 if (localVersion < onlineVersion) {
+                  // console.log('版本11');
+                  wx.setStorageSync('artVer', res.data);
                   // 下载文章数据
                   that.dlArtData();
+                }else{
+                  // console.log('版本21');
+                  that.getArtData();
                 }
               }
             },
@@ -196,6 +204,33 @@ App({
         }
       }
     })
+  },
+
+  getArtData(){
+    const that = this;
+    const fileArtData = that.readDataFile(); // 从用户文件中获取
+    //  console.log(artData);
+    if (!utils.isEmpty(fileArtData)) {
+      // console.log('版本4');
+      const fileDataList = utils.json2ObjArr(fileArtData);
+      that.globalData.artData = fileDataList;
+    } else {
+      // console.log('版本5');
+      // 兼容以前版本
+      const cacheArtData = wx.getStorageSync("artData");// 从缓存中获取
+      // 修复bug，如果缓存为空，会直接赋予空值
+      if (!utils.isEmpty(cacheArtData)) {
+        // console.log('版本6');
+        const cacheDataList = utils.json2ObjArr(cacheArtData);
+        that.globalData.artData = cacheDataList;
+      }else{
+        console.log('没有获取到文章数据');
+        // 都没有数据，上报查找原因
+        const title = '获取本地文章数据错误';
+        const content = '本地用户目录和缓存都没有文章数据';
+        that.rptErrInfo(title, content);
+      }
+    }
   },
 
   // canPlayAd 是否需要观看广告？ 每日看一次即可。
@@ -220,27 +255,18 @@ App({
     // 检查版本更新
     let chkVerTs = wx.getStorageSync("chkVerTs");
     if (!utils.isEmpty(chkVerTs)) {
+      // console.log('版本1');
       let chkVerTsNum = Number(chkVerTs);
       let tzms = utils.getTodayZeroMsTime(); // 获取今日零时毫秒时间戳
       if (chkVerTsNum < tzms) {
+        // console.log('版本2');
         that.dlArtVersion();
       } else {
-        const fileArtData = that.readDataFile(); // 从用户文件中获取
-        //  console.log(artData);
-        if (!utils.isEmpty(fileArtData)) {
-          const fileDataList = utils.json2ObjArr(fileArtData);
-          that.globalData.artData = fileDataList;
-        } else {
-          // 兼容以前版本
-          const cacheArtData = wx.getStorageSync("artData");// 从缓存中获取
-          // 修复bug，如果缓存为空，会直接赋予空值
-          if (!utils.isEmpty(cacheArtData)) {
-            const cacheDataList = utils.json2ObjArr(cacheArtData);
-            that.globalData.artData = cacheDataList;
-          }
-        }
+        // console.log('版本3');
+        that.getArtData();
       }
     } else {
+      // console.log('版本7');
       that.dlArtVersion();
     }
     // 检查广告

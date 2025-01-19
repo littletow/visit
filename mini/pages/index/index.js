@@ -289,6 +289,7 @@ Page({
           })
       })
     } else {
+      console.log('playAd 函数ad对象为空');
       const title = '播放激励视频广告时错误';
       const content = 'playAd 函数ad对象为空';
       app.rptErrInfo(title, content);
@@ -304,7 +305,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log("index onload")
+    // console.log("index onload")
     const loadTime = Date.now();
     const startTime = app.globalData.startTime;
     const launchTime = loadTime - startTime;
