@@ -1,5 +1,6 @@
 // pages/mkart/index.js
 const app = getApp();
+const utils = require("../../utils/utils.js");
 
 Page({
 
@@ -52,7 +53,13 @@ Page({
       },
       fail(err) {
         const title = '下载文件时错误';
-        const content = err.toString();
+        let content = '';
+        const isObj = utils.isObject(err);
+        if (isObj) {
+          content = JSON.stringify(err);
+        } else {
+          content = err.toString();
+        }
         app.rptErrInfo(title, content);
         console.log('download file err,', err)
       }

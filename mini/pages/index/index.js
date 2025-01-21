@@ -1,5 +1,6 @@
 const app = getApp();
 const utils = require("../../utils/utils.js");
+
 let vAd = null;
 let hasLoadAd = false;
 
@@ -237,10 +238,18 @@ Page({
       hasLoadAd = true
     }),
       vAd.onError((err) => {
-        const title = '加载激励视频广告时错误';
-        const content = err.toString();
-        app.rptErrInfo(title, content);
         console.error('激励视频广告加载失败,', err)
+        // 判断err是否对象？
+        let content = '';
+        const isObj = utils.isObject(err);
+        if (isObj) {
+          content = JSON.stringify(err);
+        } else {
+          content = err.toString();
+        }
+        const title = '加载激励视频广告时错误';
+        app.rptErrInfo(title, content);
+
       }),
       vAd.onClose((res) => {
         if (res && res.isEnded) {
@@ -279,7 +288,13 @@ Page({
           })
           .catch(err => {
             const title = '展示激励视频广告时错误';
-            const content = err.toString();
+            let content = '';
+            const isObj = utils.isObject(err);
+            if (isObj) {
+              content = JSON.stringify(err);
+            } else {
+              content = err.toString();
+            }
             app.rptErrInfo(title, content);
             wx.hideLoading()
             wx.showToast({

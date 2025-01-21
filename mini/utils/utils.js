@@ -56,6 +56,11 @@ function isEmpty(obj) {
   return false;
 }
 
+// 是否对象？
+function isObject(val) {
+  return val !== null && typeof val === 'object' && !Array.isArray(val);
+}
+
 function guid() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     var r = Math.random() * 16 | 0,
@@ -298,4 +303,5 @@ module.exports = {
   getArtListByCategory,
   getArtListByKeyword,
   paginate,
+  isObject,
 }

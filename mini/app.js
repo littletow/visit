@@ -61,7 +61,7 @@ App({
         // console.log('数据提交成功:', res.data);
         // 可以在此处对数据进行处理
         if (res.data.code != 1) {
-          console.log('上报失败,',res.data);
+          console.log('上报失败,', res.data);
         }
       },
       fail: function (err) {
@@ -92,7 +92,13 @@ App({
       fail: err => {
         console.error('write file error,', err)
         const title = '写入本地用户文件错误';
-        const content = err.toString();
+        let content = '';
+        const isObj = utils.isObject(err);
+        if (isObj) {
+          content = JSON.stringify(err);
+        } else {
+          content = err.toString();
+        }
         that.rptErrInfo(title, content);
       }
     })
@@ -194,7 +200,7 @@ App({
                   wx.setStorageSync('artVer', res.data);
                   // 下载文章数据
                   that.dlArtData();
-                }else{
+                } else {
                   // console.log('版本21');
                   that.getArtData();
                 }
@@ -206,7 +212,7 @@ App({
     })
   },
 
-  getArtData(){
+  getArtData() {
     const that = this;
     const fileArtData = that.readDataFile(); // 从用户文件中获取
     //  console.log(artData);
@@ -223,7 +229,7 @@ App({
         // console.log('版本6');
         const cacheDataList = utils.json2ObjArr(cacheArtData);
         that.globalData.artData = cacheDataList;
-      }else{
+      } else {
         console.log('没有获取到文章数据');
         // 都没有数据，上报查找原因
         const title = '获取本地文章数据错误';
