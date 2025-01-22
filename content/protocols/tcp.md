@@ -6,7 +6,7 @@
 
 TCP 协议头格式：
 
-![alt TCP 协议格式](https://gitee.com/littletow/visit/raw/master/content/images/tcp-header.png)TCP 头格式（[图片来源](http://nmap.org/book/tcpip-ref.html)）
+![alt TCP 协议格式](https://ant.91demo.top/imgs/tcp-header.png)TCP 头格式（[图片来源](http://nmap.org/book/tcpip-ref.html)）
 
 TCP 的包没有 IP 地址，只有源端口和目标端口，它会被 IP 协议封装成 IP 数据包。
 
@@ -20,7 +20,7 @@ TCP 状态有：TCP 建立连接，TCP 断开连接，TCP 传输数据。
 
 看下图片：
 
-![alt TCP状态转换](https://gitee.com/littletow/visit/raw/master/content/images/tcpfsm.png)
+![alt TCP状态转换](https://ant.91demo.top/imgs/tcpfsm.png)
 
 为什么需要三次握手？为什么需要四次挥手？
 
@@ -28,7 +28,7 @@ TCP 状态有：TCP 建立连接，TCP 断开连接，TCP 传输数据。
 
 **对于 4 次挥手，** 其实你仔细看是 2 次，因为 TCP 是全双工的，所以，发送方和接收方都需要 Fin 和 Ack。只不过，有一方是被动的，所以看上去就成了所谓的 4 次挥手。如果两边同时断连接，那就会就进入到 CLOSING 状态，然后到达 TIME_WAIT 状态。下图是双方同时断连接的示意图（你同样可以对照着 TCP 状态机看）
 
-![alt TCP打开关闭连接](https://gitee.com/littletow/visit/raw/master/content/images/tcp_open_close.jpg)
+![alt TCP打开关闭连接](https://ant.91demo.top/imgs/tcp_open_close.jpg)
 
 下面的一些问题也请注意：
 

@@ -9,4 +9,4 @@ WebRTC 建立步骤：
 
 参考下方图：
 
-![alt WebRTC](https://gitee.com/littletow/visit/raw/master/content/images/webrtc.png)
+![alt WebRTC](https://ant.91demo.top/imgs/webrtc.png)

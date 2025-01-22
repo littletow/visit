@@ -6,8 +6,8 @@ WebSocket 通信协议于 2011 年被 IETF 定为标准 RFC 6455，并被 RFC793
 
 参考下图：
 
-![alt WebSocket](https://gitee.com/littletow/visit/raw/master/content/images/websocket.png)
+![alt WebSocket](https://ant.91demo.top/imgs/websocket.png)
 
 表中 opcode 操作码：
 
-![alt WebSocket](https://gitee.com/littletow/visit/raw/master/content/images/websocket2.png)
+![alt WebSocket](https://ant.91demo.top/imgs/websocket2.png)
