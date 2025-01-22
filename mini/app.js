@@ -94,13 +94,8 @@ App({
       fail: err => {
         console.error('write file error,', err)
         const title = '写入本地用户文件错误';
-        let content = '';
-        const isObj = utils.isObject(err);
-        if (isObj) {
-          content = JSON.stringify(err);
-        } else {
-          content = err.toString();
-        }
+        const content = JSON.stringify(err.errMsg);
+        // console.log('content,',content);
         that.rptErrInfo(title, content);
       }
     })
@@ -131,7 +126,7 @@ App({
       fileUrl,
       10000, // 超时时间10秒
       (tmpfile) => {
-        console.log('Download successful, file saved at:', tmpfile);
+        // console.log('Download successful, file saved at:', tmpfile);
         // 可以在这里对下载的文件进行进一步处理
         // 下载成功后，会存储为临时文件，需要使用微信API读取文件内容。
         const fs = wx.getFileSystemManager()
@@ -155,18 +150,13 @@ App({
         })
       },
       (err) => {
-        console.error('Download failed:', err);
+        console.error('Download failed:', err.message);
         wx.hideLoading({
           success: (res) => { },
         })
         const title = '下载data.json文件错误';
-        let content = '';
-        const isObj = utils.isObject(err);
-        if (isObj) {
-          content = JSON.stringify(err);
-        } else {
-          content = err.toString();
-        }
+        const content = JSON.stringify(err.message);
+        // console.log('content,',content);
         that.rptErrInfo(title, content);
       },
     );
@@ -186,7 +176,7 @@ App({
       fileUrl,
       5000, // 超时时间5秒
       (tmpfile) => {
-        console.log('Download successful, file saved at:', tmpfile);
+        // console.log('Download successful, file saved at:', tmpfile);
         // 可以在这里对下载的文件进行进一步处理
         // 下载成功后，会存储为临时文件，需要使用微信API读取文件内容。
         const fs = wx.getFileSystemManager()
@@ -229,18 +219,12 @@ App({
         })
       },
       (err) => {
-        console.error('Download failed:', err);
+        console.error('Download failed:', err.message);
         wx.hideLoading({
           success: (res) => { },
         })
         const title = '下载VERSION文件错误';
-        let content = '';
-        const isObj = utils.isObject(err);
-        if (isObj) {
-          content = JSON.stringify(err);
-        } else {
-          content = err.toString();
-        }
+        const content= JSON.stringify(err.message);
         that.rptErrInfo(title, content);
       },
     );
@@ -287,6 +271,7 @@ App({
 
   // 检查Git服务器是否通畅？
   async chkServerAlive() {
+    const that = this;
     wx.showLoading({
       title: '服务检测中..',
     })
@@ -296,16 +281,10 @@ App({
       const data = await utils.checkServerAccessibility(serverUrl, 3000);
       console.log("data,", data);
     } catch (err) {
-      console.error("Error:", err);
+      console.error("Error:", err.message);
       that.globalData.url = fallbackUrl;
       const title = '检查Git服务器不通';
-      let content = '';
-      const isObj = utils.isObject(err);
-      if (isObj) {
-        content = JSON.stringify(err);
-      } else {
-        content = err.toString();
-      }
+      const content = JSON.stringify(err.message)
       that.rptErrInfo(title, content);
     }
     wx.hideLoading({
@@ -321,7 +300,8 @@ App({
       that.logDevInfo();
     }
     // 检查服务是否正常？
-    await chkServerAlive();
+    await that.chkServerAlive();
+    // console.log('url,',that.globalData.url);
     // 检查版本更新
     let chkVerTs = wx.getStorageSync("chkVerTs");
     if (!utils.isEmpty(chkVerTs)) {

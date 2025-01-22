@@ -240,13 +240,7 @@ Page({
       vAd.onError((err) => {
         console.error('激励视频广告加载失败,', err)
         // 判断err是否对象？
-        let content = '';
-        const isObj = utils.isObject(err);
-        if (isObj) {
-          content = JSON.stringify(err);
-        } else {
-          content = err.toString();
-        }
+        const content =JSON.stringify(err);
         const title = '加载激励视频广告时错误';
         app.rptErrInfo(title, content);
 
@@ -288,13 +282,7 @@ Page({
           })
           .catch(err => {
             const title = '展示激励视频广告时错误';
-            let content = '';
-            const isObj = utils.isObject(err);
-            if (isObj) {
-              content = JSON.stringify(err);
-            } else {
-              content = err.toString();
-            }
+            const content =JSON.stringify(err);
             app.rptErrInfo(title, content);
             wx.hideLoading()
             wx.showToast({

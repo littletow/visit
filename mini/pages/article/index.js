@@ -16,12 +16,12 @@ Page({
   getArt(category, artId) {
     const that = this;
     // 修改此处可以切换Git地址
-    let fileUrl = that.globalData.url + category + '/' + artId;
+    let fileUrl = app.globalData.url + category + '/' + artId;
     utils.downloadFile(
       fileUrl,
       20000, // 超时时间20秒
       (tmpfile) => {
-        console.log('Download successful, file saved at:', tmpfile);
+        // console.log('Download successful, file saved at:', tmpfile);
         // 可以在这里对下载的文件进行进一步处理
         // 下载成功后，会存储为临时文件，需要使用微信API读取文件内容。
         const fs = wx.getFileSystemManager()
@@ -47,15 +47,9 @@ Page({
         })
       },
       (err) => {
-        console.error('Download failed:', err);
+        console.error('Download failed:', err.message);
         const title = '下载Markdown文件时错误';
-        let content = '';
-        const isObj = utils.isObject(err);
-        if (isObj) {
-          content = JSON.stringify(err);
-        } else {
-          content = err.toString();
-        }
+        const content = JSON.stringify(err.message);
         app.rptErrInfo(title, content);
       },
     );
