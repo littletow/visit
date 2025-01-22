@@ -277,6 +277,171 @@ function paginate(array, pageSize, pageNumber) {
   return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
 }
 
+// 检查服务器是否通畅？
+function checkServerAccessibility(url, timeout = 5000) {
+  return new Promise((resolve, reject) => {
+    // 使用 wx.request 发送 HEAD 请求
+    wx.request({
+      url: url,
+      method: 'HEAD', // 使用 HEAD 方法
+      timeout: timeout, // 设置超时时间
+      success: (res) => {
+        if (res.statusCode >= 200 && res.statusCode < 400) {
+          resolve('ok');
+        } else {
+          reject(new Error('Server returned an error status'));
+        }
+      },
+      fail: (err) => {
+        if (err.errMsg.includes('timeout')) {
+          reject(new Error('Request timed out'));
+        } else {
+          reject(new Error('There was a problem with the request: ' + err.errMsg));
+        }
+      }
+    });
+  });
+}
+
+// 下载文件
+function downloadFile(url, timeout = 5000, successCallback, failCallback, progressCallback) {
+  // 创建一个超时定时器
+  let timeoutId;
+
+  // 调用 wx.downloadFile 接口下载文件
+  const downloadTask = wx.downloadFile({
+    url: url, // 文件下载链接
+    success: (res) => {
+      clearTimeout(timeoutId); // 请求成功，清除超时定时器
+      if (res.statusCode === 200) {
+        // 下载成功，调用成功回调函数
+        if (typeof successCallback === 'function') {
+          successCallback(res.tempFilePath); // 临时文件路径
+        }
+      } else {
+        // 下载失败，调用失败回调函数
+        if (typeof failCallback === 'function') {
+          failCallback(new Error('Download failed with status code ' + res.statusCode));
+        }
+      }
+    },
+    fail: (err) => {
+      clearTimeout(timeoutId); // 请求失败，清除超时定时器
+      // 请求失败，调用失败回调函数
+      if (typeof failCallback === 'function') {
+        failCallback(err);
+      }
+    }
+  });
+
+  // 监听下载进度变化事件
+  downloadTask.onProgressUpdate((res) => {
+    if (typeof progressCallback === 'function') {
+      progressCallback(res.progress); // 下载进度百分比
+    }
+  });
+
+  // 设置超时定时器
+  timeoutId = setTimeout(() => {
+    downloadTask.abort(); // 中止下载任务
+    if (typeof failCallback === 'function') {
+      failCallback(new Error('Request timed out'));
+    }
+  }, timeout);
+}
+
+// 网络请求，带有兜底处理和超时设置
+function requestWithFallback(mainUrl, fallbackUrl, timeout = 5000) {
+  return new Promise((resolve, reject) => {
+    // 创建一个 AbortController 实例
+    let timeoutId;
+
+    // 定义请求函数
+    const fetchData = (url, isFallback = false) => {
+      const requestTask = wx.request({
+        url: url,
+        method: 'GET',
+        timeout: timeout,
+        success: (res) => {
+          clearTimeout(timeoutId); // 请求成功，清除超时定时器
+          if (res.statusCode >= 200 && res.statusCode < 400) {
+            resolve(res.data); // 成功处理
+          } else {
+            if (isFallback) {
+              reject(new Error('Both main and fallback requests failed with status code ' + res.statusCode));
+            } else {
+              fetchData(fallbackUrl, true); // 尝试兜底请求
+            }
+          }
+        },
+        fail: (err) => {
+          clearTimeout(timeoutId); // 请求失败，清除超时定时器
+          if (isFallback) {
+            reject(new Error('Both main and fallback requests failed: ' + err.errMsg));
+          } else {
+            fetchData(fallbackUrl, true); // 尝试兜底请求
+          }
+        }
+      });
+
+      // 设置超时定时器
+      timeoutId = setTimeout(() => {
+        requestTask.abort(); // 中止请求
+        if (isFallback) {
+          reject(new Error('Both main and fallback requests timed out'));
+        } else {
+          fetchData(fallbackUrl, true); // 尝试兜底请求
+        }
+      }, timeout);
+    };
+
+    // 先尝试主请求
+    fetchData(mainUrl);
+  });
+}
+
+// 使用该函数检查服务器是否通畅
+// const serverUrl = 'https://example.com/api/test';
+
+// checkServerAccessibility(serverUrl, 5000)
+//     .then((message) => {
+//         console.log(message);
+//     })
+//     .catch((error) => {
+//         console.error(error.message);
+//     });
+
+
+// 使用示例
+// const fileUrl = 'https://example.com/path/to/file';
+
+// downloadFile(
+//     fileUrl,
+//     5000, // 超时时间
+//     (tempFilePath) => {
+//         console.log('Download successful, file saved at:', tempFilePath);
+//         // 可以在这里对下载的文件进行进一步处理
+//     },
+//     (error) => {
+//         console.error('Download failed:', error);
+//     },
+//     (progress) => {
+//         console.log('Download progress:', progress + '%');
+//     }
+// );
+
+// 使用示例
+// const mainUrl = 'https://example.com/api/main';
+// const fallbackUrl = 'https://fallback.example.com/api/main';
+
+// requestWithFallback(mainUrl, fallbackUrl, 5000)
+//     .then((data) => {
+//         console.log('Request success:', data);
+//     })
+//     .catch((error) => {
+//         console.error('Request failed:', error.message);
+//     });
+
 module.exports = {
   formatTime: formatTime,
   isEmpty: isEmpty,
@@ -304,4 +469,7 @@ module.exports = {
   getArtListByKeyword,
   paginate,
   isObject,
+  checkServerAccessibility,
+  requestWithFallback,
+  downloadFile
 }
