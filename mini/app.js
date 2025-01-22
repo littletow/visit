@@ -125,7 +125,7 @@ App({
       title: '数据加载中..',
     })
     wx.downloadFile({
-      url: 'https://gitee.com/littletow/visit/raw/master/content/data.json',
+      url: 'https://bee.91demo.top/data.json',
       success(res) {
         // console.log(res)
         if (res.statusCode === 200) {
@@ -163,7 +163,7 @@ App({
       title: '版本检测中..',
     })
     wx.downloadFile({
-      url: 'https://gitee.com/littletow/visit/raw/master/content/VERSION',
+      url: 'https://bee.91demo.top/VERSION',
       success(res) {
         // console.log(res)
         if (res.statusCode === 200) {
