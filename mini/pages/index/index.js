@@ -2,6 +2,7 @@ const app = getApp();
 const utils = require("../../utils/utils.js");
 
 let vAd = null;
+let iAd = null;
 let hasLoadAd = false;
 
 Page({
@@ -213,10 +214,8 @@ Page({
   jumpToGzh: function (id) {
     wx.openOfficialAccountArticle({
       url: id, // 公众号文章连接
-      success: res => {
-      },
-      fail: res => {
-      }
+      success: res => {},
+      fail: res => {}
     })
   },
 
@@ -232,18 +231,33 @@ Page({
   loadAd() {
     const that = this;
     vAd = wx.createRewardedVideoAd({
-      adUnitId: 'adunit-2ce6db3cb1e45a86',
+      adUnitId: 'adunit-2ce6db3cb1e45a861',
     })
     vAd.onLoad(() => {
-      hasLoadAd = true
-    }),
+        hasLoadAd = true
+      }),
       vAd.onError((err) => {
         console.error('激励视频广告加载失败,', err)
         // 判断err是否对象？
-        const content =JSON.stringify(err);
+        const content = JSON.stringify(err);
         const title = '加载激励视频广告时错误';
         app.rptErrInfo(title, content);
-
+        // 加载插屏广告
+        iAd = wx.createInterstitialAd({
+          adUnitId: 'adunit-45d1592a390774a5'
+        })
+        iAd.onLoad(() => {
+          hasLoadAd = true
+        })
+        iAd.onError((err) => {
+          console.error('插屏广告加载失败', err)
+          const content = JSON.stringify(err);
+          const title = '加载插屏广告时错误';
+          app.rptErrInfo(title, content);
+        })
+        iAd.onClose(() => {
+          app.logSeeAd();
+        })
       }),
       vAd.onClose((res) => {
         if (res && res.isEnded) {
@@ -271,33 +285,43 @@ Page({
     }
     // 用户触发广告后，显示激励视频广告
     if (vAd) {
-      vAd.show().then(() => [
+      vAd.show().then(() => {
         wx.hideLoading()
-      ]).catch(() => {
+      }).catch(() => {
         // 失败重试
-        vAd.load()
-          .then(() => {
+        vAd.load().then(() => {
             wx.hideLoading()
             vAd.show()
           })
           .catch(err => {
-            const title = '展示激励视频广告时错误';
-            const content =JSON.stringify(err);
-            app.rptErrInfo(title, content);
             wx.hideLoading()
-            wx.showToast({
-              title: '请重试一次',
-            })
             console.error('激励视频 广告显示失败', err)
+            const title = '展示激励视频广告时错误';
+            const content = JSON.stringify(err);
+            app.rptErrInfo(title, content);
+            // 在适合的场景显示插屏广告
+            if (iAd) {
+              iAd.show().catch((err) => {
+                console.error('插屏广告显示失败', err)
+                const title = '展示插屏广告时错误';
+                const content = JSON.stringify(err);
+                app.rptErrInfo(title, content);
+                wx.showToast({
+                  title: '请稍后重试',
+                })
+              })
+            } else {
+              wx.showToast({
+                title: '请稍后重试',
+              })
+            }
           })
       })
     } else {
-      console.log('playAd 函数ad对象为空');
-      const title = '播放激励视频广告时错误';
-      const content = 'playAd 函数ad对象为空';
+      const title = '广告初始化未完成异常';
+      const content = '激励视频广告在播放广告时未完成初始化';
       app.rptErrInfo(title, content);
       wx.hideLoading()
-      // 未加载到广告，需要稍后再试。
       wx.showToast({
         title: '请稍后重试',
       })
@@ -344,6 +368,7 @@ Page({
     // 置空可以避免广告报错，无法弹出新广告
     vAd = null;
     hasLoadAd = false;
+    iAd = null;
   },
 
   /**
