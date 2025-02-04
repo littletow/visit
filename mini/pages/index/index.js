@@ -189,7 +189,7 @@ Page({
     // 获取某篇文章信息
     const art = that.data.artList[idx];
     if (art.label == "md") {
-      that.jumpToPage(art.category, art.id);
+      that.jumpToPage(art.category, art.id,art.label);
     } else if (art.label == "gzh") {
       that.jumpToGzh(art.id);
     } else if (art.label == "mp") {
@@ -212,26 +212,36 @@ Page({
 
   // 跳公众号页面
   jumpToGzh: function (id) {
-    wx.openOfficialAccountArticle({
-      url: id, // 公众号文章连接
-      success: res => {},
-      fail: res => {}
-    })
+    // 基础库 3.4.8 开始支持，低版本需做兼容处理。
+    const sdkVersion = app.globalData.devinfo.appInfo.SDKVersion;
+    const cmpver = utils.compareVersion(sdkVersion,'3.4.8');
+    
+    if (cmpver < 0) {
+      wx.showToast({
+        title: '微信版本过低',
+      })
+    }else{
+      wx.openOfficialAccountArticle({
+        url: id, // 公众号文章连接
+        success: res => {},
+        fail: res => {}
+      })
+    }
+   
   },
 
   // 跳文章页面
-  jumpToPage: function (category, id) {
+  jumpToPage: function (category, id,label) {
     // 调整到文章页面 
     wx.navigateTo({
-      url: '../article/index?id=' + id + '&category=' + category,
+      url: '../article/index?id=' + id + '&category=' + category+'&label='+label,
     })
   },
-
 
   loadAd() {
     const that = this;
     vAd = wx.createRewardedVideoAd({
-      adUnitId: 'adunit-2ce6db3cb1e45a861',
+      adUnitId: 'adunit-2ce6db3cb1e45a86',
     })
     vAd.onLoad(() => {
         hasLoadAd = true

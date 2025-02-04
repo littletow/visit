@@ -31,6 +31,7 @@ App({
       winInfo: windowInfo,
     }
 
+    that.globalData.devinfo = devInfoObj;
     const devinfo = JSON.stringify(devInfoObj);
     wx.setStorageSync('devInfo', devinfo);
   },
@@ -137,7 +138,7 @@ App({
             // console.log('版本12');
             // 取消动画
             wx.hideLoading({
-              success: (res) => { },
+              success: (res) => {},
             })
             // console.log(res.data)
             // 记录到本地缓存
@@ -152,7 +153,7 @@ App({
       (err) => {
         console.error('Download failed:', err.message);
         wx.hideLoading({
-          success: (res) => { },
+          success: (res) => {},
         })
         const title = '下载data.json文件错误';
         const content = JSON.stringify(err.message);
@@ -188,7 +189,7 @@ App({
             wx.setStorageSync('chkVerTs', now);
             // 取消动画
             wx.hideLoading({
-              success: (res) => { },
+              success: (res) => {},
             })
             // console.log(res.data)
             const onlineVersion = Number(res.data);
@@ -221,10 +222,10 @@ App({
       (err) => {
         console.error('Download failed:', err.message);
         wx.hideLoading({
-          success: (res) => { },
+          success: (res) => {},
         })
         const title = '下载VERSION文件错误';
-        const content= JSON.stringify(err.message);
+        const content = JSON.stringify(err.message);
         that.rptErrInfo(title, content);
       },
     );
@@ -241,7 +242,7 @@ App({
     } else {
       // console.log('版本5');
       // 兼容以前版本
-      const cacheArtData = wx.getStorageSync("artData");// 从缓存中获取
+      const cacheArtData = wx.getStorageSync("artData"); // 从缓存中获取
       // 修复bug，如果缓存为空，会直接赋予空值
       if (!utils.isEmpty(cacheArtData)) {
         // console.log('版本6');
@@ -288,7 +289,7 @@ App({
       that.rptErrInfo(title, content);
     }
     wx.hideLoading({
-      success: (res) => { },
+      success: (res) => {},
     })
   },
 
@@ -298,6 +299,9 @@ App({
     let devInfo = wx.getStorageSync("devInfo");
     if (utils.isEmpty(devInfo)) {
       that.logDevInfo();
+    } else {
+      const stdevinfo = JSON.parse(devInfo);
+      that.globalData.devinfo = stdevinfo;
     }
     // 检查服务是否正常？
     await that.chkServerAlive();
@@ -343,6 +347,7 @@ App({
 
   globalData: {
     url: mainUrl,
+    devinfo: null,
     startTime: 0,
     isSeeAd: false, // 是否看了广告？
     artData: [], // 文章数据列表

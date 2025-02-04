@@ -1,5 +1,12 @@
 [
   {
+    "id": "visit.html",
+    "name": "HTML网页示例",
+    "kw": "",
+    "category": "htmls",
+    "label": "html"
+  },
+  {
     "id": "visit.md",
     "name": "豆子碎片项目介绍",
     "kw": "",

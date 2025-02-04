@@ -13,7 +13,7 @@ Page({
   },
 
   // 加载文章资源，现在从Git获取，下载Markdown文件，然后解析文件。
-  getArt(category, artId) {
+  getArt(category, artId, label) {
     const that = this;
     // 修改此处可以切换Git地址
     let fileUrl = app.globalData.url + category + '/' + artId;
@@ -30,19 +30,35 @@ Page({
           encoding: 'utf8',
           success(res) {
             // console.log(res.data)
-            let obj = app.towxml(res.data, 'markdown', {
-              theme: 'light',
-              events: {
-                tap: (e) => {
-                  console.log('tap', e);
+            if (label == 'md') {
+              let obj = app.towxml(res.data, 'markdown', {
+                theme: 'light',
+                events: {
+                  tap: (e) => {
+                    console.log('tap', e);
+                  }
                 }
-              }
-            });
-            // 将文件内容赋值给towxml组件，它会自动进行解析渲染。然后将加载动画关闭。
-            that.setData({
-              article: obj,
-              isLoading: false,
-            });
+              });
+              // 将文件内容赋值给towxml组件，它会自动进行解析渲染。然后将加载动画关闭。
+              that.setData({
+                article: obj,
+                isLoading: false,
+              });
+            } else if (label == 'html') {
+              let obj = app.towxml(res.data, 'html', {
+                theme: 'light',
+                events: {
+                  tap: (e) => {
+                    console.log('tap', e);
+                  }
+                }
+              });
+              // 将文件内容赋值给towxml组件，它会自动进行解析渲染。然后将加载动画关闭。
+              that.setData({
+                article: obj,
+                isLoading: false,
+              });
+            }
           },
         })
       },
@@ -60,7 +76,7 @@ Page({
    */
   onLoad(options) {
     // console.log(options);
-    this.getArt(options.category, options.id);
+    this.getArt(options.category, options.id, options.label);
   },
 
   /**
