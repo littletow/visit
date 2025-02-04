@@ -188,8 +188,9 @@ Page({
     const idx = e.currentTarget.dataset.idx;
     // 获取某篇文章信息
     const art = that.data.artList[idx];
-    if (art.label == "md") {
-      that.jumpToPage(art.category, art.id,art.label);
+    console.log('art,',art)
+    if (art.label == "md"||art.label == "html") {
+      that.jumpToPage(art.category, art.id, art.label);
     } else if (art.label == "gzh") {
       that.jumpToGzh(art.id);
     } else if (art.label == "mp") {
@@ -214,27 +215,27 @@ Page({
   jumpToGzh: function (id) {
     // 基础库 3.4.8 开始支持，低版本需做兼容处理。
     const sdkVersion = app.globalData.devinfo.appInfo.SDKVersion;
-    const cmpver = utils.compareVersion(sdkVersion,'3.4.8');
-    
+    const cmpver = utils.compareVersion(sdkVersion, '3.4.8');
+
     if (cmpver < 0) {
       wx.showToast({
         title: '微信版本过低',
       })
-    }else{
+    } else {
       wx.openOfficialAccountArticle({
         url: id, // 公众号文章连接
         success: res => {},
         fail: res => {}
       })
     }
-   
+
   },
 
   // 跳文章页面
-  jumpToPage: function (category, id,label) {
+  jumpToPage: function (category, id, label) {
     // 调整到文章页面 
     wx.navigateTo({
-      url: '../article/index?id=' + id + '&category=' + category+'&label='+label,
+      url: '../article/index?id=' + id + '&category=' + category + '&label=' + label,
     })
   },
 
