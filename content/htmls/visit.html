@@ -1,27 +1,61 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>首页</title>
-    <!-- 引入 WeUI CSS 文件 -->
-    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.4.4/weui.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>首页</title>
+  <!-- 引入WeUI CSS库 -->
+  <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.4.4/weui.min.css">
 </head>
+
 <body>
-    <div class="weui-header">
-        <h1 class="weui-header__title">欢迎来到首页</h1>
-    </div>
-    <div class="weui-panel">
-        <div class="weui-panel__hd">示例内容</div>
-        <div class="weui-panel__bd">
-            <div class="weui-media-box weui-media-box_text">
-                <h4 class="weui-media-box__title">标题</h4>
-                <p class="weui-media-box__desc">这里是一些描述内容。</p>
-            </div>
+  <header class="weui-header">
+    <h1>HTML 网页示例</h1>
+  </header>
+
+  <section class="weui-article">
+    <!-- 段落 -->
+    <p>获取HTML内容并使用小程序进行展示。这里使用towxml组件，只可以解析简单网页。使用webview组件会非常完美，但是个人类型的小程序暂不支持使用。
+    </p>
+
+    <!-- 表格 -->
+    <div class="weui-form-preview">
+      <div class="weui-form-preview__bd">
+        <div class="weui-form-preview__item">
+          <label class="weui-form-preview__label">towxml组件</label>
+          <span class="weui-form-preview__value">将html内容转为wxml</span>
         </div>
+        <div class="weui-form-preview__item">
+          <label class="weui-form-preview__label">webview组件</label>
+          <span class="weui-form-preview__value">使用浏览器内核进行渲染</span>
+        </div>
+      </div>
     </div>
-    <div class="weui-footer">
-        <p class="weui-footer__text">版权所有 © 2025</p>
+
+    <!-- 图片 -->
+    <div class="weui-panel__bd">
+      <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+        <div class="weui-media-box__hd">
+          <img class="weui-media-box__thumb" src="https://ant.91demo.top/imgs/visit.webp" alt="小程序码">
+        </div>
+        <div class="weui-media-box__bd">
+          <h4 class="weui-media-box__title">豆子碎片小程序码</h4>
+          <p class="weui-media-box__desc">这个项目收录了很多经典的开源编程库和编程语言基础以及常用工具速查表，是学习编程的好工具。</p>
+        </div>
+      </a>
     </div>
+
+    <!-- 无序列表 -->
+    <ul class="weui-media-box__info">
+      <li class="weui-media-box__info__meta">webview组件强大，但不支持个人类型小程序</li>
+      <li class="weui-media-box__info__meta">towxml组件简单，只能解析简单网页</li>
+      <li class="weui-media-box__info__meta">需要完善towml组件的html解析，或注册企业类型小程序</li>
+    </ul>
+
+    <!-- 超链接 -->
+    <a href="https://www.91demo.top" class="weui-btn weui-btn_primary">访问示例网站</a>
+  </section>
 </body>
+
 </html>

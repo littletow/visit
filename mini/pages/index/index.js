@@ -188,7 +188,7 @@ Page({
     const idx = e.currentTarget.dataset.idx;
     // 获取某篇文章信息
     const art = that.data.artList[idx];
-    console.log('art,',art)
+    // console.log('art,',art)
     if (art.label == "md"||art.label == "html") {
       that.jumpToPage(art.category, art.id, art.label);
     } else if (art.label == "gzh") {
