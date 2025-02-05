@@ -38,7 +38,7 @@
         <view class="placeholder" id="btnDB" bindtap="bindBtn" hover-class="placeholder-hover">数据库</view>
       </view>
       <view class="weui-flex__item">
-        <view class="placeholder" id="btnLib" bindtap="bindBtn" hover-class="placeholder-hover">开源编程库</view>
+        <view class="placeholder" id="btnLib" bindtap="bindBtn" hover-class="placeholder-hover">OPEN 库</view>
       </view>
       <view class="weui-flex__item">
         <view class="placeholder" id="btnTool" bindtap="bindBtn" hover-class="placeholder-hover">常用工具</view>
