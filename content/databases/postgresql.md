@@ -248,6 +248,13 @@ alter table 老表名 rename to 新表名;
 alter table 表名 add column 字段名 数据类型 限制;
 ```
 
+## 修改字段类型
+```
+alter table 表名 alter column 字段名 type 字段类型 using 字段新类型;
+或者
+alter table 表名 alter 字段名 type 新字段类型;
+```
+
 ## 删除字段
 
 ```
