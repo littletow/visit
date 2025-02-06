@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>首页</title>
+  <!-- 引入WeUI CSS库 -->
+  <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.4.4/weui.min.css">
+</head>
+
+<body>
+  <header class="weui-header">
+    <h1>HTML 网页示例</h1>
+  </header>
+
+  <section class="weui-article">
+    <p>以下是图片示例：</p>
+    <!-- 图片 -->
+    <div class="weui-panel__bd">
+      <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+        <div class="weui-media-box__hd">
+          <img class="weui-media-box__thumb" src="https://ant.91demo.top/imgs/visit.webp" alt="小程序码">
+        </div>
+        <div class="weui-media-box__bd">
+          <h4 class="weui-media-box__title">豆子碎片小程序码</h4>
+          <p class="weui-media-box__desc">该项目收录了很多经典的开源编程库及知识点，是学习编程的好工具。</p>
+        </div>
+      </a>
+    </div>
+
+    <p>以下是表格示例：</p>
+    <!-- 表格 -->
+    <div class="weui-form-preview">
+      <div class="weui-form-preview__bd">
+        <div class="weui-form-preview__item">
+          <label class="weui-form-preview__label">自定义组件</label>
+          <span class="weui-form-preview__value">需将html内容转为wxml内容</span>
+        </div>
+        <div class="weui-form-preview__item">
+          <label class="weui-form-preview__label">webview组件</label>
+          <span class="weui-form-preview__value">使用浏览器内核进行渲染</span>
+        </div>
+      </div>
+    </div>
+    <p>以下是列表示例：</p>
+    <!-- 段落 -->
+    <p>小程序获取HTML内容进行展示有两种方案：
+    </p>
+    <div class="weui-cells__title"></div>
+    <div class="weui-cells">
+      <div class="weui-cell">
+        <div class="weui-cell__bd">
+          <p> 一、使用自定义组件，需要将html内容转为wxml内容，例如使用towxml组件，它的功能非常简单，只可以解析简单网页，并且样式不完美，如果需要这个组件，还需要自行去完善html内容的解析。</p>
+        </div>
+      </div>
+      <div class="weui-cell">
+        <div class="weui-cell__bd">
+          <p>二、使用webview组件，webview组件使用浏览器内核，样式和浏览器中展示几乎一致非常完美，并且支持JSSDK提供的一些接口，并支持返回小程序页面。但是个人类型的小程序暂不支持使用。</p>
+        </div>
+      </div>
+    </div>
+    <p>以下是段落示例：</p>
+    <p>通过小程序进行实践，发现使用小程序去显示HTML内容比较推荐的还是使用webview组件。但是使用webview组件有限制，个人类型的小程序不支持使用。如果使用自定义组件，那么需要将HTML内容转为WXML内容，并且需要转换CSS、JS等内容，工程量非常大，可以想象浏览器的工作量，并且小程序本身也有很大的限制。所以，对于个人类型的小程序还是推荐使用markdown制作内容而不是HTML。</p>
+    <p>以下是按钮示例：</p>
+    <!-- 超链接 -->
+    <a href="https://www.91demo.top" class="weui-btn weui-btn_primary">访问示例网站</a>
+  </section>
+</body>
+
+</html>

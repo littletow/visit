@@ -1,15 +1,8 @@
 [
   {
-    "id": "visit.html",
-    "name": "HTML网页示例",
-    "kw": "",
-    "category": "htmls",
-    "label": "html"
-  },
-  {
     "id": "visit.md",
     "name": "豆子碎片项目介绍",
-    "kw": "",
+    "kw": "豆子碎片，visit，小程序",
     "category": "projects",
     "label": "md"
   },
@@ -21,6 +14,13 @@
     "label": "mp"
   },
   {
+    "id": "visit.html",
+    "name": "HTML网页示例",
+    "kw": "html，网页，webview",
+    "category": "projects",
+    "label": "html"
+  },
+  {
     "id": "https://mp.weixin.qq.com/s/JaH2zh0so9sOTJ9IXE8qRQ",
     "name": "公众号关联小程序入口",
     "kw": "公众号，小程序",
@@ -30,49 +30,84 @@
   {
     "id": "https://mp.weixin.qq.com/s/nL-ktNkqbjGi7MT2caO8rg",
     "name": "不用服务器即可搭建一个内容类小程序",
-    "kw": "",
+    "kw": "服务器，内容",
     "category": "projects",
     "label": "gzh"
   },
   {
     "id": "https://mp.weixin.qq.com/s/j6DhXfB_criDhF_4nHPIeA",
     "name": "不用服务器即可搭建一个内容类小程序（续）",
-    "kw": "",
+    "kw": "服务器，内容",
     "category": "projects",
     "label": "gzh"
   },
   {
     "id": "https://mp.weixin.qq.com/s/TzuoSk1u5075AwvtfqE3mg",
     "name": "为小程序添加自动更新功能",
-    "kw": "",
+    "kw": "免更新，小程序",
+    "category": "projects",
+    "label": "gzh"
+  },
+  {
+    "id": "https://mp.weixin.qq.com/s/ENh-vjvBXRMUEWiajkY7JA",
+    "name": "请不要再使用Git服务作为小程序内容服务器",
+    "kw": "服务器，内容",
+    "category": "projects",
+    "label": "gzh"
+  },
+  {
+    "id": "https://mp.weixin.qq.com/s/8ImPzcmEaySez0_fBPJm_A",
+    "name": "再谈RSA加密及在小程序中的应用",
+    "kw": "加密，安全",
     "category": "projects",
     "label": "gzh"
   },
   {
     "id": "https://mp.weixin.qq.com/s/MhglpSJDB9yJFsXOib5urw",
     "name": "系列·零基础学习开发小程序（一）",
-    "kw": "",
+    "kw": "教程，小程序",
     "category": "projects",
     "label": "gzh"
   },
   {
     "id": "https://mp.weixin.qq.com/s/Pyb4NSd1vaLL4VM-MubD4w",
     "name": "系列·零基础学习开发小程序（二）",
-    "kw": "",
+    "kw": "教程，小程序",
     "category": "projects",
     "label": "gzh"
   },
   {
     "id": "https://mp.weixin.qq.com/s/1sr0txig5uY_3pB662K96w",
     "name": "系列·零基础学习开发小程序（三）",
-    "kw": "",
+    "kw": "教程，小程序",
     "category": "projects",
     "label": "gzh"
   },
   {
     "id": "https://mp.weixin.qq.com/s/WHhwl9ydn-h-nH2Z9It2pw",
     "name": "系列·零基础学习开发小程序（四）",
-    "kw": "",
+    "kw": "教程，小程序",
+    "category": "projects",
+    "label": "gzh"
+  },
+  {
+    "id": "https://mp.weixin.qq.com/s/y4SgqzJNkqUQod7X-R8KZg",
+    "name": "系列·小程序使用Markdown文件（五）",
+    "kw": "教程，小程序",
+    "category": "projects",
+    "label": "gzh"
+  },
+  {
+    "id": "https://mp.weixin.qq.com/s/4cDhFv2fX7_H194zC0AvPA",
+    "name": "系列·小程序网络请求（六）",
+    "kw": "教程，小程序",
+    "category": "projects",
+    "label": "gzh"
+  },
+  {
+    "id": "https://mp.weixin.qq.com/s/3Ity6Wy1Qo_eKri6qApbLw",
+    "name": "系列·小程序本地数据缓存（七）",
+    "kw": "教程，小程序",
     "category": "projects",
     "label": "gzh"
   },
