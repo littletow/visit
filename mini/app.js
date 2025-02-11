@@ -81,9 +81,8 @@ App({
 
 
   // 上报通知信息
-  rptNotifyInfo: function (content) {
+  rptNotifyInfo: function (title,content) {
     const that = this;
-    const title = "visit 通知"
     let devinfo = '';
     const locDevInfo = wx.getStorageSync("devInfo");
     if (!utils.isEmpty(locDevInfo)) {
@@ -294,7 +293,7 @@ App({
         const cacheDataList = utils.json2ObjArr(cacheArtData);
         that.globalData.artData = cacheDataList;
       } else {
-        console.log('没有获取到文章数据');
+        console.log('缓存也没有，文件也不存在');
         that.dlArtData();
         // 都没有数据，上报查找原因
         const title = '获取本地文章数据错误';
@@ -352,7 +351,7 @@ App({
     }
     // 2. 检查Git服务是否正常？
     await that.chkServerAlive();
-    // console.log('url,',that.globalData.url);
+    console.log('url,',that.globalData.url);
     // 3. 检查版本更新
     let chkVerTs = wx.getStorageSync("chkVerTs");
     if (!utils.isEmpty(chkVerTs)) {
@@ -368,9 +367,9 @@ App({
     } else {
       // console.log('版本7');
       that.dlArtVersion();
-      const ns = utils.getNowStr();
-      const content = ns+'，新设备登入';
-      that.rptNotifyInfo(content);
+      const title = 'Visit新设备登入';
+      const content = 'App文件login函数';
+      that.rptNotifyInfo(title,content);
     }
     // 4. 检查广告
     let seeAdTs = wx.getStorageSync("seeAdTs");

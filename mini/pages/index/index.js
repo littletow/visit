@@ -189,7 +189,7 @@ Page({
     // 获取某篇文章信息
     const art = that.data.artList[idx];
     // console.log('art,',art)
-    if (art.label == "md"||art.label == "html") {
+    if (art.label == "md" || art.label == "html") {
       that.jumpToPage(art.category, art.id, art.label);
     } else if (art.label == "gzh") {
       that.jumpToGzh(art.id);
@@ -289,6 +289,9 @@ Page({
       title: '加载广告中',
     })
     const that = this;
+    const title = 'Visit播放激励视频广告';
+    const content = 'Index文件playAd函数';
+    app.rptNotifyInfo(title, content);
     // console.log('aa', hasLoadAd);
     if (!hasLoadAd) {
       // 还未加载广告，则先加载广告，这是广告的核心点，如果直接在OnLoad方法中调用，页面会有卡顿现象。
