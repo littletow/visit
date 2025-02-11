@@ -1,6 +1,6 @@
 const utils = require("./utils/utils.js");
 const fallbackUrl = "https://bee.91demo.top/";
-const mainUrl = "https://gitee.com/littletow/visit/raw/master/content/";
+const mainUrl = "https://gitee.com/littletow/toad/raw/master/content/";
 
 App({
   towxml: require('./towxml/index'),
@@ -50,6 +50,51 @@ App({
       method: 'POST', // 请求方法
       data: {
         rtype: 2, // 错误
+        robj: 1, // 本项目
+        title: title,
+        devinfo: devinfo, // 设备信息
+        content: content, // 上报内容
+        uptime: uptime,
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        // 请求成功的回调函数
+        // console.log('数据提交成功:', res.data);
+        // 可以在此处对数据进行处理
+        if (res.data.code != 1) {
+          console.log('上报失败,', res.data);
+        }
+      },
+      fail: function (err) {
+        // 请求失败的回调函数
+        console.error('数据提交失败:', err);
+      },
+      complete: function () {
+        // 请求完成的回调函数（成功或失败都会执行）
+        console.log('请求完成');
+      }
+    });
+
+  },
+
+
+  // 上报通知信息
+  rptNotifyInfo: function (content) {
+    const that = this;
+    const title = "visit 通知"
+    let devinfo = '';
+    const locDevInfo = wx.getStorageSync("devInfo");
+    if (!utils.isEmpty(locDevInfo)) {
+      devinfo = locDevInfo;
+    }
+    const uptime = utils.getNowStr();
+    wx.request({
+      url: 'https://mp.91demo.top/mp/rptInfo', // 请求的URL
+      method: 'POST', // 请求方法
+      data: {
+        rtype: 1, // 通知
         robj: 1, // 本项目
         title: title,
         devinfo: devinfo, // 设备信息
@@ -250,6 +295,7 @@ App({
         that.globalData.artData = cacheDataList;
       } else {
         console.log('没有获取到文章数据');
+        that.dlArtData();
         // 都没有数据，上报查找原因
         const title = '获取本地文章数据错误';
         const content = '本地用户目录和缓存都没有文章数据';
@@ -295,7 +341,8 @@ App({
 
   async login() {
     const that = this;
-    // 检查设备信息
+    const tzms = utils.getTodayZeroMsTime(); // 获取今日零时毫秒时间戳
+    // 1. 检查设备信息?
     let devInfo = wx.getStorageSync("devInfo");
     if (utils.isEmpty(devInfo)) {
       that.logDevInfo();
@@ -303,15 +350,14 @@ App({
       const stdevinfo = JSON.parse(devInfo);
       that.globalData.devinfo = stdevinfo;
     }
-    // 检查服务是否正常？
+    // 2. 检查Git服务是否正常？
     await that.chkServerAlive();
     // console.log('url,',that.globalData.url);
-    // 检查版本更新
+    // 3. 检查版本更新
     let chkVerTs = wx.getStorageSync("chkVerTs");
     if (!utils.isEmpty(chkVerTs)) {
       // console.log('版本1');
       let chkVerTsNum = Number(chkVerTs);
-      let tzms = utils.getTodayZeroMsTime(); // 获取今日零时毫秒时间戳
       if (chkVerTsNum < tzms) {
         // console.log('版本2');
         that.dlArtVersion();
@@ -322,13 +368,14 @@ App({
     } else {
       // console.log('版本7');
       that.dlArtVersion();
+      const ns = utils.getNowStr();
+      const content = ns+'，新设备登入';
+      that.rptNotifyInfo(content);
     }
-
-    // 检查广告
+    // 4. 检查广告
     let seeAdTs = wx.getStorageSync("seeAdTs");
     if (!utils.isEmpty(seeAdTs)) {
       let seeAdTsNum = Number(seeAdTs);
-      let tzms = utils.getTodayZeroMsTime(); // 获取今日零时毫秒时间戳
       if (seeAdTsNum > tzms) {
         that.globalData.isSeeAd = true; // 今天是否看了广告？
       }
@@ -346,9 +393,9 @@ App({
   },
 
   globalData: {
-    url: mainUrl,
-    devinfo: null,
-    startTime: 0,
+    url: mainUrl, // 当前URL
+    devinfo: null, // 设备信息
+    startTime: 0, // 首次启动时间戳
     isSeeAd: false, // 是否看了广告？
     artData: [], // 文章数据列表
   },
