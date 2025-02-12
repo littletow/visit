@@ -1,5 +1,5 @@
 {
-  "pages": ["pages/index/index", "pages/article/index"],
+  "pages": ["pages/index/index", "pages/article/index","pages/feedback/index"],
   "window": {
     "navigationBarBackgroundColor": "#f4f4f4",
     "navigationBarTextStyle": "black",
