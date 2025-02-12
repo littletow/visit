@@ -1,10 +1,10 @@
 {
   "pages": ["pages/index/index", "pages/article/index"],
   "window": {
-    "navigationBarBackgroundColor": "#ededed",
+    "navigationBarBackgroundColor": "#f4f4f4",
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "豆子碎片",
-    "backgroundColor": "#ededed",
+    "backgroundColor": "#f4f4f4",
     "backgroundTextStyle": "light",
     "enablePullDownRefresh": false
   },

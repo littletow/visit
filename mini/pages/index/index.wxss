@@ -1,3 +1,64 @@
+page {
+  background-color: #f4f4f4;
+  color: #333333;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.page-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333333;
+}
+
+/* 按钮样式 */
+.button {
+  width: 200px;
+  padding: 10px 20px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button-primary {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.button-primary:hover {
+  background-color: #45a049;
+}
+
+.button-secondary {
+  background-color: #2196F3;
+  color: white;
+}
+
+.button-secondary:hover {
+  background-color: #1e88e5;
+}
+
+.button-disabled {
+  background-color: #cccccc;
+  color: #666666;
+}
+
+
 .weui-cells {
   margin: 15rpx;
 }

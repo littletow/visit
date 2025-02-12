@@ -7,3 +7,20 @@
         <!--使用towxml-->
         <towxml nodes="{{article}}" />
 </view>
+
+<view class="container">
+  <view class="header">
+    <text class="title">文章标题</text>
+  </view>
+  <scroll-view class="content" scroll-y="true">
+    <view class="article">
+      <text class="paragraph">这是文章的第一段内容。它提供了一些背景信息，并引出了文章的主题。</text>
+      <text class="paragraph">这是文章的第二段内容。它详细解释了文章的主要观点，并提供了相关的例子和证据。</text>
+      <text class="paragraph">这是文章的第三段内容。它总结了文章的主要观点，并提出了一些结论和建议。</text>
+      <!-- 继续添加更多段落 -->
+    </view>
+  </scroll-view>
+  <view class="footer">
+    <text>&copy; 2025 文章阅读页面. 版权所有.</text>
+  </view>
+</view>
