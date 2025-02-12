@@ -1,11 +1,5 @@
 {
   "usingComponents": {
     "towxml": "../../towxml/towxml"
-  },
-  "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#4CAF50",
-    "navigationBarTitleText": "文章阅读",
-    "navigationBarTextStyle": "white"
   }
 }

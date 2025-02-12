@@ -1,7 +1,8 @@
 /* pages/article/index.wxss */
 .page {
-  height: 100%;
-  background: var(--weui-BG-2);
+  /* height: 100%; */
+  background-color: #f4f4f4;
+  color: #333333;
 }
 
 .weui-bottom-fixed-opr-demo {
@@ -29,56 +30,3 @@
   height: 160rpx;
 }
 
-
-/* 全局样式 */
-page {
-  background-color: #f4f4f4;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.header {
-  background-color: #4CAF50;
-  color: white;
-  padding: 1em;
-  text-align: center;
-}
-
-.title {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.content {
-  flex: 1;
-  padding: 1em;
-  background-color: white;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.article {
-  padding: 1em 0;
-}
-
-.paragraph {
-  margin-bottom: 1em;
-  line-height: 1.6;
-  font-size: 16px;
-  color: #333333;
-}
-
-.footer {
-  background-color: #333;
-  color: white;
-  text-align: center;
-  padding: 1em 0;
-}

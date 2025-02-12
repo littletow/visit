@@ -58,9 +58,14 @@
         </view>
       </block>
     </view>
-   
+
     <view class="weui-footer weui-footer_fixed-bottom" wx:if="{{artList.length == 0 }}">
-      <view class="view-ad"><ad unit-id="adunit-62a65ad78c1b3f40"></ad></view>
+      <view class="view-oa">
+        <official-account bindload="bload" binderror="berror"></official-account>
+      </view>
+      <view class="view-ad">
+        <ad unit-id="adunit-62a65ad78c1b3f40"></ad>
+      </view>
     </view>
 
   </view>

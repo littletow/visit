@@ -1,120 +1,67 @@
 <view class="page">
-	<view class="page__hd">
-		<view class="page__title">Awesome 编程</view>
-		<view class="page__desc">收录了很多经典的代码片段、开源编程库和编程语言基础以及常用工具速查表，是学习编程的好工具。先收藏一下备用吧！</view>
-	</view>
-	<view class="page__bd">
-		<!--写文章列表内容，取自panel排版-->
-		<view class="weui-panel weui-panel_access">
-			<view class="weui-panel__hd">我的项目</view>
-			<view class="weui-panel__bd">
-				<block wx:for="{{projects}}" wx:key="id">
-					<navigator class="weui-media-box weui-media-box_text" aria-role="option" url="./../article/index?id=projects/{{item.id}}">
-						<text class="weui-media-box__title">{{item.title}}</text>
-						<view class="weui-media-box__desc">{{item.desc}}</view>
-					</navigator>
-				</block>
-			</view>
-		</view>
-		<view class="weui-panel">
-			<view class="weui-panel__hd">RFC 协议</view>
-			<view class="weui-panel__bd">
-				<view class="weui-media-box weui-media-box_small-appmsg">
-					<view class="weui-cells">
-						<block wx:for="{{protocols}}" wx:key="id">
-							<navigator aria-labelledby="t1 t2" class="weui-cell weui-cell_active weui-cell_access weui-cell_example" url="./../article/index?id=protocols/{{item.id}}">
-								<view aria-hidden="true" id="t1" class="weui-cell__hd">
-									<image src="{{item.img}}" alt></image>
-								</view>
-								<view aria-hidden="true" id="t2" class="weui-cell__bd weui-cell_primary">
-									<view>{{item.name}}</view>
-								</view>
-								<view class="weui-cell__ft"></view>
-							</navigator>
-						</block>
-					</view>
-				</view>
-			</view>
-		</view>
-		<view class="weui-panel">
-			<view class="weui-panel__hd">编程语言</view>
-			<view class="weui-panel__bd">
-				<view class="weui-media-box weui-media-box_small-appmsg">
-					<view class="weui-cells">
-						<block wx:for="{{languages}}" wx:key="id">
-							<navigator aria-labelledby="t1 t2" class="weui-cell weui-cell_active weui-cell_access weui-cell_example" url="./../article/index?id=languages/{{item.id}}">
-								<view aria-hidden="true" id="t1" class="weui-cell__hd">
-									<image src="{{item.img}}" alt></image>
-								</view>
-								<view aria-hidden="true" id="t2" class="weui-cell__bd weui-cell_primary">
-									<view>{{item.name}}</view>
-								</view>
-								<view class="weui-cell__ft"></view>
-							</navigator>
-						</block>
-					</view>
-				</view>
-			</view>
-		</view>
-		<view class="weui-panel">
-			<view class="weui-panel__hd">数据库</view>
-			<view class="weui-panel__bd">
-				<view class="weui-media-box weui-media-box_small-appmsg">
-					<view class="weui-cells">
-						<block wx:for="{{databases}}" wx:key="id">
-							<navigator aria-labelledby="t1 t2" class="weui-cell weui-cell_active weui-cell_access weui-cell_example" url="./../article/index?id=databases/{{item.id}}">
-								<view aria-hidden="true" id="t1" class="weui-cell__hd">
-									<image src="{{item.img}}" alt></image>
-								</view>
-								<view aria-hidden="true" id="t2" class="weui-cell__bd weui-cell_primary">
-									<view>{{item.name}}</view>
-								</view>
-								<view class="weui-cell__ft"></view>
-							</navigator>
-						</block>
-					</view>
-				</view>
-			</view>
-		</view>
-		<view class="weui-panel">
-			<view class="weui-panel__hd">开源编程库</view>
-			<view class="weui-panel__bd">
-				<view class="weui-media-box weui-media-box_small-appmsg">
-					<view class="weui-cells">
-						<block wx:for="{{libs}}" wx:key="id">
-							<navigator aria-labelledby="t1 t2" class="weui-cell weui-cell_active weui-cell_access weui-cell_example" url="./../article/index?id=libs/{{item.id}}">
-								<view aria-hidden="true" id="t1" class="weui-cell__hd">
-									<image src="{{item.img}}" alt></image>
-								</view>
-								<view aria-hidden="true" id="t2" class="weui-cell__bd weui-cell_primary">
-									<view>{{item.name}}</view>
-								</view>
-								<view class="weui-cell__ft"></view>
-							</navigator>
-						</block>
-					</view>
-				</view>
-			</view>
-		</view>
-		<view class="weui-panel">
-			<view class="weui-panel__hd">常用工具</view>
-			<view class="weui-panel__bd">
-				<view class="weui-media-box weui-media-box_small-appmsg">
-					<view class="weui-cells">
-						<block wx:for="{{tools}}" wx:key="id">
-							<navigator aria-labelledby="t1 t2" class="weui-cell weui-cell_active weui-cell_access weui-cell_example" url="./../article/index?id=tools/{{item.id}}">
-								<view aria-hidden="true" id="t1" class="weui-cell__hd">
-									<image src="{{item.img}}" alt></image>
-								</view>
-								<view aria-hidden="true" id="t2" class="weui-cell__bd weui-cell_primary">
-									<view>{{item.name}}</view>
-								</view>
-								<view class="weui-cell__ft"></view>
-							</navigator>
-						</block>
-					</view>
-				</view>
-			</view>
-		</view>
-	</view>
+  <view class="page__hd">
+    <view class="page__title">Coder 加油</view>
+    <view class="page__desc">收藏了很多与编程开发相关的代码片段、开源库、RFC协议、知识点以及常用工具，是学习编程开发的好工具！</view>
+  </view>
+  <view class="page__bd page__bd_spacing">
+    <!-- 搜索框-->
+    <view class="weui-search-bar {{inputShowed ? 'weui-search-bar_focusing' : ''}}" id="searchBar">
+      <form class="weui-search-bar__form">
+        <view class="weui-search-bar__box">
+          <i class="weui-icon-search"></i>
+          <input type="text" confirm-type="search" class="weui-search-bar__input" placeholder="请输入您要查找的内容" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" bindconfirm="search" />
+        </view>
+        <label class="weui-search-bar__label" bindtap="showInput">
+          <i class="weui-icon-search"></i>
+          <span class="weui-search-bar__text">搜索</span>
+        </label>
+      </form>
+      <view class="weui-search-bar__cancel-btn" bindtap="hideInput">取消</view>
+    </view>
+
+    <!-- 查询快捷按钮，用于快速查找文章-->
+    <!-- 第一排快捷按钮-->
+    <view class="weui-flex">
+      <view class="weui-flex__item">
+        <view class="placeholder" id="btnProject" bindtap="bindBtn" hover-class="placeholder-hover">我的项目</view>
+      </view>
+      <view class="weui-flex__item">
+        <view class="placeholder" id="btnProtocol" bindtap="bindBtn" hover-class="placeholder-hover">RFC 协议</view>
+      </view>
+      <view class="weui-flex__item">
+        <view class="placeholder" id="btnCode" bindtap="bindBtn" hover-class="placeholder-hover">编程语言</view>
+      </view>
+    </view>
+    <!-- 第二排快捷按钮-->
+    <view class="weui-flex">
+      <view class="weui-flex__item">
+        <view class="placeholder" id="btnDB" bindtap="bindBtn" hover-class="placeholder-hover">数据库</view>
+      </view>
+      <view class="weui-flex__item">
+        <view class="placeholder" id="btnLib" bindtap="bindBtn" hover-class="placeholder-hover">OPEN 库</view>
+      </view>
+      <view class="weui-flex__item">
+        <view class="placeholder" id="btnTool" bindtap="bindBtn" hover-class="placeholder-hover">常用工具</view>
+      </view>
+    </view>
+
+    <!-- 内容-->
+    <!--循环输出-->
+    <view class="weui-cells">
+      <block wx:for="{{artList}}" wx:key="*this">
+        <view aria-labelledby="js_cell_l1_bd " aria-describedby="js_cell_l1_note" class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap="jump" data-idx="{{index}}">
+          <view class="weui-cell__bd" id="js_cell_l1_bd" aria-hidden="true">
+            <view>{{item.name}}</view>
+          </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access" aria-hidden="true">
+          </view>
+        </view>
+      </block>
+    </view>
+   
+    <view class="weui-footer weui-footer_fixed-bottom" wx:if="{{artList.length == 0 }}">
+      <view class="view-ad"><ad unit-id="adunit-62a65ad78c1b3f40"></ad></view>
+    </view>
+
+  </view>
 </view>

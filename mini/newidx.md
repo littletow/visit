@@ -1,10 +1,12 @@
+// 新的首页
+
 wxml文件：
 <view class="container">
   <view class="header">
     <text class="title">标题</text>
     <text class="description">这是一个简短的描述。</text>
   </view>
-  
+   
   <view class="search-box">
     <input class="search-input" type="text" placeholder="搜索..." />
     <button class="search-button">搜索</button>

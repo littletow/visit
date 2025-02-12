@@ -342,6 +342,13 @@ Page({
     }
   },
 
+  bload(e){
+    // console.log('load,',e)
+  },
+  berror(e){
+    // console.log('error,',e)
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
