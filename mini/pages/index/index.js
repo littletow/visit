@@ -185,7 +185,7 @@ Page({
       // 弹出对话框，告知用户需要观看广告。
       wx.showModal({
         title: '支持作者',
-        content: '亲爱的用户，为了让我们继续创作更多优质的内容，我们希望您能观看一下广告，一天只需看一个广告，文章即可任意浏览，感谢您的理解和支持！',
+        content: '亲爱的用户您好，我们创作了很多优质内容。您一天只需看一个激励视频广告，即可浏览任意文章，感谢您的理解和支持！',
         confirmText: '观看广告',
         cancelText: '以后再说',
         success(res) {
@@ -305,6 +305,7 @@ Page({
   playvAd() {
     wx.showLoading({
       title: '加载广告中',
+      mask:true,
     })
     const that = this;
     const title = 'Visit播放激励视频广告';
@@ -351,11 +352,12 @@ Page({
   playiAd() {
     wx.showLoading({
       title: '加载广告中',
+      mask:true,
     })
     const that = this;
-    const title = 'Visit播放插屏广告';
-    const content = 'Index文件playiAd函数';
-    app.rptNotifyInfo(title, content);
+    // const title = 'Visit播放插屏广告';
+    // const content = 'Index文件playiAd函数';
+    // app.rptNotifyInfo(title, content);
     // console.log('aa', hasLoadAd);
     if (!hasLoadiAd) {
       // 还未加载广告，则先加载广告。
@@ -363,11 +365,14 @@ Page({
     }
     // 用户触发广告后，显示插屏广告
     if (iAd) {
-      iAd.show().catch((err) => {
+      iAd.show().then(()=>{
+        wx.hideLoading()
+      }).catch((err) => {
         console.error('插屏广告显示失败', err)
         const title = '展示插屏广告时错误';
         const content = JSON.stringify(err);
         app.rptErrInfo(title, content);
+        wx.hideLoading();
       })
     } else {
       const title = '插屏广告播放异常';
@@ -379,35 +384,33 @@ Page({
 
   // 公众号组件加载成功信息
   bload(e) {
-    // console.log('load,',e)
+    console.log('load,',e)
   },
 
   // 公众号组件加载错误信息
   berror(e) {
-    // console.log('error,',e)
-    const title = 'Visit加载公众号组件';
-    const content = 'Index文件berror函数';
-    app.rptNotifyInfo(title, content);
+    console.log('error,',e)
+    // const title = 'Visit加载公众号组件';
+    // const content = 'Index文件berror函数';
+    // app.rptNotifyInfo(title, content);
   },
 
   // 联系我
   showContactDialog() {
     const that = this;
-    const title = 'Visit查看联系方式';
-    const content = 'Index文件showContactDialog函数';
-    app.rptNotifyInfo(title, content);
+    // const title = 'Visit查看联系方式';
+    // const content = 'Index文件showContactDialog函数';
+    // app.rptNotifyInfo(title, content);
     wx.showModal({
       title: '联系我',
-      content: '如果您有任何问题或建议，请随时通过以下方式联系我：\n\n邮箱: eagle.mon@qq.com\n\n我期待您的来信！',
+      content: '如果您有任何问题或建议，请随时通过以下方式联系我：\n邮箱: eagle.mon@qq.com\n我期待您的来信！',
       confirmText: '好的',
-      cancelText: '取消',
+      showCancel:false,
       success(res) {
         if (res.confirm) {
           console.log('用户点击确定');
           that.playiAd();
-        } else if (res.cancel) {
-          console.log('用户点击取消');
-        }
+        } 
       }
     });
   },

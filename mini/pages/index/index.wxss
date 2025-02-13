@@ -10,9 +10,6 @@
   background-color: #ededed;
 }
 
-.weui-cells {
-  margin: 15rpx;
-}
 
 .button-sp-area {
   padding-top: 30rpx;
@@ -30,22 +27,31 @@
   margin-bottom: 10rpx;
   padding: 0 20rpx;
   text-align: center;
-  background-color: #fff;
+  background-color: #ffffff;
   height: 2.3em;
   line-height: 2.3em;
-  color: rgba(0,0,0,.55) 
+  /* color: rgba(0,0,0,.55) ; */
+  color:#333333;
 }
 
 .placeholder-hover {
-  background-color: #ededed;
+  background-color: #f4f4f4;
 }
 
-.weui-footer{
-  margin-bottom:100rpx
+
+.weui-cells {
+  margin-top: 16rpx;
+  margin-left: 15rpx;
+  margin-right: 15rpx;
+  margin-bottom: 16rpx;
+}
+
+.weui-footer {
+  margin-bottom: 16rpx;
 }
 
 .weui-footer_fixed-bottom {
-  margin-bottom: 10rpx;
+  margin-bottom: 32rpx;
   padding-bottom: 32rpx;
 }
 
@@ -62,32 +68,17 @@
 
 
 .view-oa {
-  margin-top: 8rpx;
-  margin-bottom: 8rpx;
-  margin-left: 45rpx;
-  margin-right: 45rpx;
+  margin-top: 32rpx;
+  margin-bottom: 32rpx;
+  margin-left: 15rpx;
+  margin-right: 15rpx;
 }
 
 .view-ad {
-  margin-top: 8rpx;
-  margin-bottom: 8rpx;
-  margin-left: 45rpx;
-  margin-right: 45rpx;
-}
-
-
-.view-contact {
-  margin-top: 8rpx;
-  margin-bottom: 8rpx;
-  margin-left: 45rpx;
-  margin-right: 45rpx;
-}
-
-
-.line {
-  background: #E0E3DA;
-  width: 100%;
-  height: 10rpx;
+  margin-top: 32rpx;
+  margin-bottom: 32rpx;
+  margin-left: 15rpx;
+  margin-right: 15rpx;
 }
 
 .weui-cell_example .weui-cell__hd image {
@@ -97,88 +88,72 @@
   margin-right: 16px
 }
 
-/* 蓝色：适合链接或按钮，可以提供较好的视觉引导。 */
-.link {
-  color: #007BFF; /* 蓝色链接 */
+.view-contact {
+  margin-top: 32rpx;
+  margin-bottom: 32rpx;
+  padding: 0 15rpx; /* 卡片整体离左右边框各45px */
 }
 
-/* 深绿色：柔和且不失对比度，适合强调信息或按钮。 */
-.info {
-  background-color: #228B22; /* 深绿色按钮背景 */
-  color: #ffffff; /* 按钮文字颜色 */
+.card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 10px; /* 调整卡片内边距 */
+  max-width: 400px; /* 最大宽度 */
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-
-button {
-  border: none;
-  padding: 10px 20px;
-  margin: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.left-content {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px; /* 左侧内容离左边框10px */
 }
 
-
-button:hover {
-  opacity: 0.8;
-}
-
-.button-primary {
-  background-color: #007BFF; /* 蓝色按钮 */
-  color: #ffffff; /* 白色文字 */
-}
-
-.button-secondary {
-  background-color: #6C757D; /* 灰色按钮 */
-  color: #ffffff; /* 白色文字 */
-}
-
-.button-success {
-  background-color: #28A745; /* 绿色按钮 */
-  color: #ffffff; /* 白色文字 */
-}
-
-.button-danger {
-  background-color: #DC3545; /* 红色按钮 */
-  color: #ffffff; /* 白色文字 */
-}
-
-.button-warning {
-  background-color: #FFC107; /* 黄色按钮 */
-  color: #212529; /* 深色文字 */
-}
-
-.button-info {
-  background-color: #17A2B8; /* 浅蓝色按钮 */
-  color: #ffffff; /* 白色文字 */
-}
-
-
-/* 重置button的默认样式 */
-button.feedback {
+.icon-button {
   background: none;
   border: none;
   padding: 0;
-  font: inherit;
-  color: inherit;
-  cursor: pointer;
-  outline: none;
-  box-shadow: none;
-  appearance: none;
 }
 
-/* 自定义样式 */
-button.feedback {
-  background-color: #007BFF; /* 蓝色背景 */
-  color: #ffffff; /* 白色文字 */
-  border-radius: 4px; /* 圆角 */
-  padding: 10px 20px; /* 内边距 */
-  font-size: 16px; /* 字体大小 */
-  transition: background-color 0.3s, transform 0.3s; /* 过渡效果 */
+.icon {
+  width: 68px; /* 设置图标宽度 */
+  height: 68px; /* 设置图标高度 */
 }
 
-button.feedback:hover {
-  background-color: #0056b3; /* 悬停时的背景色 */
+.right-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* 右侧内容占满剩余空间 */
+  padding-left: 12px; /* 右侧内容左侧内边距 */
+  margin-right: 10px; /* 右侧内容离右边框10px */
+  overflow: hidden; /* 防止溢出 */
 }
 
+.contact-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #007aff;
+  font-size: 16px;
+  margin-bottom: 4px; /* 调整联系我按钮下边距 */
+  text-align: left; /* 左对齐 */
+  white-space: nowrap; /* 防止按钮文本换行 */
+  overflow: hidden;
+  text-overflow: ellipsis; /* 超出部分显示省略号 */
+}
 
+.contact-button:active {
+  color: #005bb5; /* 点击时文本颜色 */
+}
+
+.support-text {
+  color: #999999;
+  font-size: 14px;
+  text-align: left; /* 左对齐 */
+  word-wrap: break-word; /* 自动换行 */
+}

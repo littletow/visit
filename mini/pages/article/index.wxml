@@ -4,7 +4,7 @@
         <view class="loading" wx:if="{{isLoading}}">
                 <image class="loading__icon" src="../../images/loading.svg"></image>
         </view>
-        <ad unit-id="adunit-62a65ad78c1b3f40"></ad>
+        <ad unit-id="adunit-97d05ae09a0a545a"></ad>
         <!--使用towxml-->
         <towxml nodes="{{article}}" />
 </view>

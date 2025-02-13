@@ -59,7 +59,7 @@
       </block>
     </view>
 
-    <view class="weui-footer weui-footer_fixed-bottom" wx:if="{{artList.length == 0 }}">
+    <view class="weui-footer" wx:if="{{artList.length == 0 }}">
       <!--公众号-->
       <view class="view-oa">
         <official-account bindload="bload" binderror="berror"></official-account>
@@ -68,14 +68,21 @@
       <view class="view-ad">
         <ad unit-id="adunit-62a65ad78c1b3f40"></ad>
       </view>
-      <!--联系方式和建议-->
       <view class="view-contact">
-        <view class="weui-footer__links">
-          <button class="feedback weui-footer__link weui-wa-hotarea" >反馈与投诉</button>
-          <view class="weui-footer__link weui-wa-hotarea" bindtap="showContactDialog">联系我</view>
+        <view class="card">
+          <view class="left-content">
+            <button class="icon-button" open-type="feedback">
+              <image src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAABECAYAAAA4E5OyAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAOESURBVHhe7ZrbSxZBFMD7D8uuUET1YFQPET300t20C2ZlCaIRqElWWGZERZYE2l1Fw8hSs4jKCgyp6KU4zWHO4VsP+nk+nZ2drfnBoHvmzNnZn3vD2SUQmUEUIohCBFGIIAoRRCGCKEQQhQj+HSFfp+mXxVFcyM5GgKUHs2/3BmlCs9A1ALC93uadvQXw7gt1LIziQuTEsmr9ozQhQdv9Qs6OBvtzWx3A2EdKKJ35hexuoo3AaDRnA8vofWFjLKi8FuDlexsrkXwKSZ4ZHQ8pSHDfxhqA5xMU1JM/IUkZ2LacARj9QJ0E56w7BjAwRkEd+RKSlIGXCW+XnwIYEZcI9606DPBkhILzkx8hUgbD8U0nAIbfUpDgvmUVAM9eU7A4+RAylwyG+9dXAwy9oSDBfTVXKFCc8IXMJ4PhvLXmvtEv7hs8XkHYQrQyGM5fbe4bT1/NjOFjWkG4QkqVwfC4FZUA1e2FGnO93AnCFLJQGUxyfIk1whOyWBlIssb1xxTUEZYQ1zIWUCMcIQHIQMIQEogMJHshAclAshXiSwbGlfWzE+LzzOAcBdkI8SkD4TwF/oX4loFwrgK/QrKQgXC+An9CspKB8BgFfoRkKQPhcQrSF5K1DITHKkhXSAgyEB6vID0hochAuIaCdISEJAPhOgrcCznZsfgDcSkD4VoK3Ar58cuumPEEWu5SRwm4loFwPQVuhQyO2zFJKXiAWtKQgXBNBW6FtPfYMU1dAHtaChNp76WEIqQlA+G6CtwKOXLJjuH11H3n7TaunBX732aaMhCurcCdkKnvdh11jWm//1DQcKDV1ikzUm73UTBB2jIQrq/AnRBcGML8yjYKJKi4YPvKDgF0D1HQ4EMGwvtQ4E5Is7lvYH7nIwoIqi7a/uVGCh68LxkI70eBOyH8ndfEJAVm4ehlm4OrajzJtGUgvC8FboRMfrO5W+soIEBJVx8A7E08ebD5kIHw/hS4EXKn3+bW36CAAb/VaDYvZnzmcNt82n7d2NpNiR7gfStwI4QvBfyL13YCbDhemMTKKoD95kmD94y+UYDpnzTIIzwXBW6E4IsX7xQbnhUNNwF6hs3lNEVJGcLzUuBGyGdzD6m9Zl++xj9RMCC8CwmdKEQQhQiiEEEUIohCBFGIIAoROBeS9+ZMyK5zhWJ5byhGQXEh/yFRiCAKEUQhgihEEIUIopAZAPwF2AJS9v7V7qoAAAAASUVORK5CYII=" class="icon"></image>
+            </button>
+          </view>
+          <view class="right-content">
+            <button class="contact-button" bindtap="showContactDialog">联系我</button>
+            <text class="support-text">点击左侧按钮反馈，或联系我获取邮箱发邮件</text>
+          </view>
         </view>
-        <view class="weui-footer__text">Copyright &copy; 2025 91demo.top</view>
       </view>
     </view>
+  </view>
+  <view class="page__ft">
   </view>
 </view>
