@@ -3,11 +3,19 @@ const utils = require("../../utils/utils.js");
 
 let vAd = null;
 let iAd = null;
-let hasLoadAd = false;
+let hasLoadvAd = false;
+let hasLoadiAd = false;
 
 Page({
   /**
    * 页面的初始数据
+   * 文章列表结构如下：
+   * "id": "visit.md", 文件名称，需和资源名称对应
+   * "category": "projects", 类目，需和文件夹名称对应
+   * "name": "豆子碎片项目介绍", 列表标题，展示在小程序中
+   * "kw": "豆子碎片，visit，小程序", 关键字，搜索时用到
+   * "label": "md"，标签，区分功能使用
+   * "extinfo": "{}"，扩展信息，每个功能单独定义
    */
   data: {
     artList: [],
@@ -166,29 +174,32 @@ Page({
   // 跳转到文章页面
   jump: function (e) {
     const that = this;
-    // 判断今天是否观看了广告？
-    const isSeeAd = app.canPlayAd();
-    if (!isSeeAd) {
-      // 弹出对话框，告知用户需要观看广告。
-      wx.showModal({
-        title: '提示',
-        content: '一天只需看一个广告，文章即可任意浏览',
-        success(res) {
-          if (res.confirm) {
-            console.log('用户点击确定')
-            that.playAd();
-          } else if (res.cancel) {
-            console.log('用户点击取消')
-          }
-        }
-      })
-      return
-    }
     // 获取索引
     const idx = e.currentTarget.dataset.idx;
     // 获取某篇文章信息
     const art = that.data.artList[idx];
     // console.log('art,',art)
+    // 判断今天是否观看了广告？
+    const isSeeAd = app.canPlayAd();
+    if (!isSeeAd && (art.category != 'projects')) {
+      // 弹出对话框，告知用户需要观看广告。
+      wx.showModal({
+        title: '支持作者',
+        content: '亲爱的用户，为了让我们继续创作更多优质的内容，我们希望您能观看一下广告，一天只需看一个广告，文章即可任意浏览，感谢您的理解和支持！',
+        confirmText: '观看广告',
+        cancelText: '以后再说',
+        success(res) {
+          if (res.confirm) {
+            console.log('用户点击观看广告');
+            that.playvAd();
+          } else if (res.cancel) {
+            console.log('用户点击以后再说');
+          }
+        }
+      })
+      return
+    }
+
     if (art.label == "md" || art.label == "html") {
       that.jumpToPage(art.category, art.id, art.label);
     } else if (art.label == "gzh") {
@@ -224,8 +235,8 @@ Page({
     } else {
       wx.openOfficialAccountArticle({
         url: id, // 公众号文章连接
-        success: res => {},
-        fail: res => {}
+        success: res => { },
+        fail: res => { }
       })
     }
 
@@ -239,36 +250,21 @@ Page({
     })
   },
 
-  loadAd() {
+  // 加载激励视频广告
+  loadvAd() {
     const that = this;
     vAd = wx.createRewardedVideoAd({
       adUnitId: 'adunit-2ce6db3cb1e45a86',
     })
     vAd.onLoad(() => {
-        hasLoadAd = true
-      }),
+      hasLoadvAd = true
+    }),
       vAd.onError((err) => {
         console.error('激励视频广告加载失败,', err)
         // 判断err是否对象？
         const content = JSON.stringify(err);
         const title = '加载激励视频广告时错误';
         app.rptErrInfo(title, content);
-        // 加载插屏广告
-        iAd = wx.createInterstitialAd({
-          adUnitId: 'adunit-45d1592a390774a5'
-        })
-        iAd.onLoad(() => {
-          hasLoadAd = true
-        })
-        iAd.onError((err) => {
-          console.error('插屏广告加载失败', err)
-          const content = JSON.stringify(err);
-          const title = '加载插屏广告时错误';
-          app.rptErrInfo(title, content);
-        })
-        iAd.onClose(() => {
-          app.logSeeAd();
-        })
       }),
       vAd.onClose((res) => {
         if (res && res.isEnded) {
@@ -284,18 +280,40 @@ Page({
       })
   },
 
-  playAd() {
+  // 加载插屏广告
+  loadiAd() {
+    const that = this;
+    // 加载插屏广告
+    iAd = wx.createInterstitialAd({
+      adUnitId: 'adunit-45d1592a390774a5'
+    })
+    iAd.onLoad(() => {
+      hasLoadiAd = true
+    })
+    iAd.onError((err) => {
+      console.error('插屏广告加载失败', err)
+      const content = JSON.stringify(err);
+      const title = '加载插屏广告时错误';
+      app.rptErrInfo(title, content);
+    })
+    iAd.onClose(() => {
+      // app.logSeeAd();
+    })
+  },
+
+  // 播放激励视频广告
+  playvAd() {
     wx.showLoading({
       title: '加载广告中',
     })
     const that = this;
     const title = 'Visit播放激励视频广告';
-    const content = 'Index文件playAd函数';
+    const content = 'Index文件playvAd函数';
     app.rptNotifyInfo(title, content);
     // console.log('aa', hasLoadAd);
-    if (!hasLoadAd) {
+    if (!hasLoadvAd) {
       // 还未加载广告，则先加载广告，这是广告的核心点，如果直接在OnLoad方法中调用，页面会有卡顿现象。
-      that.loadAd();
+      that.loadvAd();
     }
     // 用户触发广告后，显示激励视频广告
     if (vAd) {
@@ -304,35 +322,22 @@ Page({
       }).catch(() => {
         // 失败重试
         vAd.load().then(() => {
-            wx.hideLoading()
-            vAd.show()
-          })
+          wx.hideLoading()
+          vAd.show()
+        })
           .catch(err => {
             wx.hideLoading()
             console.error('激励视频 广告显示失败', err)
             const title = '展示激励视频广告时错误';
             const content = JSON.stringify(err);
             app.rptErrInfo(title, content);
-            // 在适合的场景显示插屏广告
-            if (iAd) {
-              iAd.show().catch((err) => {
-                console.error('插屏广告显示失败', err)
-                const title = '展示插屏广告时错误';
-                const content = JSON.stringify(err);
-                app.rptErrInfo(title, content);
-                wx.showToast({
-                  title: '请稍后重试',
-                })
-              })
-            } else {
-              wx.showToast({
-                title: '请稍后重试',
-              })
-            }
+            wx.showToast({
+              title: '请稍后重试',
+            })
           })
       })
     } else {
-      const title = '广告初始化未完成异常';
+      const title = '激励视频广告播放异常';
       const content = '激励视频广告在播放广告时未完成初始化';
       app.rptErrInfo(title, content);
       wx.hideLoading()
@@ -342,11 +347,69 @@ Page({
     }
   },
 
-  bload(e){
+  // 播放插屏广告
+  playiAd() {
+    wx.showLoading({
+      title: '加载广告中',
+    })
+    const that = this;
+    const title = 'Visit播放插屏广告';
+    const content = 'Index文件playiAd函数';
+    app.rptNotifyInfo(title, content);
+    // console.log('aa', hasLoadAd);
+    if (!hasLoadiAd) {
+      // 还未加载广告，则先加载广告。
+      that.loadiAd();
+    }
+    // 用户触发广告后，显示插屏广告
+    if (iAd) {
+      iAd.show().catch((err) => {
+        console.error('插屏广告显示失败', err)
+        const title = '展示插屏广告时错误';
+        const content = JSON.stringify(err);
+        app.rptErrInfo(title, content);
+      })
+    } else {
+      const title = '插屏广告播放异常';
+      const content = '插屏广告在播放广告时未完成初始化';
+      app.rptErrInfo(title, content);
+      wx.hideLoading()
+    }
+  },
+
+  // 公众号组件加载成功信息
+  bload(e) {
     // console.log('load,',e)
   },
-  berror(e){
+
+  // 公众号组件加载错误信息
+  berror(e) {
     // console.log('error,',e)
+    const title = 'Visit加载公众号组件';
+    const content = 'Index文件berror函数';
+    app.rptNotifyInfo(title, content);
+  },
+
+  // 联系我
+  showContactDialog() {
+    const that = this;
+    const title = 'Visit查看联系方式';
+    const content = 'Index文件showContactDialog函数';
+    app.rptNotifyInfo(title, content);
+    wx.showModal({
+      title: '联系我',
+      content: '如果您有任何问题或建议，请随时通过以下方式联系我：\n\n邮箱: eagle.mon@qq.com\n\n我期待您的来信！',
+      confirmText: '好的',
+      cancelText: '取消',
+      success(res) {
+        if (res.confirm) {
+          console.log('用户点击确定');
+          that.playiAd();
+        } else if (res.cancel) {
+          console.log('用户点击取消');
+        }
+      }
+    });
   },
 
   /**
@@ -388,8 +451,9 @@ Page({
     console.log("index onunload")
     // 置空可以避免广告报错，无法弹出新广告
     vAd = null;
-    hasLoadAd = false;
+    hasLoadvAd = false;
     iAd = null;
+    hasLoadiAd = false;
   },
 
   /**

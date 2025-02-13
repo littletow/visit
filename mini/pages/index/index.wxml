@@ -60,13 +60,22 @@
     </view>
 
     <view class="weui-footer weui-footer_fixed-bottom" wx:if="{{artList.length == 0 }}">
+      <!--公众号-->
       <view class="view-oa">
         <official-account bindload="bload" binderror="berror"></official-account>
       </view>
+      <!--广告-->
       <view class="view-ad">
         <ad unit-id="adunit-62a65ad78c1b3f40"></ad>
       </view>
+      <!--联系方式和建议-->
+      <view class="view-contact">
+        <view class="weui-footer__links">
+          <button class="feedback weui-footer__link weui-wa-hotarea" >反馈与投诉</button>
+          <view class="weui-footer__link weui-wa-hotarea" bindtap="showContactDialog">联系我</view>
+        </view>
+        <view class="weui-footer__text">Copyright &copy; 2025 91demo.top</view>
+      </view>
     </view>
-
   </view>
 </view>

@@ -1,12 +1,13 @@
 /* 现在的页面配置 */
 
 .page {
-  background-color: #f4f4f4;
+  /* height: 100vh; */
+  background-color: #ededed;
   color: #333333;
 }
 
 .weui-search-bar {
-  background-color: #f4f4f4;
+  background-color: #ededed;
 }
 
 .weui-cells {
@@ -29,14 +30,18 @@
   margin-bottom: 10rpx;
   padding: 0 20rpx;
   text-align: center;
-  background-color: var(--weui-BG-2);
+  background-color: #fff;
   height: 2.3em;
   line-height: 2.3em;
-  /* color: var(--weui-FG-1) */
+  color: rgba(0,0,0,.55) 
 }
 
 .placeholder-hover {
-  background-color: var(--weui-BG-0);
+  background-color: #ededed;
+}
+
+.weui-footer{
+  margin-bottom:100rpx
 }
 
 .weui-footer_fixed-bottom {
@@ -71,6 +76,14 @@
 }
 
 
+.view-contact {
+  margin-top: 8rpx;
+  margin-bottom: 8rpx;
+  margin-left: 45rpx;
+  margin-right: 45rpx;
+}
+
+
 .line {
   background: #E0E3DA;
   width: 100%;
@@ -83,4 +96,89 @@
   display: block;
   margin-right: 16px
 }
+
+/* 蓝色：适合链接或按钮，可以提供较好的视觉引导。 */
+.link {
+  color: #007BFF; /* 蓝色链接 */
+}
+
+/* 深绿色：柔和且不失对比度，适合强调信息或按钮。 */
+.info {
+  background-color: #228B22; /* 深绿色按钮背景 */
+  color: #ffffff; /* 按钮文字颜色 */
+}
+
+
+button {
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+
+button:hover {
+  opacity: 0.8;
+}
+
+.button-primary {
+  background-color: #007BFF; /* 蓝色按钮 */
+  color: #ffffff; /* 白色文字 */
+}
+
+.button-secondary {
+  background-color: #6C757D; /* 灰色按钮 */
+  color: #ffffff; /* 白色文字 */
+}
+
+.button-success {
+  background-color: #28A745; /* 绿色按钮 */
+  color: #ffffff; /* 白色文字 */
+}
+
+.button-danger {
+  background-color: #DC3545; /* 红色按钮 */
+  color: #ffffff; /* 白色文字 */
+}
+
+.button-warning {
+  background-color: #FFC107; /* 黄色按钮 */
+  color: #212529; /* 深色文字 */
+}
+
+.button-info {
+  background-color: #17A2B8; /* 浅蓝色按钮 */
+  color: #ffffff; /* 白色文字 */
+}
+
+
+/* 重置button的默认样式 */
+button.feedback {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  outline: none;
+  box-shadow: none;
+  appearance: none;
+}
+
+/* 自定义样式 */
+button.feedback {
+  background-color: #007BFF; /* 蓝色背景 */
+  color: #ffffff; /* 白色文字 */
+  border-radius: 4px; /* 圆角 */
+  padding: 10px 20px; /* 内边距 */
+  font-size: 16px; /* 字体大小 */
+  transition: background-color 0.3s, transform 0.3s; /* 过渡效果 */
+}
+
+button.feedback:hover {
+  background-color: #0056b3; /* 悬停时的背景色 */
+}
+
 

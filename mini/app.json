@@ -1,14 +1,13 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/article/index",
-    "pages/feedback/index"
+    "pages/article/index"
   ],
   "window": {
-    "navigationBarBackgroundColor": "#f4f4f4",
+    "navigationBarBackgroundColor": "#ededed",
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "豆子碎片",
-    "backgroundColor": "#f4f4f4",
+    "backgroundColor": "#ededed",
     "backgroundTextStyle": "light",
     "enablePullDownRefresh": false
   },
