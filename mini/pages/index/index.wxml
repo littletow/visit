@@ -37,7 +37,7 @@
         <view class="placeholder" id="btnProject" bindtap="bindBtn" hover-class="placeholder-hover">我的项目</view>
       </view>
       <view class="weui-flex__item">
-        <view class="placeholder" id="btnProtocol" bindtap="bindBtn" hover-class="placeholder-hover">RFC 协议</view>
+        <view class="placeholder" id="btnProtocol" bindtap="bindBtn" hover-class="placeholder-hover">网络协议</view>
       </view>
       <view class="weui-flex__item">
         <view class="placeholder" id="btnCode" bindtap="bindBtn" hover-class="placeholder-hover">编程语言</view>
@@ -49,7 +49,7 @@
         <view class="placeholder" id="btnDB" bindtap="bindBtn" hover-class="placeholder-hover">数据库</view>
       </view>
       <view class="weui-flex__item">
-        <view class="placeholder" id="btnLib" bindtap="bindBtn" hover-class="placeholder-hover">OPEN 库</view>
+        <view class="placeholder" id="btnLib" bindtap="bindBtn" hover-class="placeholder-hover">开源库</view>
       </view>
       <view class="weui-flex__item">
         <view class="placeholder" id="btnTool" bindtap="bindBtn" hover-class="placeholder-hover">常用工具</view>
