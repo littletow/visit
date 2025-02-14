@@ -18,7 +18,8 @@ Page({
    * "extinfo": "{}"，扩展信息，每个功能单独定义
    */
   data: {
-    artList: [],
+    artList: [], // 文章列表
+    kwList: [], // 推荐关键词列表，最多3个
     inputShowed: false,
     inputVal: "",
     keyword: "",
@@ -41,12 +42,22 @@ Page({
       inputShowed: false,
       keyword: "",
       artList: [],
+      kwList: [],
     });
   },
 
   inputTyping: function (e) {
+    const searchList = utils.searchListByKeyword3(app.globalData.artData, e.detail.value);
     this.setData({
-      inputVal: e.detail.value
+      inputVal: e.detail.value,
+      kwList: searchList
+    });
+  },
+
+  selectKeyword(e) {
+    const keyword = e.currentTarget.dataset.kw;
+    this.setData({
+      inputVal: keyword,
     });
   },
 
@@ -305,7 +316,7 @@ Page({
   playvAd() {
     wx.showLoading({
       title: '加载广告中',
-      mask:true,
+      mask: true,
     })
     const that = this;
     const title = 'Visit播放激励视频广告';
@@ -352,7 +363,7 @@ Page({
   playiAd() {
     wx.showLoading({
       title: '加载广告中',
-      mask:true,
+      mask: true,
     })
     const that = this;
     // const title = 'Visit播放插屏广告';
@@ -365,7 +376,7 @@ Page({
     }
     // 用户触发广告后，显示插屏广告
     if (iAd) {
-      iAd.show().then(()=>{
+      iAd.show().then(() => {
         wx.hideLoading()
       }).catch((err) => {
         console.error('插屏广告显示失败', err)
@@ -384,12 +395,12 @@ Page({
 
   // 公众号组件加载成功信息
   bload(e) {
-    console.log('load,',e)
+    console.log('load,', e)
   },
 
   // 公众号组件加载错误信息
   berror(e) {
-    console.log('error,',e)
+    console.log('error,', e)
     // const title = 'Visit加载公众号组件';
     // const content = 'Index文件berror函数';
     // app.rptNotifyInfo(title, content);
@@ -405,15 +416,16 @@ Page({
       title: '联系我',
       content: '如果您有任何问题或建议，请随时通过以下方式联系我：\n邮箱: eagle.mon@qq.com\n我期待您的来信！',
       confirmText: '好的',
-      showCancel:false,
+      showCancel: false,
       success(res) {
         if (res.confirm) {
           console.log('用户点击确定');
           that.playiAd();
-        } 
+        }
       }
     });
   },
+
 
   /**
    * 生命周期函数--监听页面加载

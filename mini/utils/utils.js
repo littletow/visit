@@ -400,6 +400,14 @@ function requestWithFallback(mainUrl, fallbackUrl, timeout = 5000) {
   });
 }
 
+// 根据关键词查找，并返回最多三个结果
+function searchListByKeyword3(list, keyword) {
+  // 过滤出kw字段包含keyword的对象，并去重
+  const filteredList = list.filter(item => item.kw.includes(keyword)).slice(0, 3);
+  // 返回结果
+  return filteredList;
+}
+
 // 使用该函数检查服务器是否通畅
 // const serverUrl = 'https://example.com/api/test';
 
@@ -471,5 +479,6 @@ module.exports = {
   isObject,
   checkServerAccessibility,
   requestWithFallback,
-  downloadFile
+  downloadFile,
+  searchListByKeyword3,
 }

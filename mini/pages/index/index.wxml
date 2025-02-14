@@ -19,6 +19,17 @@
       <view class="weui-search-bar__cancel-btn" bindtap="hideInput">取消</view>
     </view>
 
+    <!-- 推荐搜索内容 -->
+    <view aria-role="listbox" id="searchResult" class="weui-cells searchbar-result" wx:if="{{inputVal.length > 0}}">
+      <block wx:for="{{kwList}}" wx:key="*this">
+        <view role="option" class="weui-cell weui-cell_active weui-cell_access" bindtap="selectKeyword" data-kw="{{item.kw}}">
+          <view class="weui-cell__bd weui-cell_primary">
+            <view>{{item.kw}}</view>
+          </view>
+        </view>
+      </block>
+		</view>
+
     <!-- 查询快捷按钮，用于快速查找文章-->
     <!-- 第一排快捷按钮-->
     <view class="weui-flex">
@@ -58,8 +69,8 @@
         </view>
       </block>
     </view>
-
-    <view class="weui-footer" wx:if="{{artList.length == 0 }}">
+     <!--优化一下，下面的组件因为上方的快捷按钮频繁查询，这里使用hidden，不再使用if-->
+    <view class="weui-footer" hidden="{{artList.length > 0 }}">
       <!--公众号-->
       <view class="view-oa">
         <official-account bindload="bload" binderror="berror"></official-account>
@@ -68,6 +79,7 @@
       <view class="view-ad">
         <ad unit-id="adunit-62a65ad78c1b3f40"></ad>
       </view>
+      <!--联系卡片-->
       <view class="view-contact">
         <view class="card">
           <view class="left-content">
