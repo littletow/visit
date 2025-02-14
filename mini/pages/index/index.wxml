@@ -9,7 +9,7 @@
       <form class="weui-search-bar__form">
         <view class="weui-search-bar__box">
           <i class="weui-icon-search"></i>
-          <input type="text" confirm-type="search" class="weui-search-bar__input" placeholder="请输入您要查找的内容" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" bindconfirm="search" />
+          <input type="text" confirm-type="search" class="weui-search-bar__input" placeholder="请输入您要查找的内容" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" bindconfirm="bindSearch" />
         </view>
         <label class="weui-search-bar__label" bindtap="showInput">
           <i class="weui-icon-search"></i>
@@ -20,7 +20,7 @@
     </view>
 
     <!-- 推荐搜索内容 -->
-    <view aria-role="listbox" id="searchResult" class="weui-cells searchbar-result" wx:if="{{inputVal.length > 0}}">
+    <view aria-role="listbox" id="searchResult" class="weui-cells searchbar-result" wx:if="{{kwList.length > 0}}">
       <block wx:for="{{kwList}}" wx:key="*this">
         <view role="option" class="weui-cell weui-cell_active weui-cell_access" bindtap="selectKeyword" data-kw="{{item.kw}}">
           <view class="weui-cell__bd weui-cell_primary">

@@ -169,7 +169,7 @@ App({
     let fileUrl = that.globalData.url + "data.json"
     utils.downloadFile(
       fileUrl,
-      10000, // 超时时间10秒
+      20000, // 超时时间20秒
       (tmpfile) => {
         // console.log('Download successful, file saved at:', tmpfile);
         // 可以在这里对下载的文件进行进一步处理
@@ -200,7 +200,7 @@ App({
           success: (res) => {},
         })
         const title = '下载data.json文件错误';
-        const content = JSON.stringify(err.message);
+        const content = "文件地址：" + fileUrl + "，错误信息：" + JSON.stringify(err.message);
         // console.log('content,',content);
         that.rptErrInfo(title, content);
       },
@@ -219,7 +219,7 @@ App({
     let fileUrl = that.globalData.url + "VERSION"
     utils.downloadFile(
       fileUrl,
-      5000, // 超时时间5秒
+      10000, // 超时时间10秒
       (tmpfile) => {
         // console.log('Download successful, file saved at:', tmpfile);
         // 可以在这里对下载的文件进行进一步处理
@@ -269,7 +269,7 @@ App({
           success: (res) => {},
         })
         const title = '下载VERSION文件错误';
-        const content = JSON.stringify(err.message);
+        const content = "文件地址：" + fileUrl + "，错误信息：" + JSON.stringify(err.message);
         that.rptErrInfo(title, content);
       },
     );

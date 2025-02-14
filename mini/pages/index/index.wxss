@@ -17,7 +17,11 @@
 
 .searchbar-result .weui-cell__bd{
   padding:4rpx 0 4rpx 40rpx;
-  color:var(--weui-FG-1)
+  color:rgba(0,0,0,.55);
+}
+
+.searchbar-result .weui-cell {
+  padding:16rpx;
 }
 
 .searchbar-result::before{
@@ -114,7 +118,7 @@
   padding: 8px 10px; /* 调整卡片内边距 */
   max-width: 400px; /* 最大宽度 */
   background-color: #ffffff;
-  border-radius: 8px;
+  /* border-radius: 8px; */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 

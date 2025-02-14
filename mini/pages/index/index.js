@@ -47,27 +47,49 @@ Page({
   },
 
   inputTyping: function (e) {
-    const searchList = utils.searchListByKeyword3(app.globalData.artData, e.detail.value);
-    this.setData({
-      inputVal: e.detail.value,
-      kwList: searchList
-    });
+    const content = e.detail.value;
+    if (!utils.isEmpty(content)){
+      const searchList = utils.searchListByKeyword3(app.globalData.artData, e.detail.value);
+      this.setData({
+        inputVal: e.detail.value,
+        kwList: searchList
+      });
+    }else{
+      this.setData({
+        inputVal: '',
+        kwList: []
+    })
+    }
   },
 
   selectKeyword(e) {
     const keyword = e.currentTarget.dataset.kw;
     this.setData({
-      inputVal: keyword,
-    });
+      inputVal:keyword,
+     
+    })
+    this.search(keyword)
   },
 
-  search(e) {
-    var keyword = this.data.inputVal.toLowerCase()
+  bindSearch(e){
+    const keyword = this.data.inputVal;
+    this.search(keyword)
+  },
+
+  search(keyword) {
+    if (utils.isEmpty(keyword)){
+      wx.showToast({
+        title: '内容不能为空',
+      })
+      return
+    }
+    const kw = keyword.toLowerCase();
     this.setData({
-      keyword: keyword,
+      kwList:[],
+      keyword: kw,
       op: 1,
     })
-    this.searchArt(1, keyword)
+    this.searchArt(1, kw)
   },
 
   searchArt: function (pageNo, keyword) {
