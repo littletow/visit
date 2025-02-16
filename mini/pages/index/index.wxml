@@ -1,6 +1,7 @@
 <view class="page">
   <view class="page__hd">
-    <view class="page__title">Coder 加油</view>
+    <view class="page__title" bind:tap="bindShowContact"> Coder 加油 <image class="contact-image" src="/images/email.png"></image>
+    </view>
     <view class="page__desc">收藏了很多与编程开发相关的代码片段、开源库、RFC协议、知识点以及常用工具，是学习编程开发的好工具！</view>
   </view>
   <view class="page__bd page__bd_spacing">
@@ -28,7 +29,7 @@
           </view>
         </view>
       </block>
-		</view>
+    </view>
 
     <!-- 查询快捷按钮，用于快速查找文章-->
     <!-- 第一排快捷按钮-->
@@ -55,30 +56,7 @@
         <view class="placeholder" id="btnTool" bindtap="bindBtn" hover-class="placeholder-hover">常用工具</view>
       </view>
     </view>
-
-    <!-- 内容-->
-    <!--循环输出-->
-    <view class="weui-cells">
-      <block wx:for="{{artList}}" wx:key="*this">
-        <view aria-labelledby="js_cell_l1_bd " aria-describedby="js_cell_l1_note" class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap="jump" data-idx="{{index}}">
-          <view class="weui-cell__bd" id="js_cell_l1_bd" aria-hidden="true">
-            <view>{{item.name}}</view>
-          </view>
-          <view class="weui-cell__ft weui-cell__ft_in-access" aria-hidden="true">
-          </view>
-        </view>
-      </block>
-    </view>
-     <!--优化一下，下面的组件因为上方的快捷按钮频繁查询，这里使用hidden，不再使用if-->
-    <view class="weui-footer" hidden="{{artList.length > 0 }}">
-      <!--公众号-->
-      <view class="view-oa">
-        <official-account bindload="bload" binderror="berror"></official-account>
-      </view>
-      <!--广告-->
-      <view class="view-ad">
-        <ad unit-id="adunit-62a65ad78c1b3f40"></ad>
-      </view>
+    <block wx:if="{{isShowContact}}">
       <!--联系卡片-->
       <view class="view-contact">
         <view class="card">
@@ -92,6 +70,30 @@
             <text class="support-text">点击左侧按钮反馈，或联系我获取邮箱发邮件</text>
           </view>
         </view>
+      </view>
+    </block>
+    <!-- 内容-->
+    <!--循环输出-->
+    <view class="weui-cells">
+      <block wx:for="{{artList}}" wx:key="*this">
+        <view aria-labelledby="js_cell_l1_bd " aria-describedby="js_cell_l1_note" class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap="jump" data-idx="{{index}}">
+          <view class="weui-cell__bd" id="js_cell_l1_bd" aria-hidden="true">
+            <view>{{item.name}}</view>
+          </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access" aria-hidden="true">
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <view class="weui-footer" wx:if="{{artList.length == 0 }}">
+      <!--公众号-->
+      <view class="view-oa">
+        <official-account bindload="bload" binderror="berror"></official-account>
+      </view>
+      <!--广告-->
+      <view class="view-ad">
+        <ad unit-id="adunit-62a65ad78c1b3f40"></ad>
       </view>
     </view>
   </view>

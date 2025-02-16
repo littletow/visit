@@ -5,6 +5,13 @@
   background-color: #ededed;
   color: #333333;
 }
+ 
+.contact-image {
+  margin-left: 4rpx;
+  
+  width: 48rpx;
+  height: 48rpx;
+}
 
 .weui-search-bar {
   background-color: #ededed;

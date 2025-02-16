@@ -18,6 +18,7 @@ Page({
    * "extinfo": "{}"，扩展信息，每个功能单独定义
    */
   data: {
+    isShowContact:false,
     artList: [], // 文章列表
     kwList: [], // 推荐关键词列表，最多3个
     inputShowed: false,
@@ -28,6 +29,12 @@ Page({
     page: 1,
     op: 1, // 1 搜索查询 2 按目录查询 
     category: '', // 1 我的项目 2 RFC 协议 3 编程语言 4 数据库 5 开源编程库 6 常用工具
+  },
+
+  bindShowContact(){
+    this.setData({
+      isShowContact: !this.data.isShowContact
+    });
   },
 
   showInput: function () {
