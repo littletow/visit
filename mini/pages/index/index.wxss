@@ -13,6 +13,16 @@
   height: 48rpx;
 }
 
+.text-with-image {
+  display: inline-flex;
+  align-items: center;
+}
+
+.text-with-image img {
+  height: 1em; /* 设置图片的高度为文字的行高 */
+  vertical-align: middle; /* 确保图片垂直居中对齐文字 */
+}
+
 .weui-search-bar {
   background-color: #ededed;
 }
