@@ -18,7 +18,7 @@ Page({
    * "extinfo": "{}"，扩展信息，每个功能单独定义
    */
   data: {
-    isShowContact:false,
+    isShowContact: false,
     artList: [], // 文章列表
     kwList: [], // 推荐关键词列表，最多3个
     inputShowed: false,
@@ -31,7 +31,7 @@ Page({
     category: '', // 1 我的项目 2 RFC 协议 3 编程语言 4 数据库 5 开源编程库 6 常用工具
   },
 
-  bindShowContact(){
+  bindShowContact() {
     this.setData({
       isShowContact: !this.data.isShowContact
     });
@@ -55,36 +55,36 @@ Page({
 
   inputTyping: function (e) {
     const content = e.detail.value;
-    if (!utils.isEmpty(content)){
+    if (!utils.isEmpty(content)) {
       const searchList = utils.searchListByKeyword3(app.globalData.artData, e.detail.value);
       this.setData({
         inputVal: e.detail.value,
         kwList: searchList
       });
-    }else{
+    } else {
       this.setData({
         inputVal: '',
         kwList: []
-    })
+      })
     }
   },
 
   selectKeyword(e) {
     const keyword = e.currentTarget.dataset.kw;
     this.setData({
-      inputVal:keyword,
-     
+      inputVal: keyword,
+
     })
     this.search(keyword)
   },
 
-  bindSearch(e){
+  bindSearch(e) {
     const keyword = this.data.inputVal;
     this.search(keyword)
   },
 
   search(keyword) {
-    if (utils.isEmpty(keyword)){
+    if (utils.isEmpty(keyword)) {
       wx.showToast({
         title: '内容不能为空',
       })
@@ -92,7 +92,7 @@ Page({
     }
     const kw = keyword.toLowerCase();
     this.setData({
-      kwList:[],
+      kwList: [],
       keyword: kw,
       op: 1,
     })
@@ -160,6 +160,18 @@ Page({
       case "btnTool":
         // 常用工具
         category = "tools";
+        break;
+      case "btnMiddleware":
+        // 中间件
+        category = "middlewares";
+        break;
+      case "btnEnvironment":
+        // 主机环境
+        category = "environments";
+        break;
+      case "btnTechSrc":
+        // 知识片段
+        category = "techsrcs";
         break;
       default:
         break;
