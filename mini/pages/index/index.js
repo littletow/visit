@@ -336,21 +336,23 @@ Page({
   loadiAd() {
     const that = this;
     // 加载插屏广告
-    iAd = wx.createInterstitialAd({
-      adUnitId: 'adunit-45d1592a390774a5'
-    })
-    iAd.onLoad(() => {
-      hasLoadiAd = true
-    })
-    iAd.onError((err) => {
-      console.error('插屏广告加载失败', err)
-      const content = JSON.stringify(err);
-      const title = '加载插屏广告时错误';
-      app.rptErrInfo(title, content);
-    })
-    iAd.onClose(() => {
-      // app.logSeeAd();
-    })
+    if (!hasLoadiAd) {
+      iAd = wx.createInterstitialAd({
+        adUnitId: 'adunit-45d1592a390774a5'
+      })
+      iAd.onLoad(() => {
+        hasLoadiAd = true
+      })
+      iAd.onError((err) => {
+        console.error('插屏广告加载失败', err)
+        const content = JSON.stringify(err);
+        const title = '加载插屏广告时错误';
+        app.rptErrInfo(title, content);
+      })
+      iAd.onClose(() => {
+        // app.logSeeAd();
+      })
+    }
   },
 
   // 播放激励视频广告
@@ -402,10 +404,6 @@ Page({
 
   // 播放插屏广告
   playiAd() {
-    wx.showLoading({
-      title: '加载广告中',
-      mask: true,
-    })
     const that = this;
     // const title = 'Visit播放插屏广告';
     // const content = 'Index文件playiAd函数';
@@ -418,19 +416,16 @@ Page({
     // 用户触发广告后，显示插屏广告
     if (iAd) {
       iAd.show().then(() => {
-        wx.hideLoading()
       }).catch((err) => {
         console.error('插屏广告显示失败', err)
         const title = '展示插屏广告时错误';
         const content = JSON.stringify(err);
         app.rptErrInfo(title, content);
-        wx.hideLoading();
       })
     } else {
       const title = '插屏广告播放异常';
       const content = '插屏广告在播放广告时未完成初始化';
       app.rptErrInfo(title, content);
-      wx.hideLoading()
     }
   },
 
@@ -453,6 +448,7 @@ Page({
     // const title = 'Visit查看联系方式';
     // const content = 'Index文件showContactDialog函数';
     // app.rptNotifyInfo(title, content);
+    // 测试这里加载广告可以吗？
     wx.showModal({
       title: '联系我',
       content: '如果您有任何问题或建议，请随时通过以下方式联系我：\n邮箱: eagle.mon@qq.com\n我期待您的来信！',
@@ -465,6 +461,10 @@ Page({
         }
       }
     });
+
+    // 测试这里加载广告可以吗？
+    that.loadiAd();
+
   },
 
 
