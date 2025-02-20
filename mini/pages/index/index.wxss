@@ -5,6 +5,11 @@
   background-color: #ededed;
   color: #333333;
 }
+
+.page__hd {
+  padding: 64rpx 72rpx 16rpx 72rpx;
+  margin-bottom: 16rpx;
+}
  
 .contact-image {
   margin-left: 4rpx;
@@ -46,7 +51,7 @@
 }
 
 .placeholder {
-  margin-top: 8rpx;
+  margin-top: 16rpx;
   margin-left: 15rpx;
   margin-right: 15rpx;
   margin-bottom: 8rpx;
@@ -63,9 +68,8 @@
   background-color: #f4f4f4;
 }
 
-
 .weui-cells {
-  margin-top: 8rpx;
+  margin-top: 16rpx;
   margin-left: 15rpx;
   margin-right: 15rpx;
   margin-bottom: 8rpx;
@@ -94,14 +98,14 @@
 
 .view-oa {
   margin-top: 16rpx;
-  margin-bottom: 16rpx;
+  margin-bottom: 8rpx;
   margin-left: 15rpx;
   margin-right: 15rpx;
 }
 
 .view-ad {
   margin-top: 16rpx;
-  margin-bottom: 16rpx;
+  margin-bottom: 8rpx;
   margin-left: 15rpx;
   margin-right: 15rpx;
 }
@@ -115,7 +119,7 @@
 
 .view-contact {
   margin-top: 16rpx;
-  margin-bottom: 16rpx;
+  margin-bottom: 8rpx;
   padding: 0 15rpx; /* 卡片整体离左右边框各45px */
 }
 

@@ -1,8 +1,12 @@
 /* pages/article/index.wxss */
 .page {
   height: 100%;
-  background-color: #ededed;
+  background-color: #fff;
   color: #333333;
+}
+
+.weui-footer {
+  margin-bottom: 16rpx;
 }
 
 .loading {

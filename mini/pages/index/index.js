@@ -188,10 +188,10 @@ Page({
   getArtList: function (pageNo, category) {
     const that = this
     that.loading = true
-    wx.showLoading({
-      title: '加载中...',
-      mask: true,
-    })
+    // wx.showLoading({
+    //   title: '加载中...',
+    //   mask: true,
+    // })
 
     if (pageNo === 1) {
       that.setData({
@@ -202,7 +202,7 @@ Page({
     // console.log('artData,',app.globalData.artData);
     const searchList = utils.getArtListByCategory(app.globalData.artData, category);
     // console.log('btnList,', searchList);
-    wx.hideLoading()
+    // wx.hideLoading()
     if (utils.isEmpty(searchList)) {
       // 记录为空
       const title = '快捷按钮查询内容为空';
@@ -287,8 +287,8 @@ Page({
     } else {
       wx.openOfficialAccountArticle({
         url: id, // 公众号文章连接
-        success: res => { },
-        fail: res => { }
+        success: res => {},
+        fail: res => {}
       })
     }
 
@@ -309,8 +309,8 @@ Page({
       adUnitId: 'adunit-2ce6db3cb1e45a86',
     })
     vAd.onLoad(() => {
-      hasLoadvAd = true
-    }),
+        hasLoadvAd = true
+      }),
       vAd.onError((err) => {
         console.error('激励视频广告加载失败,', err)
         // 判断err是否对象？
@@ -377,9 +377,9 @@ Page({
       }).catch(() => {
         // 失败重试
         vAd.load().then(() => {
-          wx.hideLoading()
-          vAd.show()
-        })
+            wx.hideLoading()
+            vAd.show()
+          })
           .catch(err => {
             wx.hideLoading()
             console.error('激励视频 广告显示失败', err)
@@ -415,8 +415,7 @@ Page({
     }
     // 用户触发广告后，显示插屏广告
     if (iAd) {
-      iAd.show().then(() => {
-      }).catch((err) => {
+      iAd.show().then(() => {}).catch((err) => {
         console.error('插屏广告显示失败', err)
         const title = '展示插屏广告时错误';
         const content = JSON.stringify(err);
@@ -431,12 +430,12 @@ Page({
 
   // 公众号组件加载成功信息
   bload(e) {
-    console.log('load,', e)
+    // console.log('load,', e)
   },
 
   // 公众号组件加载错误信息
   berror(e) {
-    console.log('error,', e)
+    // console.log('error,', e)
     // const title = 'Visit加载公众号组件';
     // const content = 'Index文件berror函数';
     // app.rptNotifyInfo(title, content);
@@ -448,7 +447,7 @@ Page({
     // const title = 'Visit查看联系方式';
     // const content = 'Index文件showContactDialog函数';
     // app.rptNotifyInfo(title, content);
-    // 测试这里加载广告可以吗？
+   
     wx.showModal({
       title: '联系我',
       content: '如果您有任何问题或建议，请随时通过以下方式联系我：\n邮箱: eagle.mon@qq.com\n我期待您的来信！',
@@ -461,8 +460,7 @@ Page({
         }
       }
     });
-
-    // 测试这里加载广告可以吗？
+    // 加载插屏广告
     that.loadiAd();
 
   },
