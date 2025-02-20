@@ -99,16 +99,15 @@
     </view>
 
     <view class="weui-footer" wx:if="{{artList.length == 0 }}">
-      <!--公众号-->
-      <view class="view-oa">
-        <official-account bindload="bload" binderror="berror"></official-account>
-      </view>
       <!--广告-->
       <view class="view-ad">
         <ad unit-id="adunit-62a65ad78c1b3f40"></ad>
       </view>
+      <!--公众号-->
+      <view class="view-oa">
+        <official-account bindload="bload" binderror="berror"></official-account>
+      </view>
     </view>
   </view>
-  <view class="page__ft">
-  </view>
+  <!--<view class="page__ft"></view>-->
 </view>

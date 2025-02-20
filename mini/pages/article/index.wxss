@@ -21,3 +21,5 @@
   width: 240rpx;
   height: 240rpx;
 }
+
+.weui-footer{margin-bottom:100rpx}.weui-footer_fixed-bottom{margin-bottom:0}

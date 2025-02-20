@@ -1,5 +1,6 @@
 <!--pages/article/index.wxml-->
 <view class="page">
+<view class="page__bd page__bd_spacing">
         <!--loading 加载动画-->
         <view class="loading" wx:if="{{isLoading}}">
                 <image class="loading__icon" src="../../images/loading.svg"></image>
@@ -7,4 +8,9 @@
         <ad unit-id="adunit-97d05ae09a0a545a"></ad>
         <!--使用towxml-->
         <towxml nodes="{{article}}" />
+       
+        <view class="weui-footer">
+			<view class="weui-footer__text">--这是底线了--</view>
+		</view>
+                </view>
 </view>

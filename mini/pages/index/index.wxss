@@ -45,20 +45,11 @@
   display:none
 }
 
-.button-sp-area {
-  padding-top: 30rpx;
-  text-align: center;
-}
-
-.weui-btn_mini {
-  margin-right: 8rpx;
-}
-
 .placeholder {
-  margin-top: 10rpx;
+  margin-top: 8rpx;
   margin-left: 15rpx;
   margin-right: 15rpx;
-  margin-bottom: 10rpx;
+  margin-bottom: 8rpx;
   padding: 0 20rpx;
   text-align: center;
   background-color: #ffffff;
@@ -74,10 +65,10 @@
 
 
 .weui-cells {
-  margin-top: 16rpx;
+  margin-top: 8rpx;
   margin-left: 15rpx;
   margin-right: 15rpx;
-  margin-bottom: 16rpx;
+  margin-bottom: 8rpx;
 }
 
 .weui-footer {
@@ -85,8 +76,8 @@
 }
 
 .weui-footer_fixed-bottom {
-  margin-bottom: 32rpx;
-  padding-bottom: 32rpx;
+  margin-bottom: 16rpx;
+  padding-bottom: 16rpx;
 }
 
 .home-ad {
@@ -102,15 +93,15 @@
 
 
 .view-oa {
-  margin-top: 32rpx;
-  margin-bottom: 32rpx;
+  margin-top: 16rpx;
+  margin-bottom: 16rpx;
   margin-left: 15rpx;
   margin-right: 15rpx;
 }
 
 .view-ad {
-  margin-top: 32rpx;
-  margin-bottom: 32rpx;
+  margin-top: 16rpx;
+  margin-bottom: 16rpx;
   margin-left: 15rpx;
   margin-right: 15rpx;
 }
@@ -123,8 +114,8 @@
 }
 
 .view-contact {
-  margin-top: 32rpx;
-  margin-bottom: 32rpx;
+  margin-top: 16rpx;
+  margin-bottom: 16rpx;
   padding: 0 15rpx; /* 卡片整体离左右边框各45px */
 }
 
