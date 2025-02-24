@@ -459,7 +459,7 @@ function checkFileExists(fileUrl) {
 * @param {string} fileUrl - 文件的URL
 * @returns {Promise<boolean>} - 一个Promise，表示文件是否下载成功
 */
-function downloadFile(fileUrl) {
+function downloadGitFile(fileUrl) {
   return new Promise((resolve, reject) => {
     const timeout = setTimeout(() => reject(new Error('请求超时')), 10000); // 设置超时时间为10秒
 
@@ -529,7 +529,7 @@ async function checkServerV2(fileUrl) {
       return false;
     }
 
-    const success = await downloadFile(fileUrl);
+    const success = await downloadGitFile(fileUrl);
     return success;
   } catch (error) {
     console.error(error.message);

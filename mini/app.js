@@ -332,7 +332,7 @@ App({
     })
 
     const serverUrl = mainUrl + 'VERSION';
-    const isAccessible = await checkServer.checkServer(serverUrl);
+    const isAccessible = await utils.checkServer(serverUrl);
 
     if (!isAccessible) {
       log.warn('git server is unreachable');
@@ -350,6 +350,7 @@ App({
   },
   // 更新版本
   uptVer(zerots) {
+    const that = this;
     let chkVerTs = wx.getStorageSync("chkVerTs");
     if (!utils.isEmpty(chkVerTs)) {
       // console.log('版本1');
