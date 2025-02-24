@@ -409,22 +409,21 @@ function searchListByKeyword3(list, keyword) {
 }
 
 // 从列表中随机返回包含关键字的列表项
-function getRandomItemsWithKeywords(list, keywords, count) {
+function getRandomItemsWithKeyword(list, keyword, count) {
   // 过滤包含关键字的项
-  const filteredList = list.filter(item => {
-    return keywords.some(keyword => item.includes(keyword));
-  });
-
+  const filteredList = list.filter(item => item.kw.includes(keyword));
+  
   // 随机打乱过滤后的列表
   const shuffledList = filteredList.sort(() => 0.5 - Math.random());
-
-  // 返回前count个项
+  
+  // 返回最多3个项
   return shuffledList.slice(0, count);
 }
 
+
 // 根据关键词查找，随机返回最多三个结果
 function searchRandListByKeyword3(list, keyword) {
-  const filteredList = getRandomItemsWithKeywords(list, keyword, 3);
+  const filteredList = getRandomItemsWithKeyword(list, keyword, 3);
   // 返回结果
   return filteredList;
 }
@@ -612,6 +611,5 @@ module.exports = {
   requestWithFallback,
   downloadFile,
   searchListByKeyword3,
-  getRandomItemsWithKeywords,
   searchRandListByKeyword3,
 }
