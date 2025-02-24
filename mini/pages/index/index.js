@@ -56,7 +56,7 @@ Page({
   inputTyping: function (e) {
     const content = e.detail.value;
     if (!utils.isEmpty(content)) {
-      const searchList = utils.searchListByKeyword3(app.globalData.artData, e.detail.value);
+      const searchList = utils.searchRandListByKeyword3(app.globalData.artData, e.detail.value);
       this.setData({
         inputVal: e.detail.value,
         kwList: searchList
@@ -287,8 +287,8 @@ Page({
     } else {
       wx.openOfficialAccountArticle({
         url: id, // 公众号文章连接
-        success: res => {},
-        fail: res => {}
+        success: res => { },
+        fail: res => { }
       })
     }
 
@@ -309,8 +309,8 @@ Page({
       adUnitId: 'adunit-2ce6db3cb1e45a86',
     })
     vAd.onLoad(() => {
-        hasLoadvAd = true
-      }),
+      hasLoadvAd = true
+    }),
       vAd.onError((err) => {
         console.error('激励视频广告加载失败,', err)
         // 判断err是否对象？
@@ -377,9 +377,9 @@ Page({
       }).catch(() => {
         // 失败重试
         vAd.load().then(() => {
-            wx.hideLoading()
-            vAd.show()
-          })
+          wx.hideLoading()
+          vAd.show()
+        })
           .catch(err => {
             wx.hideLoading()
             console.error('激励视频 广告显示失败', err)
@@ -415,7 +415,7 @@ Page({
     }
     // 用户触发广告后，显示插屏广告
     if (iAd) {
-      iAd.show().then(() => {}).catch((err) => {
+      iAd.show().then(() => { }).catch((err) => {
         console.error('插屏广告显示失败', err)
         const title = '展示插屏广告时错误';
         const content = JSON.stringify(err);
@@ -447,7 +447,7 @@ Page({
     // const title = 'Visit查看联系方式';
     // const content = 'Index文件showContactDialog函数';
     // app.rptNotifyInfo(title, content);
-   
+
     wx.showModal({
       title: '联系我',
       content: '如果您有任何问题或建议，请随时通过以下方式联系我：\n邮箱: eagle.mon@qq.com\n我期待您的来信！',

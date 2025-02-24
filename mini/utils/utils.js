@@ -408,6 +408,135 @@ function searchListByKeyword3(list, keyword) {
   return filteredList;
 }
 
+// 从列表中随机返回包含关键字的列表项
+function getRandomItemsWithKeywords(list, keywords, count) {
+  // 过滤包含关键字的项
+  const filteredList = list.filter(item => {
+    return keywords.some(keyword => item.includes(keyword));
+  });
+
+  // 随机打乱过滤后的列表
+  const shuffledList = filteredList.sort(() => 0.5 - Math.random());
+
+  // 返回前count个项
+  return shuffledList.slice(0, count);
+}
+
+// 根据关键词查找，随机返回最多三个结果
+function searchRandListByKeyword3(list, keyword) {
+  const filteredList = getRandomItemsWithKeywords(list, keyword, 3);
+  // 返回结果
+  return filteredList;
+}
+
+/**
+ * 检查文件是否存在
+ * @param {string} fileUrl - 文件的URL
+ * @returns {Promise<boolean>} - 一个Promise，表示文件是否存在
+ */
+function checkFileExists(fileUrl) {
+  return new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => reject(new Error('请求超时')), 5000); // 设置超时时间为5秒
+
+    wx.request({
+      url: fileUrl,
+      method: 'HEAD',
+      success: (res) => {
+        clearTimeout(timeout);
+        resolve(res.statusCode === 200);
+      },
+      fail: (err) => {
+        clearTimeout(timeout);
+        console.error(`Error checking file existence: ${err.errMsg}`);
+        resolve(false);
+      }
+    });
+  });
+}
+
+/**
+* 下载文件并验证内容
+* @param {string} fileUrl - 文件的URL
+* @returns {Promise<boolean>} - 一个Promise，表示文件是否下载成功
+*/
+function downloadFile(fileUrl) {
+  return new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => reject(new Error('请求超时')), 10000); // 设置超时时间为10秒
+
+    wx.downloadFile({
+      url: fileUrl,
+      success: (res) => {
+        if (res.statusCode === 200) {
+          wx.getFileSystemManager().saveFile({
+            tempFilePath: res.tempFilePath,
+            success: (result) => {
+              clearTimeout(timeout);
+              resolve(true);
+              // 删除临时文件
+              wx.getFileSystemManager().unlink({
+                filePath: result.savedFilePath,
+                fail: (err) => {
+                  console.error(`Error deleting temp file: ${err.errMsg}`);
+                }
+              });
+            },
+            fail: (err) => {
+              clearTimeout(timeout);
+              console.error(`Error saving file: ${err.errMsg}`);
+              resolve(false);
+            }
+          });
+        } else {
+          clearTimeout(timeout);
+          resolve(false);
+        }
+      },
+      fail: (err) => {
+        clearTimeout(timeout);
+        console.error(`Error downloading file: ${err.errMsg}`);
+        resolve(false);
+      }
+    });
+  });
+}
+
+
+
+/**
+ * 检查服务器文件的存在性
+ * @param {string} fileUrl - 文件的URL
+ * @returns {Promise<boolean>} - 表示服务器是否通畅
+ */
+async function checkServer(fileUrl) {
+  try {
+    const exists = await checkFileExists(fileUrl);
+    return exists;
+  } catch (error) {
+    console.error(error.message);
+    return false;
+  }
+}
+
+/**
+* 检查服务器文件的存在性和可下载性
+* @param {string} fileUrl - 文件的URL
+* @returns {boolean} - 表示服务器是否通畅
+*/
+async function checkServerV2(fileUrl) {
+  try {
+    const exists = await checkFileExists(fileUrl);
+    if (!exists) {
+      return false;
+    }
+
+    const success = await downloadFile(fileUrl);
+    return success;
+  } catch (error) {
+    console.error(error.message);
+    return false;
+  }
+}
+
 // 使用该函数检查服务器是否通畅
 // const serverUrl = 'https://example.com/api/test';
 
@@ -478,7 +607,11 @@ module.exports = {
   paginate,
   isObject,
   checkServerAccessibility,
+  checkServer,
+  checkServerV2,
   requestWithFallback,
   downloadFile,
   searchListByKeyword3,
+  getRandomItemsWithKeywords,
+  searchRandListByKeyword3,
 }

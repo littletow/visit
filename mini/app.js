@@ -1,4 +1,5 @@
 const utils = require("./utils/utils.js");
+const log = require('./utils/log.js');
 const fallbackUrl = "https://bee.91demo.top/";
 const mainUrl = "https://gitee.com/littletow/toad/raw/master/content/";
 
@@ -21,19 +22,25 @@ App({
   // 本地缓存中记录设备信息
   logDevInfo: function () {
     const that = this;
-    const deviceInfo = wx.getDeviceInfo();
-    const appBaseInfo = wx.getAppBaseInfo();
-    const windowInfo = wx.getWindowInfo();
+    let devInfo = wx.getStorageSync("devInfo");
+    if (utils.isEmpty(devInfo)) {
+      const deviceInfo = wx.getDeviceInfo();
+      const appBaseInfo = wx.getAppBaseInfo();
+      const windowInfo = wx.getWindowInfo();
 
-    const devInfoObj = {
-      devInfo: deviceInfo,
-      appInfo: appBaseInfo,
-      winInfo: windowInfo,
+      const devInfoObj = {
+        devInfo: deviceInfo,
+        appInfo: appBaseInfo,
+        winInfo: windowInfo,
+      }
+
+      that.globalData.devinfo = devInfoObj;
+      const devinfo = JSON.stringify(devInfoObj);
+      wx.setStorageSync('devInfo', devinfo);
+    } else {
+      const stdevinfo = JSON.parse(devInfo);
+      that.globalData.devinfo = stdevinfo;
     }
-
-    that.globalData.devinfo = devInfoObj;
-    const devinfo = JSON.stringify(devInfoObj);
-    wx.setStorageSync('devInfo', devinfo);
   },
 
   // 上报错误信息
@@ -81,7 +88,7 @@ App({
 
 
   // 上报通知信息
-  rptNotifyInfo: function (title,content) {
+  rptNotifyInfo: function (title, content) {
     const that = this;
     let devinfo = '';
     const locDevInfo = wx.getStorageSync("devInfo");
@@ -182,7 +189,7 @@ App({
             // console.log('版本12');
             // 取消动画
             wx.hideLoading({
-              success: (res) => {},
+              success: (res) => { },
             })
             // console.log(res.data)
             // 记录到本地缓存
@@ -196,8 +203,9 @@ App({
       },
       (err) => {
         console.error('Download failed:', err.message);
+        log.error('Download failed:', err.message);
         wx.hideLoading({
-          success: (res) => {},
+          success: (res) => { },
         })
         const title = '下载data.json文件错误';
         const content = "文件地址：" + fileUrl + "，错误信息：" + JSON.stringify(err.message);
@@ -233,7 +241,7 @@ App({
             wx.setStorageSync('chkVerTs', now);
             // 取消动画
             wx.hideLoading({
-              success: (res) => {},
+              success: (res) => { },
             })
             // console.log(res.data)
             const onlineVersion = Number(res.data);
@@ -265,8 +273,9 @@ App({
       },
       (err) => {
         console.error('Download failed:', err.message);
+        log.error('Download failed:', err.message);
         wx.hideLoading({
-          success: (res) => {},
+          success: (res) => { },
         })
         const title = '下载VERSION文件错误';
         const content = "文件地址：" + fileUrl + "，错误信息：" + JSON.stringify(err.message);
@@ -321,43 +330,31 @@ App({
     wx.showLoading({
       title: '服务检测中..',
     })
-    try {
-      // 使用 await 等待异步函数执行完成
-      let serverUrl = mainUrl + 'VERSION';
-      const data = await utils.checkServerAccessibility(serverUrl, 3000);
-      console.log("data,", data);
-    } catch (err) {
-      console.error("Error:", err.message);
+
+    const serverUrl = mainUrl + 'VERSION';
+    const isAccessible = await checkServer.checkServer(serverUrl);
+
+    if (!isAccessible) {
+      log.warn('git server is unreachable');
       that.globalData.url = fallbackUrl;
       const title = '检查Git服务器不通';
       const content = JSON.stringify(err.message)
       that.rptErrInfo(title, content);
     }
-    wx.hideLoading({
-      success: (res) => {},
-    })
-  },
 
-  async login() {
-    const that = this;
-    const tzms = utils.getTodayZeroMsTime(); // 获取今日零时毫秒时间戳
-    // 1. 检查设备信息?
-    let devInfo = wx.getStorageSync("devInfo");
-    if (utils.isEmpty(devInfo)) {
-      that.logDevInfo();
-    } else {
-      const stdevinfo = JSON.parse(devInfo);
-      that.globalData.devinfo = stdevinfo;
-    }
-    // 2. 检查Git服务是否正常？
-    await that.chkServerAlive();
-    console.log('url,',that.globalData.url);
-    // 3. 检查版本更新
+    wx.hideLoading({
+      success: (res) => { },
+    })
+
+    return isAccessible
+  },
+  // 更新版本
+  uptVer(zerots) {
     let chkVerTs = wx.getStorageSync("chkVerTs");
     if (!utils.isEmpty(chkVerTs)) {
       // console.log('版本1');
       let chkVerTsNum = Number(chkVerTs);
-      if (chkVerTsNum < tzms) {
+      if (chkVerTsNum < zerots) {
         // console.log('版本2');
         that.dlArtVersion();
       } else {
@@ -369,16 +366,34 @@ App({
       that.dlArtVersion();
       const title = 'Visit新设备登入';
       const content = 'App文件login函数';
-      that.rptNotifyInfo(title,content);
+      that.rptNotifyInfo(title, content);
     }
-    // 4. 检查广告
+  },
+
+  // 检测是否看广告？
+  chkSeeAd(zerots) {
     let seeAdTs = wx.getStorageSync("seeAdTs");
     if (!utils.isEmpty(seeAdTs)) {
       let seeAdTsNum = Number(seeAdTs);
-      if (seeAdTsNum > tzms) {
+      if (seeAdTsNum > zerots) {
         that.globalData.isSeeAd = true; // 今天是否看了广告？
       }
     }
+  },
+
+
+  async login() {
+    const that = this;
+    const tzms = utils.getTodayZeroMsTime(); // 获取今日零时毫秒时间戳
+    // 1. 检查设备信息?
+    that.logDevInfo();
+    // 2. 检查Git服务是否正常？
+    const isAlive = await that.chkServerAlive();
+    console.log('url,', that.globalData.url, isAlive);
+    // 3. 检查版本更新?
+    that.uptVer(tzms);
+    // 4. 检查广告?
+    that.chkSeeAd(tzms);
   },
 
   // 小程序每次启动都会调用
