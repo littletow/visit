@@ -1,6 +1,6 @@
 const app = getApp();
 const utils = require("../../utils/utils.js");
-
+const log = require('../../utils/log.js');
 let vAd = null;
 let iAd = null;
 let hasLoadvAd = false;
@@ -313,6 +313,7 @@ Page({
     }),
       vAd.onError((err) => {
         console.error('激励视频广告加载失败,', err)
+        log.error('load video error,', err);
         // 判断err是否对象？
         const content = JSON.stringify(err);
         const title = '加载激励视频广告时错误';

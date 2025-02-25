@@ -203,7 +203,7 @@ App({
       },
       (err) => {
         console.error('Download failed:', err.message);
-        log.error('Download failed:', err.message);
+        log.error('file url,', fileUrl, 'error message,', err.message);
         wx.hideLoading({
           success: (res) => { },
         })
@@ -273,7 +273,7 @@ App({
       },
       (err) => {
         console.error('Download failed:', err.message);
-        log.error('Download failed:', err.message);
+        log.error('file url,', fileUrl, 'error message,', err.message);
         wx.hideLoading({
           success: (res) => { },
         })
@@ -335,7 +335,7 @@ App({
     const isAccessible = await utils.checkServer(serverUrl);
 
     if (!isAccessible) {
-      log.warn('git server is unreachable');
+      log.warn('file url,', serverUrl, 'unreachable');
       that.globalData.url = fallbackUrl;
       const title = '检查Git服务器不通';
       const content = JSON.stringify(err.message)
@@ -405,6 +405,11 @@ App({
     const loginTime = Date.now();
     const launchTime = loginTime - startTime;
     console.log(`app onLaunch: ${launchTime} ms`);
+  },
+
+  onError(err) {
+    // 在发生错误时记录错误日志
+    log.error("App error", err);
   },
 
   globalData: {

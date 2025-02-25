@@ -1,7 +1,7 @@
 // pages/mkart/index.js
 const app = getApp();
 const utils = require("../../utils/utils.js");
-
+const log = require('../../utils/log.js');
 Page({
 
   /**
@@ -64,6 +64,7 @@ Page({
       },
       (err) => {
         console.error('Download failed:', err.message);
+        log.error('file url,', fileUrl, 'error message,', err.message);
         const title = '下载Markdown文件时错误';
         const content = "文件地址：" + fileUrl + "，错误信息：" + JSON.stringify(err.message);
         app.rptErrInfo(title, content);
