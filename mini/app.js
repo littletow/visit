@@ -373,6 +373,7 @@ App({
 
   // 检测是否看广告？
   chkSeeAd(zerots) {
+    const that = this;
     let seeAdTs = wx.getStorageSync("seeAdTs");
     if (!utils.isEmpty(seeAdTs)) {
       let seeAdTsNum = Number(seeAdTs);
