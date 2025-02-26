@@ -1,7 +1,9 @@
 const utils = require("./utils/utils.js");
 const log = require('./utils/log.js');
+const UserInfo = require('./libs/userinfo.js');
 const fallbackUrl = "https://bee.91demo.top/";
 const mainUrl = "https://gitee.com/littletow/toad/raw/master/content/";
+
 
 App({
   towxml: require('./towxml/index'),
@@ -17,6 +19,41 @@ App({
         };
       }
     });
+  },
+
+
+  // 加载用户信息
+  loadUserInfo() {
+    const userInfo = new UserInfo();
+    userInfo.loadFromCache();
+    this.globalData.userInfo = userInfo;
+  },
+
+  // 首页进入调用
+  onLogin() {
+    const userInfo = this.globalData.userInfo;
+    userInfo.updateLoginInfo();
+    this.globalData.userInfo = userInfo;
+  },
+
+  // 看广告后调用
+  onWatchAd() {
+    const userInfo = this.globalData.userInfo;
+    userInfo.updateAdWatchInfo();
+    this.globalData.userInfo = userInfo;
+  },
+
+
+  // 是否需要观看广告？ 
+  needSeeAd: function () {
+    const userInfo = this.globalData.userInfo;
+    if (userInfo.hasStar) {
+      const todayZerots = utils.getTodayZeroMsTime();
+      if (this.adWatchTime > todayZerots) {
+        return false
+      }
+    }
+    return true
   },
 
   // 本地缓存中记录设备信息
@@ -86,7 +123,6 @@ App({
 
   },
 
-
   // 上报通知信息
   rptNotifyInfo: function (title, content) {
     const that = this;
@@ -152,6 +188,7 @@ App({
       }
     })
   },
+
   // 读取文件
   readDataFile: function () {
     const fs = wx.getFileSystemManager();
@@ -348,6 +385,7 @@ App({
 
     return isAccessible
   },
+
   // 更新版本
   uptVer(zerots) {
     const that = this;
@@ -383,7 +421,7 @@ App({
     }
   },
 
-
+  // 登入
   async login() {
     const that = this;
     const tzms = utils.getTodayZeroMsTime(); // 获取今日零时毫秒时间戳
@@ -396,6 +434,8 @@ App({
     that.uptVer(tzms);
     // 4. 检查广告?
     that.chkSeeAd(tzms);
+    // 5. 加载用户信息
+    that.loadUserInfo();
   },
 
   // 小程序每次启动都会调用
@@ -419,6 +459,7 @@ App({
     startTime: 0, // 首次启动时间戳
     isSeeAd: false, // 是否看了广告？
     artData: [], // 文章数据列表
+    userInfo: null, // 用户信息
   },
 
 });

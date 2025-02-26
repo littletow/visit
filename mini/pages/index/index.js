@@ -5,6 +5,7 @@ let vAd = null;
 let iAd = null;
 let hasLoadvAd = false;
 let hasLoadiAd = false;
+let tempPage = null;
 
 Page({
   /**
@@ -29,6 +30,7 @@ Page({
     page: 1,
     op: 1, // 1 搜索查询 2 按目录查询 
     category: '', // 1 我的项目 2 RFC 协议 3 编程语言 4 数据库 5 开源编程库 6 常用工具
+
   },
 
   bindShowContact() {
@@ -243,6 +245,13 @@ Page({
         success(res) {
           if (res.confirm) {
             console.log('用户点击观看广告');
+            // 记录页面
+            const tp = {
+              'category': art.category,
+              'id': art.id,
+              'label': art.label,
+            }
+            that.tempPage = tp;
             that.playvAd();
           } else if (res.cancel) {
             console.log('用户点击以后再说');
@@ -294,6 +303,19 @@ Page({
 
   },
 
+
+  // 延长跳转页面
+  delayJumpPage: function () {
+    const that = this;
+    setTimeout(function () {
+      if (!utils.isEmpty(that.tempPage)) {
+        that.jumpToPage(that.tempPage.category, that.tempPage.id, that.tempPage.label);
+      } else {
+        console.log('temp page is null')
+      }
+    }, 500)
+  },
+
   // 跳文章页面
   jumpToPage: function (category, id, label) {
     // 调整到文章页面 
@@ -321,10 +343,12 @@ Page({
       }),
       vAd.onClose((res) => {
         if (res && res.isEnded) {
-          app.logSeeAd();
-          wx.showToast({
-            title: '谢谢支持！',
-          })
+          app.onWatchAd();
+
+          // app.logSeeAd();
+          // wx.showToast({
+          //   title: '谢谢支持！',
+          // })
         } else {
           wx.showToast({
             title: '还需加油哟！',
@@ -474,6 +498,7 @@ Page({
     // console.log("index onload")
     const loadTime = Date.now();
     const startTime = app.globalData.startTime;
+    app.onLogin();
     const launchTime = loadTime - startTime;
     console.log(`index onLoad: ${launchTime} ms`);
   },
@@ -509,6 +534,7 @@ Page({
     hasLoadvAd = false;
     iAd = null;
     hasLoadiAd = false;
+    tempPage = null;
   },
 
   /**

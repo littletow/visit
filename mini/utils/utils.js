@@ -113,6 +113,16 @@ function getTodayZeroMsTime() {
   return d.getTime()
 }
 
+// 获取昨天凌晨零点毫秒时间戳
+function getYesterdayZeroMsTime() {
+  const now = new Date();
+  // 设置时间为今天的凌晨
+  now.setHours(0, 0, 0, 0);
+  // 减去一天的毫秒数
+  const yesterdayMidnight = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  return yesterdayMidnight.getTime();
+}
+
 // 获取今天235959的时间，毫秒时间戳
 function getTodayNearZeroMsTime() {
   const d = new Date(new Date().setHours(0, 0, 0, 0) + 24 * 60 * 60 * 1000 - 1); // 获取当天23:59:59的时间
@@ -412,10 +422,10 @@ function searchListByKeyword3(list, keyword) {
 function getRandomItemsWithKeyword(list, keyword, count) {
   // 过滤包含关键字的项
   const filteredList = list.filter(item => item.kw.includes(keyword));
-  
+
   // 随机打乱过滤后的列表
   const shuffledList = filteredList.sort(() => 0.5 - Math.random());
-  
+
   // 返回最多3个项
   return shuffledList.slice(0, count);
 }
@@ -536,6 +546,17 @@ async function checkServerV2(fileUrl) {
   }
 }
 
+// 计算毫秒时间戳之间经历的天数
+function calculateDaysBetween(currentTimestamp, pastTimestamp) {
+  // 计算时间差（毫秒）
+  const timeDiff = currentTimestamp - pastTimestamp;
+
+  // 将时间差转换为天数，并取最小整数
+  const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+  return daysDiff;
+}
+
 // 使用该函数检查服务器是否通畅
 // const serverUrl = 'https://example.com/api/test';
 
@@ -596,6 +617,7 @@ module.exports = {
   getXSecTimeStamp,
   diffNowTs,
   getTodayZeroMsTime,
+  getYesterdayZeroMsTime,
   getTodayNearZeroMsTime,
   json2ObjArr,
   ab2ObjArr,
@@ -612,4 +634,5 @@ module.exports = {
   downloadFile,
   searchListByKeyword3,
   searchRandListByKeyword3,
+  calculateDaysBetween,
 }
