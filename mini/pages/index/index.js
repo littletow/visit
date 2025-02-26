@@ -498,7 +498,6 @@ Page({
     // console.log("index onload")
     const loadTime = Date.now();
     const startTime = app.globalData.startTime;
-    app.onLogin();
     const launchTime = loadTime - startTime;
     console.log(`index onLoad: ${launchTime} ms`);
   },

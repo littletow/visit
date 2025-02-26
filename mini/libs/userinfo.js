@@ -18,6 +18,7 @@ class UserInfo {
         this.starTime = 0; // 拥有星星时间
         this.starDays = 0; // 拥有星星的天数，每天递减。为0时，失去星星。 
         this.adWatchTime = 0;     // 今天看广告时间
+        this.loadFromCache();
     }
 
     // 从数据缓存中加载用户信息

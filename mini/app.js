@@ -1,7 +1,7 @@
 const utils = require("./utils/utils.js");
 const log = require('./utils/log.js');
 const UserInfo = require('./libs/userinfo.js');
-const msgpackr = require('./libs/msgpackr');
+const msgpackr = require('./libs/msgpackr.min.js');
 
 const fallbackUrl = "https://bee.91demo.top/";
 const mainUrl = "https://gitee.com/littletow/toad/raw/master/content/";
@@ -33,18 +33,12 @@ App({
   },
 
 
-  // 加载用户信息
-  loadUserInfo() {
-    const userInfo = new UserInfo();
-    userInfo.loadFromCache();
-    this.globalData.userInfo = userInfo;
-  },
-
-  // 首页进入调用
+  // 登录时调用用户信息
   onLogin() {
-    const userInfo = this.globalData.userInfo;
+    const userInfo = new UserInfo();
     userInfo.updateLoginInfo();
-    this.globalData.userInfo = userInfo;
+    this.globalData.myUserInfo = userInfo;
+    // console.log('userinfo,',this.globalData.myUserInfo.getFirstLoginTime());
   },
 
   // 看广告后调用
@@ -446,7 +440,7 @@ App({
     // 4. 检查广告?
     that.chkSeeAd(tzms);
     // 5. 加载用户信息
-    that.loadUserInfo();
+    that.onLogin();
   },
 
   // 小程序每次启动都会调用
@@ -470,7 +464,7 @@ App({
     startTime: 0, // 首次启动时间戳
     isSeeAd: false, // 是否看了广告？
     artData: [], // 文章数据列表
-    userInfo: null, // 用户信息
+    myUserInfo: null, // 用户信息
   },
 
 });
