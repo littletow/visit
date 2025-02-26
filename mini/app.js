@@ -1,6 +1,8 @@
 const utils = require("./utils/utils.js");
 const log = require('./utils/log.js');
 const UserInfo = require('./libs/userinfo.js');
+const msgpackr = require('./libs/msgpackr');
+
 const fallbackUrl = "https://bee.91demo.top/";
 const mainUrl = "https://gitee.com/littletow/toad/raw/master/content/";
 
@@ -19,6 +21,15 @@ App({
         };
       }
     });
+  },
+
+
+  // 解析msgpack文件内容
+  unpackFile(buffer) {
+    const data = msgpackr.unpack(new Uint8Array(buffer));
+    const datastr = JSON.stringify(data, null, 2)
+    console.log('msgpack', datastr);
+    return datastr
   },
 
 
