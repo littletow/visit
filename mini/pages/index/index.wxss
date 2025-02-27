@@ -6,20 +6,20 @@
   color: #333333;
 }
 
-.page__hd {
+/* .page__hd {
   padding: 64rpx 72rpx 16rpx 72rpx;
   margin-bottom: 16rpx;
-}
+} */
  
 .contact-image {
   margin-left: 4rpx;
-  
   width: 48rpx;
   height: 48rpx;
 }
 
 
 .clickable {
+  margin-left: 4rpx;
   color: #007BFF;
   font-weight: bold;
   cursor: pointer; /* 虽然小程序中没有鼠标指针，但可以让开发者了解这是可点击的 */

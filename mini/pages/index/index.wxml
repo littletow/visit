@@ -1,6 +1,6 @@
 <view class="page">
   <view class="page__hd">
-    <view class="page__title" bind:tap="bindShowContact"> Coder <text class="clickable" bindtap="handleTap">应用</text>加油 <image class="contact-image" src="/images/email.png"></image>
+    <view class="page__title" bind:tap="bindShowContact"> Coder <text class="clickable" bindtap="handleTap">加油</text> <image class="contact-image" src="/images/email.png"></image>
     </view>
     <view class="page__desc">小程序开发全流程指南，碎片化学习也能掌握组件、调试、上线全链路技能。</view>
   </view>
