@@ -18,6 +18,13 @@
   height: 48rpx;
 }
 
+
+.clickable {
+  color: #007BFF;
+  font-weight: bold;
+  cursor: pointer; /* 虽然小程序中没有鼠标指针，但可以让开发者了解这是可点击的 */
+}
+
 .text-with-image {
   display: inline-flex;
   align-items: center;
