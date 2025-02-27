@@ -2,7 +2,7 @@
   <view class="page__hd">
     <view class="page__title" bind:tap="bindShowContact"> Coder 加油 <image class="contact-image" src="/images/email.png"></image>
     </view>
-    <view class="page__desc">收藏了很多与编程开发相关的代码片段、开源库、网络协议、技能知识点以及与开发环境和服务器环境相关的内容，是学习编程开发的好工具！</view>
+    <view class="page__desc">小程序开发全流程指南，碎片化学习也能掌握组件、调试、上线全链路技能。</view>
   </view>
   <view class="page__bd page__bd_spacing">
     <!-- 搜索框-->
@@ -35,37 +35,37 @@
     <!-- 第一排快捷按钮-->
     <view class="weui-flex">
       <view class="weui-flex__item">
-        <view class="placeholder" id="btnProject" bindtap="bindBtn" hover-class="placeholder-hover">我的项目</view>
+        <view class="placeholder" id="btnProject" bindtap="bindBtn" hover-class="placeholder-hover">开发环境</view>
       </view>
       <view class="weui-flex__item">
-        <view class="placeholder" id="btnProtocol" bindtap="bindBtn" hover-class="placeholder-hover">网络协议</view>
+        <view class="placeholder" id="btnProtocol" bindtap="bindBtn" hover-class="placeholder-hover">组件开发</view>
       </view>
       <view class="weui-flex__item">
-        <view class="placeholder" id="btnCode" bindtap="bindBtn" hover-class="placeholder-hover">编程语言</view>
+        <view class="placeholder" id="btnCode" bindtap="bindBtn" hover-class="placeholder-hover">接口集成</view>
       </view>
     </view>
     <!-- 第二排快捷按钮-->
     <view class="weui-flex">
       <view class="weui-flex__item">
-        <view class="placeholder" id="btnDB" bindtap="bindBtn" hover-class="placeholder-hover">数据库</view>
+        <view class="placeholder" id="btnDB" bindtap="bindBtn" hover-class="placeholder-hover">项目实战</view>
       </view>
       <view class="weui-flex__item">
-        <view class="placeholder" id="btnMiddleware" bindtap="bindBtn" hover-class="placeholder-hover">中间件</view>
+        <view class="placeholder" id="btnMiddleware" bindtap="bindBtn" hover-class="placeholder-hover">调试测试</view>
       </view>
       <view class="weui-flex__item">
-        <view class="placeholder" id="btnLib" bindtap="bindBtn" hover-class="placeholder-hover">开源库</view>
+        <view class="placeholder" id="btnLib" bindtap="bindBtn" hover-class="placeholder-hover">审核上线</view>
       </view>
     </view>
     <!-- 第三排快捷按钮-->
     <view class="weui-flex">
       <view class="weui-flex__item">
-        <view class="placeholder" id="btnEnvironment" bindtap="bindBtn" hover-class="placeholder-hover">主机环境</view>
+        <view class="placeholder" id="btnEnvironment" bindtap="bindBtn" hover-class="placeholder-hover">运营推广</view>
       </view>
       <view class="weui-flex__item">
-        <view class="placeholder" id="btnTool" bindtap="bindBtn" hover-class="placeholder-hover">常用工具</view>
+        <view class="placeholder" id="btnTool" bindtap="bindBtn" hover-class="placeholder-hover">维护优化</view>
       </view>
       <view class="weui-flex__item">
-        <view class="placeholder" id="btnTechSrc" bindtap="bindBtn" hover-class="placeholder-hover">知识片段</view>
+        <view class="placeholder" id="btnTechSrc" bindtap="bindBtn" hover-class="placeholder-hover">我的项目</view>
       </view>
     </view>
     <block wx:if="{{isShowContact}}">
