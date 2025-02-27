@@ -507,6 +507,20 @@ App({
       // 看完广告后存储观看时间
       ad.storeAdWatchTime();
     }
+
+    const baseURL = 'https://example.com/articles/';
+    const articlePath = 'example-article.html';
+    const downloader = new ArticleDownloader(baseURL);
+
+    downloader.getArticleContent(articlePath)
+      .then((content) => {
+        this.setData({
+          articleContent: content,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   },
 
   // 小程序每次启动都会调用
