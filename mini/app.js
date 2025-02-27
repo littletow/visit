@@ -1,7 +1,9 @@
 const utils = require("./utils/utils.js");
 const log = require('./utils/log.js');
-const UserInfo = require('./libs/userinfo.js');
-const msgpackr = require('./libs/msgpackr.min.js');
+const UserInfo = require('./libs/userInfo.js');
+const ArtData = require('./libs/artData.js');
+const ServerChecker = require("./libs/serverChecker.js");
+const VersionManager = require("./libs/versionManager.js");
 
 const fallbackUrl = "https://bee.91demo.top/";
 const mainUrl = "https://gitee.com/littletow/toad/raw/master/content/";
@@ -24,12 +26,28 @@ App({
   },
 
 
-  // 解析msgpack文件内容
-  unpackFile(buffer) {
-    const data = msgpackr.unpack(new Uint8Array(buffer));
-    const datastr = JSON.stringify(data, null, 2)
-    console.log('msgpack', datastr);
-    return datastr
+
+  // 从本地文件加载文章列表
+  loadArticlesFromLocal() {
+    this.articleManager.readFromFile()
+      .then((articles) => {
+        this.setData({ articles: articles });
+      })
+      .catch((err) => {
+        console.error('读取本地文件失败:', err);
+      });
+  },
+
+  // 从网上下载文章并加载
+  downloadArticles() {
+    const url = 'https://example.com/articles.msgpack'; // 替换为实际的下载地址
+    this.articleManager.downloadAndRead(url)
+      .then((articles) => {
+        this.setData({ articles: articles });
+      })
+      .catch((err) => {
+        console.error('下载或读取文件失败:', err);
+      });
   },
 
 
@@ -43,11 +61,10 @@ App({
 
   // 看广告后调用
   onWatchAd() {
-    const userInfo = this.globalData.userInfo;
+    const userInfo = this.globalData.myUserInfo;
     userInfo.updateAdWatchInfo();
-    this.globalData.userInfo = userInfo;
+    this.globalData.myUserInfo = userInfo;
   },
-
 
   // 是否需要观看广告？ 
   needSeeAd: function () {
@@ -194,6 +211,7 @@ App({
     })
   },
 
+
   // 读取文件
   readDataFile: function () {
     const fs = wx.getFileSystemManager();
@@ -207,6 +225,7 @@ App({
       return "";
     }
   },
+
 
   // 下载 data.json 文件
   dlArtData: function () {
@@ -441,6 +460,53 @@ App({
     that.chkSeeAd(tzms);
     // 5. 加载用户信息
     that.onLogin();
+    this.articleManager = new ArticleManager();
+    this.loadArticlesFromLocal();
+
+    // 版本检测
+    const versionManager = new VersionManager('https://serverA.com/VERSION', 'https://serverA.com/data.bin');
+
+    versionManager.checkAndUpdate().then((filePath) => {
+      console.log('Data file path:', filePath);
+      // 继续执行其他逻辑
+    }).catch((error) => {
+      console.error('Failed to update data file', error);
+    });
+
+    const serverChecker = new ServerChecker('https://serverA.com', 'https://serverB.com');
+    await serverChecker.updateMainUrl();
+    this.globalData.url = versionChecker.getMainUrl();
+
+
+    const reportService = new ReportService('https://your-api-endpoint.com');
+
+    // 上传错误信息
+    reportService.uploadError('Error Title', 'Error Content', 'Device Info')
+      .then(res => {
+        console.log('Error uploaded successfully:', res);
+      })
+      .catch(err => {
+        console.error('Error uploading error:', err);
+      });
+
+    // 上传通知信息
+    reportService.uploadNotification('Notification Title', 'Notification Content', 'Device Info')
+      .then(res => {
+        console.log('Notification uploaded successfully:', res);
+      })
+      .catch(err => {
+        console.error('Error uploading notification:', err);
+      });
+
+    const ad = new Advertisement();
+    const hasStar = true; // 假设用户有星星
+
+    if (ad.needToWatchAd(hasStar)) {
+      // 用户需要看广告
+      // 在这里调用看广告的逻辑
+      // 看完广告后存储观看时间
+      ad.storeAdWatchTime();
+    }
   },
 
   // 小程序每次启动都会调用

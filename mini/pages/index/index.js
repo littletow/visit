@@ -16,6 +16,7 @@ Page({
    * "name": "豆子碎片项目介绍", 列表标题，展示在小程序中
    * "kw": "豆子碎片，visit，小程序", 关键字，搜索时用到
    * "label": "md"，标签，区分功能使用
+   * "lock": 0，加锁标记，为1时需要看广告
    * "extinfo": "{}"，扩展信息，每个功能单独定义
    */
   data: {
@@ -225,6 +226,51 @@ Page({
     that.loading = false
   },
 
+  // // 跳转到文章页面
+  // jump: function (e) {
+  //   const that = this;
+  //   // 获取索引
+  //   const idx = e.currentTarget.dataset.idx;
+  //   // 获取某篇文章信息
+  //   const art = that.data.artList[idx];
+  //   // console.log('art,',art)
+  //   // 判断今天是否观看了广告？
+  //   const isSeeAd = app.canPlayAd();
+  //   if (!isSeeAd && (art.category != 'projects')) {
+  //     // 弹出对话框，告知用户需要观看广告。
+  //     wx.showModal({
+  //       title: '支持作者',
+  //       content: '亲爱的用户您好，我们创作了很多优质内容。您一天只需看一个激励视频广告，即可浏览任意文章，感谢您的理解和支持！',
+  //       confirmText: '观看广告',
+  //       cancelText: '以后再说',
+  //       success(res) {
+  //         if (res.confirm) {
+  //           console.log('用户点击观看广告');
+  //           // 记录页面
+  //           const tp = {
+  //             'category': art.category,
+  //             'id': art.id,
+  //             'label': art.label,
+  //           }
+  //           that.tempPage = tp;
+  //           that.playvAd();
+  //         } else if (res.cancel) {
+  //           console.log('用户点击以后再说');
+  //         }
+  //       }
+  //     })
+  //     return
+  //   }
+
+  //   if (art.label == "md" || art.label == "html") {
+  //     that.jumpToPage(art.category, art.id, art.label);
+  //   } else if (art.label == "gzh") {
+  //     that.jumpToGzh(art.id);
+  //   } else if (art.label == "mp") {
+  //     that.jumpToMiniApp(art.id);
+  //   }
+  // },
+
   // 跳转到文章页面
   jump: function (e) {
     const that = this;
@@ -232,33 +278,34 @@ Page({
     const idx = e.currentTarget.dataset.idx;
     // 获取某篇文章信息
     const art = that.data.artList[idx];
-    // console.log('art,',art)
-    // 判断今天是否观看了广告？
-    const isSeeAd = app.canPlayAd();
-    if (!isSeeAd && (art.category != 'projects')) {
-      // 弹出对话框，告知用户需要观看广告。
-      wx.showModal({
-        title: '支持作者',
-        content: '亲爱的用户您好，我们创作了很多优质内容。您一天只需看一个激励视频广告，即可浏览任意文章，感谢您的理解和支持！',
-        confirmText: '观看广告',
-        cancelText: '以后再说',
-        success(res) {
-          if (res.confirm) {
-            console.log('用户点击观看广告');
-            // 记录页面
-            const tp = {
-              'category': art.category,
-              'id': art.id,
-              'label': art.label,
+    // 加锁标记
+    if (art.lock == 1) {
+      const isSeeAd = app.needSeeAd();
+      if (isSeeAd) {
+        // 弹出对话框，告知用户需要观看广告。
+        wx.showModal({
+          title: '支持作者',
+          content: '亲爱的用户您好，我们创作了很多优质内容。您一天只需看一个激励视频广告，即可浏览任意文章，感谢您的理解和支持！',
+          confirmText: '观看广告',
+          cancelText: '以后再说',
+          success(res) {
+            if (res.confirm) {
+              console.log('用户点击观看广告');
+              // 记录页面
+              const tp = {
+                'category': art.category,
+                'id': art.id,
+                'label': art.label,
+              }
+              that.tempPage = tp;
+              that.playvAd();
+            } else if (res.cancel) {
+              console.log('用户点击以后再说');
             }
-            that.tempPage = tp;
-            that.playvAd();
-          } else if (res.cancel) {
-            console.log('用户点击以后再说');
           }
-        }
-      })
-      return
+        })
+        return
+      }
     }
 
     if (art.label == "md" || art.label == "html") {
@@ -344,7 +391,7 @@ Page({
       vAd.onClose((res) => {
         if (res && res.isEnded) {
           app.onWatchAd();
-
+          that.delayJumpPage();
           // app.logSeeAd();
           // wx.showToast({
           //   title: '谢谢支持！',
@@ -408,6 +455,7 @@ Page({
           .catch(err => {
             wx.hideLoading()
             console.error('激励视频 广告显示失败', err)
+            log.error('play video error,', err);
             const title = '展示激励视频广告时错误';
             const content = JSON.stringify(err);
             app.rptErrInfo(title, content);
