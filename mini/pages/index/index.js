@@ -184,7 +184,7 @@ Page({
       category: btnId,
       op: 2,
     })
-    this.getArtList(1, category)
+    this.getArtList(1, btnId)
   },
 
   // 根据类型查询
@@ -362,7 +362,7 @@ Page({
       } else {
         console.log('temp page is null')
       }
-    }, 500)
+    }, 100)
   },
 
   // 跳文章页面

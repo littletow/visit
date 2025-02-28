@@ -41,7 +41,8 @@ App({
 
   // 是否需要观看广告？ 
   needSeeAd: function () {
-    const userInfo = this.globalData.userInfo;
+    const userInfo = this.globalData.myUserInfo;
+    console.log('userInfo,',userInfo)
     if (userInfo.hasStar) {
       const todayZerots = utils.getTodayZeroMsTime();
       if (this.adWatchTime > todayZerots) {
