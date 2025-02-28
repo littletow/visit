@@ -345,18 +345,6 @@ App({
     }
   },
 
-  // canPlayAd 是否需要观看广告？ 每日看一次即可。
-  canPlayAd: function () {
-    return this.globalData.isSeeAd
-  },
-
-  // logSeeAd 记录看广告？  
-  logSeeAd: function () {
-    let now = Date.now();
-    wx.setStorageSync('seeAdTs', now);
-    this.globalData.isSeeAd = true;
-  },
-
   // 检查Git服务器是否通畅？
   async chkServerAlive() {
     const that = this;
@@ -405,32 +393,18 @@ App({
     }
   },
 
-  // 检测是否看广告？
-  chkSeeAd(zerots) {
-    const that = this;
-    let seeAdTs = wx.getStorageSync("seeAdTs");
-    if (!utils.isEmpty(seeAdTs)) {
-      let seeAdTsNum = Number(seeAdTs);
-      if (seeAdTsNum > zerots) {
-        that.globalData.isSeeAd = true; // 今天是否看了广告？
-      }
-    }
-  },
-
   // 登入
   async login() {
     const that = this;
     const tzms = utils.getTodayZeroMsTime(); // 获取今日零时毫秒时间戳
-    // 1. 检查设备信息?
+    // 检查设备信息?
     that.logDevInfo();
-    // 2. 检查Git服务是否正常？
+    // 检查Git服务是否正常？
     const isAlive = await that.chkServerAlive();
     console.log('url,', that.globalData.url, isAlive);
-    // 3. 检查版本更新?
+    // 检查版本更新?
     that.uptVer(tzms);
-    // // 4. 检查广告?
-    // that.chkSeeAd(tzms);
-    //  5. 加载用户信息
+    // 加载用户信息
     that.onLogin();
   },
 
@@ -453,7 +427,6 @@ App({
     url: mainUrl, // 当前URL
     devinfo: null, // 设备信息
     startTime: 0, // 首次启动时间戳
-    isSeeAd: false, // 是否看了广告？
     artData: [], // 文章数据列表
     myUserInfo: null, // 用户信息
   },

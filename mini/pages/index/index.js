@@ -297,7 +297,8 @@ Page({
                 'id': art.id,
                 'label': art.label,
               }
-              that.tempPage = tp;
+              tempPage = tp;
+              console.log(tempPage);
               that.playvAd();
             } else if (res.cancel) {
               console.log('用户点击以后再说');
@@ -355,8 +356,9 @@ Page({
   delayJumpPage: function () {
     const that = this;
     setTimeout(function () {
-      if (!utils.isEmpty(that.tempPage)) {
-        that.jumpToPage(that.tempPage.category, that.tempPage.id, that.tempPage.label);
+      console.log(tempPage);
+      if (!utils.isEmpty(tempPage)) {
+        that.jumpToPage(tempPage.category, tempPage.id, tempPage.label);
       } else {
         console.log('temp page is null')
       }
@@ -392,7 +394,6 @@ Page({
         if (res && res.isEnded) {
           app.onWatchAd();
           that.delayJumpPage();
-          // app.logSeeAd();
           // wx.showToast({
           //   title: '谢谢支持！',
           // })
@@ -422,7 +423,7 @@ Page({
         app.rptErrInfo(title, content);
       })
       iAd.onClose(() => {
-        // app.logSeeAd();
+        console.log('插屏广告关闭')
       })
     }
   },
@@ -465,6 +466,7 @@ Page({
           })
       })
     } else {
+      log.error('load video fail');
       const title = '激励视频广告播放异常';
       const content = '激励视频广告在播放广告时未完成初始化';
       app.rptErrInfo(title, content);
