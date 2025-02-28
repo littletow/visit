@@ -102,3 +102,21 @@
   //       console.error('下载或读取文件失败:', err);
   //     });
   // },
+
+
+  
+  onLoad1() {
+    this.rewardedVideoAd = new RewardedVideoAd('your-ad-unit-id');
+    this.rewardedVideoAd.load();
+  },
+
+  onShowAd() {
+    this.rewardedVideoAd.show(
+      () => {
+        console.log('Ad watched successfully');
+      },
+      () => {
+        console.log('Ad watching failed');
+      }
+    );
+  },

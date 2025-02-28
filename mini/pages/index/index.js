@@ -30,7 +30,7 @@ Page({
     pages: 0,
     page: 1,
     op: 1, // 1 搜索查询 2 按目录查询 
-    category: '', // 1 我的项目 2 RFC 协议 3 编程语言 4 数据库 5 开源编程库 6 常用工具
+    category: '', // 1 开发环境 2 组件开发 3 接口集成 4 项目实战 5 调试测试 6 审核上线 7 运营推广 8 维护优化 9 我的项目
 
   },
 
@@ -138,50 +138,50 @@ Page({
 
   bindBtn: function (e) {
     let btnId = e.target.id;
-    let category = "projects";
-    switch (btnId) {
-      case "btnProject":
-        // 我的项目
-        category = "projects";
-        break;
-      case "btnProtocol":
-        // RFC协议
-        category = "protocols";
-        break;
-      case "btnCode":
-        // 编程语言
-        category = "languages";
-        break;
-      case "btnDB":
-        // 数据库
-        category = "databases";
-        break;
-      case "btnLib":
-        // 开源编程库
-        category = "libs";
-        break;
-      case "btnTool":
-        // 常用工具
-        category = "tools";
-        break;
-      case "btnMiddleware":
-        // 中间件
-        category = "middlewares";
-        break;
-      case "btnEnvironment":
-        // 主机环境
-        category = "environments";
-        break;
-      case "btnTechSrc":
-        // 知识片段
-        category = "techsrcs";
-        break;
-      default:
-        break;
-    }
+    // let category = "projects";
+    // switch (btnId) {
+    //   case "btnProject":
+    //     // 我的项目
+    //     category = "projects";
+    //     break;
+    //   case "btnProtocol":
+    //     // RFC协议
+    //     category = "protocols";
+    //     break;
+    //   case "btnCode":
+    //     // 编程语言
+    //     category = "languages";
+    //     break;
+    //   case "btnDB":
+    //     // 数据库
+    //     category = "databases";
+    //     break;
+    //   case "btnLib":
+    //     // 开源编程库
+    //     category = "libs";
+    //     break;
+    //   case "btnTool":
+    //     // 常用工具
+    //     category = "tools";
+    //     break;
+    //   case "btnMiddleware":
+    //     // 中间件
+    //     category = "middlewares";
+    //     break;
+    //   case "btnEnvironment":
+    //     // 主机环境
+    //     category = "environments";
+    //     break;
+    //   case "btnTechSrc":
+    //     // 知识片段
+    //     category = "techsrcs";
+    //     break;
+    //   default:
+    //     break;
+    // }
     this.setData({
       artList: [],
-      category: category,
+      category: btnId,
       op: 2,
     })
     this.getArtList(1, category)
@@ -285,7 +285,7 @@ Page({
         // 弹出对话框，告知用户需要观看广告。
         wx.showModal({
           title: '支持作者',
-          content: '亲爱的用户您好，我们创作了很多优质内容。您一天只需看一个激励视频广告，即可浏览任意文章，感谢您的理解和支持！',
+          content: '观看广告，解锁优质文章',
           confirmText: '观看广告',
           cancelText: '以后再说',
           success(res) {
@@ -536,22 +536,6 @@ Page({
     // 加载插屏广告
     that.loadiAd();
 
-  },
-
-  onLoad1() {
-    this.rewardedVideoAd = new RewardedVideoAd('your-ad-unit-id');
-    this.rewardedVideoAd.load();
-  },
-
-  onShowAd() {
-    this.rewardedVideoAd.show(
-      () => {
-        console.log('Ad watched successfully');
-      },
-      () => {
-        console.log('Ad watching failed');
-      }
-    );
   },
 
 

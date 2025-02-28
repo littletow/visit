@@ -22,12 +22,14 @@ App({
     });
   },
 
+
+
   // 登录时调用用户信息
   onLogin() {
     const userInfo = new UserInfo();
     userInfo.updateLoginInfo();
     this.globalData.myUserInfo = userInfo;
-    console.log('userinfo1,', this.globalData.myUserInfo.getFirstLoginTime());
+    console.log('userinfo,',this.globalData.myUserInfo.getFirstLoginTime());
   },
 
   // 看广告后调用
@@ -35,8 +37,6 @@ App({
     const userInfo = this.globalData.myUserInfo;
     userInfo.updateAdWatchInfo();
     this.globalData.myUserInfo = userInfo;
-
-    console.log('userinfo2,', this.globalData.myUserInfo.getFirstLoginTime());
   },
 
   // 是否需要观看广告？ 
@@ -184,6 +184,7 @@ App({
     })
   },
 
+
   // 读取文件
   readDataFile: function () {
     const fs = wx.getFileSystemManager();
@@ -222,7 +223,7 @@ App({
             // console.log('版本12');
             // 取消动画
             wx.hideLoading({
-              success: (res) => { },
+              success: (res) => {},
             })
             // console.log(res.data)
             // 记录到本地缓存
@@ -238,7 +239,7 @@ App({
         console.error('Download failed:', err.message);
         log.error('file url,', fileUrl, 'error message,', err.message);
         wx.hideLoading({
-          success: (res) => { },
+          success: (res) => {},
         })
         const title = '下载data.json文件错误';
         const content = "文件地址：" + fileUrl + "，错误信息：" + JSON.stringify(err.message);
@@ -274,7 +275,7 @@ App({
             wx.setStorageSync('chkVerTs', now);
             // 取消动画
             wx.hideLoading({
-              success: (res) => { },
+              success: (res) => {},
             })
             // console.log(res.data)
             const onlineVersion = Number(res.data);
@@ -308,7 +309,7 @@ App({
         console.error('Download failed:', err.message);
         log.error('file url,', fileUrl, 'error message,', err.message);
         wx.hideLoading({
-          success: (res) => { },
+          success: (res) => {},
         })
         const title = '下载VERSION文件错误';
         const content = "文件地址：" + fileUrl + "，错误信息：" + JSON.stringify(err.message);
@@ -376,7 +377,7 @@ App({
     }
 
     wx.hideLoading({
-      success: (res) => { },
+      success: (res) => {},
     })
 
     return isAccessible
