@@ -9,7 +9,7 @@
                 <!--使用towxml-->
                 <towxml nodes="{{article}}" />
                 <view class="weui-footer">
-                        <view class="weui-footer__text">--这是底线了--</view>
+                        <view class="weui-footer__text">--- 这是底线了 ---</view>
                 </view>
         </view>
 </view>
