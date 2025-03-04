@@ -40,10 +40,34 @@ Page({
                 theme: 'light',
                 events: {
                   tap: (e) => {
-                    console.log('tap', e);
+                    // console.log('tap,',e)
                     const { dataset } = e.currentTarget;
-                    if (dataset && dataset.content) {
-                      console.log('点击的内容:', dataset.content);
+                    if (dataset && dataset.data) {
+                      if(dataset.data.tag=='navigator'){
+                        console.log('点击内容:',dataset.data.attrs.href);
+                        const content = dataset.data.attrs.href;
+                        wx.showModal({
+                          title: '内容',
+                          content: content,
+                          confirmText:'复制内容',
+                          complete: (res) => {
+                            if (res.cancel) {
+                              console.log('cancel')
+                            }
+                        
+                            if (res.confirm) {
+                              console.log('confirm')
+                              wx.setClipboardData({
+                                data: content,
+                                success(res) {
+                                }
+                              })
+                              
+                            }
+                          }
+                        })
+                      }
+                      
                     }
                   }
                 }
