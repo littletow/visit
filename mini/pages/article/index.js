@@ -12,7 +12,12 @@ Page({
     article: {}, // 内容数据
   },
 
-  // 加载文章资源，现在从Git获取，下载Markdown文件，然后解析文件。
+  /*
+   文章列表中有超链接，则点击时将内容获取出来，并使用对话框显示出来。
+   对话框中的内容可以复制到剪切板。
+  */
+
+  // 加载文章资源
   getArt(category, artId, label) {
     const that = this;
     // 修改此处可以切换Git地址
