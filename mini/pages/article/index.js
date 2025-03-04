@@ -41,6 +41,10 @@ Page({
                 events: {
                   tap: (e) => {
                     console.log('tap', e);
+                    const { dataset } = e.currentTarget;
+                    if (dataset && dataset.content) {
+                      console.log('点击的内容:', dataset.content);
+                    }
                   }
                 }
               });
