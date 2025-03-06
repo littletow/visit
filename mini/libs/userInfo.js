@@ -14,15 +14,12 @@ const utils = require('../utils/utils.js');
 // 观看加锁文章每次需要1个消耗豆子点数。
 // 用户打开小程序，连续打开按天获取豆子点数个数，鼓励用户活跃度，如果中断，则从1开始。
 // 观看广告获得10个豆子点数。
-
+const APP_VERSION = 1;
 
 class UserInfo {
-    // 使用 static 关键字定义常量
-    static APP_VERSION = 1;
-
     constructor() {
-        this.firstLoginTime = 0;  // 第一次登录时间
-        this.lastLoginTime = 0; // 最近一次登录时间
+        this.firstLoginTime = 0;  // 今天第一次登录时间
+        this.lastLoginTime = 0; // 上一次登录时间
         this.loginDays = 0; // 连续登录天数
         this.beanPoints = 0; // 拥有豆子点数
         this.version = APP_VERSION; // 用户结构体版本，升级使用
@@ -67,34 +64,38 @@ class UserInfo {
         const now = utils.getNowMsTime();
         const todayZerots = utils.getTodayZeroMsTime();
         const yesterdayZerots = utils.getYesterdayZeroMsTime();
-        // 用户第一次登录
-        if (this.firstLoginTime == 0) {
-            this.firstLoginTime = now;
-            this.lastLoginTime = now;
-            this.loginDays = 1;
-            this.beanPoints = 1;
-        } else {
-            // 看一下用户上次登录时间
-            if (this.lastLoginTime > todayZerots) {
-                // 今天又一次登录
-                this.lastLoginTime = now;
-            } else if (this.lastLoginTime > yesterdayZerots) {
-                // 昨天登录了
+
+        // 今天登录了？
+        if(this.firstLoginTime>todayZerots){
+            console.log('今天已经登录了')
+            return
+        }else{
+            // 昨天登录了？
+            if(this.lastLoginTime > yesterdayZerots) {
                 this.loginDays += 1;
                 this.beanPoints += this.loginDays;
-            } else {
-                // 昨天之前登录了
+            }else{
+                // 昨天以前登录了？
                 this.loginDays = 1;
                 this.beanPoints += this.loginDays;
             }
+            // 今天登录了
+            this.firstLoginTime = now;
+            this.lastLoginTime = now;
         }
-
+        
         this.saveToCache();
     }
 
     // 看广告时修改用户信息
     updateAdWatchInfo() {
         this.beanPoints += 10;
+        this.saveToCache();
+    }
+
+    // 看加锁文章后修改用户信息
+    updateReadLockArtInfo(){
+        this.beanPoints -= 1;
         this.saveToCache();
     }
 

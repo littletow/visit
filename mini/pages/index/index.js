@@ -306,6 +306,8 @@ Page({
           }
         })
         return
+      }else{
+        app.onReadLockArt();
       }
     }
 
