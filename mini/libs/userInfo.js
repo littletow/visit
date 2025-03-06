@@ -1,5 +1,5 @@
 const utils = require('../utils/utils.js');
-
+// v4.8.0
 // 优化广告逻辑：
 // 新用户观看加锁文章需要观看广告，如果用户连续打开小程序30天，可以在接下来30天内每天仅看一次广告，即可浏览所有加锁文章。
 // 设计如下：
@@ -9,15 +9,23 @@ const utils = require('../utils/utils.js');
 // 数据结构如下：
 // firstTime,isStar,starTime,points,starDays,isSeeAd,seeAdTime
 
+// v4.9.0
+// 优化广告逻辑：
+// 观看加锁文章每次需要1个消耗豆子点数。
+// 用户打开小程序，连续打开按天获取豆子点数个数，鼓励用户活跃度，如果中断，则从1开始。
+// 观看广告获得10个豆子点数。
+
+
 class UserInfo {
+    // 使用 static 关键字定义常量
+    static APP_VERSION = 1;
+
     constructor() {
         this.firstLoginTime = 0;  // 第一次登录时间
         this.lastLoginTime = 0; // 最近一次登录时间
         this.loginDays = 0; // 连续登录天数
-        this.hasStar = false;      // 是否拥有星星，连续登录30天可获得星星，获取后可以持有30天，以后每天扣减，直到为0，再次失去星星。
-        this.starTime = 0; // 拥有星星时间
-        this.starDays = 0; // 拥有星星的天数，每天递减。为0时，失去星星。 
-        this.adWatchTime = 0;     // 今天看广告时间
+        this.beanPoints = 0; // 拥有豆子点数
+        this.version = APP_VERSION; // 用户结构体版本，升级使用
         this.loadFromCache();
     }
 
@@ -25,13 +33,22 @@ class UserInfo {
     loadFromCache() {
         const data = wx.getStorageSync('userInfo');
         if (data) {
-            this.firstLoginTime = data.firstLoginTime || this.firstLoginTime;
-            this.lastLoginTime = data.lastLoginTime || this.lastLoginTime;
-            this.loginDays = data.loginDays || this.loginDays;
-            this.hasStar = data.hasStar || this.hasStar;
-            this.starTime = data.starTime || this.starTime;
-            this.starDays = data.starDays || this.starDays;
-            this.adWatchTime = data.adWatchTime || this.adWatchTime;
+            // 判断版本号
+            this.version = data.version || this.version;
+            if (this.version < APP_VERSION) {
+                // 版本升级需要处理数据结构
+                switch (this.version) {
+                    case 1:
+                        console.log(this.version)
+                    default:
+                        console.log(this.version)
+                }
+            } else {
+                this.firstLoginTime = data.firstLoginTime || this.firstLoginTime;
+                this.lastLoginTime = data.lastLoginTime || this.lastLoginTime;
+                this.loginDays = data.loginDays || this.loginDays;
+                this.beanPoints = data.beanPoints || this.beanPoints;
+            }
         }
     }
 
@@ -41,10 +58,7 @@ class UserInfo {
             firstLoginTime: this.firstLoginTime,
             lastLoginTime: this.lastLoginTime,
             loginDays: this.loginDays,
-            hasStar: this.hasStar,
-            starTime: this.starTime,
-            starDays: this.starDays,
-            adWatchTime: this.adWatchTime
+            beanPoints: this.beanPoints
         });
     }
 
@@ -58,7 +72,7 @@ class UserInfo {
             this.firstLoginTime = now;
             this.lastLoginTime = now;
             this.loginDays = 1;
-
+            this.beanPoints = 1;
         } else {
             // 看一下用户上次登录时间
             if (this.lastLoginTime > todayZerots) {
@@ -66,31 +80,12 @@ class UserInfo {
                 this.lastLoginTime = now;
             } else if (this.lastLoginTime > yesterdayZerots) {
                 // 昨天登录了
-                if (this.hasStar) {
-                    this.starDays -= 1;
-                    if (this.starDays <= 0) {
-                        this.hasStar = false;
-                    }
-                } else {
-                    this.loginDays += 1;
-                    if (this.loginDays >= 30) {
-                        this.hasStar = true;
-                        this.starTime = now;
-                        this.starDays = 30;
-                    }
-                }
+                this.loginDays += 1;
+                this.beanPoints += this.loginDays;
             } else {
                 // 昨天之前登录了
-                if (this.hasStar) {
-                    // 计算天数
-                    const daysElapsed = utils.calculateDaysBetween(now, this.lastLoginTime);
-                    this.starDays -= daysElapsed;
-                    if (this.starDays <= 0) {
-                        this.hasStar = false;
-                    }
-                } else {
-                    this.loginDays = 1;
-                }
+                this.loginDays = 1;
+                this.beanPoints += this.loginDays;
             }
         }
 
@@ -99,12 +94,8 @@ class UserInfo {
 
     // 看广告时修改用户信息
     updateAdWatchInfo() {
-        // 记录一下星用户
-        if (this.hasStar) {
-            const now = utils.getNowMsTime();
-            this.adWatchTime = now;
-            this.saveToCache();
-        }
+        this.beanPoints += 10;
+        this.saveToCache();
     }
 
     // 获取第一次登录时间
@@ -112,19 +103,19 @@ class UserInfo {
         return this.firstLoginTime;
     }
 
-    // 获取是否新用户
-    getHasStar() {
-        return this.hasStar;
+    // 获取最近一次登录时间
+    getLastLoginTime() {
+        return this.lastLoginTime;
     }
 
-    // 获取今天是否看广告
-    hasWatchedAdToday() {
-        const todayZerots = utils.getTodayZeroMsTime();
-        if (this.adWatchTime > todayZerots) {
-            return true
-        } else {
-            return false
-        }
+    // 获取豆子点数
+    getBeanPoints() {
+        return this.beanPoints;
+    }
+
+    // 获取连续登录天数
+    getLoginDays() {
+        return this.loginDays;
     }
 }
 

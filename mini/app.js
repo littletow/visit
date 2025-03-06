@@ -27,7 +27,7 @@ App({
     const userInfo = new UserInfo();
     userInfo.updateLoginInfo();
     this.globalData.myUserInfo = userInfo;
-    console.log('userinfo1,', this.globalData.myUserInfo.getFirstLoginTime());
+    console.log('userinfo1,', this.globalData.myUserInfo.getFirstLoginTime(), this.globalData.myUserInfo.getLastLoginTime(), this.globalData.myUserInfo.getLoginDays(), this.globalData.myUserInfo.getBeanPoints());
   },
 
   // 看广告后调用
@@ -36,18 +36,15 @@ App({
     userInfo.updateAdWatchInfo();
     this.globalData.myUserInfo = userInfo;
 
-    console.log('userinfo2,', this.globalData.myUserInfo.getFirstLoginTime());
+    console.log('userinfo2,', this.globalData.myUserInfo.getFirstLoginTime(), this.globalData.myUserInfo.getLastLoginTime(), this.globalData.myUserInfo.getLoginDays(), this.globalData.myUserInfo.getBeanPoints());
   },
 
   // 是否需要观看广告？ 
   needSeeAd: function () {
     const userInfo = this.globalData.myUserInfo;
-    console.log('userInfo,',userInfo)
-    if (userInfo.hasStar) {
-      const todayZerots = utils.getTodayZeroMsTime();
-      if (this.adWatchTime > todayZerots) {
-        return false
-      }
+    console.log('userinfo3,', userInfo)
+    if (userInfo.beanPoints > 0) {
+      return false
     }
     return true
   },

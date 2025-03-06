@@ -344,8 +344,8 @@ Page({
     } else {
       wx.openOfficialAccountArticle({
         url: id, // 公众号文章连接
-        success: res => {},
-        fail: res => {}
+        success: res => { },
+        fail: res => { }
       })
     }
 
@@ -380,8 +380,8 @@ Page({
       adUnitId: 'adunit-2ce6db3cb1e45a86',
     })
     vAd.onLoad(() => {
-        hasLoadvAd = true
-      }),
+      hasLoadvAd = true
+    }),
       vAd.onError((err) => {
         console.error('激励视频广告加载失败,', err)
         log.error('load video error,', err);
@@ -396,6 +396,7 @@ Page({
           const title = 'Visit播放激励视频广告';
           const content = 'Index文件playvAd函数';
           app.rptNotifyInfo(title, content);
+          log.info('visit user watch ad');
           that.delayJumpPage();
           // wx.showToast({
           //   title: '谢谢支持！',
@@ -451,9 +452,9 @@ Page({
       }).catch(() => {
         // 失败重试
         vAd.load().then(() => {
-            wx.hideLoading()
-            vAd.show()
-          })
+          wx.hideLoading()
+          vAd.show()
+        })
           .catch(err => {
             wx.hideLoading()
             console.error('激励视频 广告显示失败', err)
@@ -491,7 +492,7 @@ Page({
     }
     // 用户触发广告后，显示插屏广告
     if (iAd) {
-      iAd.show().then(() => {}).catch((err) => {
+      iAd.show().then(() => { }).catch((err) => {
         console.error('插屏广告显示失败', err)
         const title = '展示插屏广告时错误';
         const content = JSON.stringify(err);
