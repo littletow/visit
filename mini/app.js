@@ -27,7 +27,7 @@ App({
     const userInfo = new UserInfo();
     userInfo.updateLoginInfo();
     this.globalData.myUserInfo = userInfo;
-    console.log('userinfo1,', this.globalData.myUserInfo.getFirstLoginTime(), this.globalData.myUserInfo.getLastLoginTime(), this.globalData.myUserInfo.getLoginDays(), this.globalData.myUserInfo.getBeanPoints());
+    console.log('userinfo1,', this.globalData.myUserInfo.getFirstLoginTime(), this.globalData.myUserInfo.getLastLoginTime(), this.globalData.myUserInfo.getLoginDays(), this.globalData.myUserInfo.getBeanPoints(),this.globalData.myUserInfo.getVersion());
   },
 
   // 看广告后调用

@@ -18,7 +18,7 @@ const APP_VERSION = 1;
 
 class UserInfo {
     constructor() {
-        this.firstLoginTime = 0;  // 今天第一次登录时间
+        this.firstLoginTime = 0; // 今天第一次登录时间
         this.lastLoginTime = 0; // 上一次登录时间
         this.loginDays = 0; // 连续登录天数
         this.beanPoints = 0; // 拥有豆子点数
@@ -45,6 +45,7 @@ class UserInfo {
                 this.lastLoginTime = data.lastLoginTime || this.lastLoginTime;
                 this.loginDays = data.loginDays || this.loginDays;
                 this.beanPoints = data.beanPoints || this.beanPoints;
+                this.version = data.version || this.version;
             }
         }
     }
@@ -55,7 +56,8 @@ class UserInfo {
             firstLoginTime: this.firstLoginTime,
             lastLoginTime: this.lastLoginTime,
             loginDays: this.loginDays,
-            beanPoints: this.beanPoints
+            beanPoints: this.beanPoints,
+            version: this.version
         });
     }
 
@@ -66,15 +68,15 @@ class UserInfo {
         const yesterdayZerots = utils.getYesterdayZeroMsTime();
 
         // 今天登录了？
-        if(this.firstLoginTime>todayZerots){
+        if (this.firstLoginTime > todayZerots) {
             console.log('今天已经登录了')
             return
-        }else{
+        } else {
             // 昨天登录了？
-            if(this.lastLoginTime > yesterdayZerots) {
+            if (this.lastLoginTime > yesterdayZerots) {
                 this.loginDays += 1;
                 this.beanPoints += this.loginDays;
-            }else{
+            } else {
                 // 昨天以前登录了？
                 this.loginDays = 1;
                 this.beanPoints += this.loginDays;
@@ -83,7 +85,7 @@ class UserInfo {
             this.firstLoginTime = now;
             this.lastLoginTime = now;
         }
-        
+
         this.saveToCache();
     }
 
@@ -94,7 +96,7 @@ class UserInfo {
     }
 
     // 看加锁文章后修改用户信息
-    updateReadLockArtInfo(){
+    updateReadLockArtInfo() {
         this.beanPoints -= 1;
         this.saveToCache();
     }
@@ -117,6 +119,11 @@ class UserInfo {
     // 获取连续登录天数
     getLoginDays() {
         return this.loginDays;
+    }
+
+    // 获取版本号
+    getVersion(){
+        return this.version;
     }
 }
 
