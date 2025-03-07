@@ -306,7 +306,7 @@ Page({
           }
         })
         return
-      }else{
+      } else {
         app.onReadLockArt();
       }
     }
@@ -389,7 +389,7 @@ Page({
         log.error('load video error,', err);
         // 判断err是否对象？
         const content = JSON.stringify(err);
-        const title = '加载激励视频广告时错误';
+        const title = 'Visit加载激励视频广告时错误';
         app.rptErrInfo(title, content);
       }),
       vAd.onClose((res) => {
@@ -425,7 +425,7 @@ Page({
       iAd.onError((err) => {
         console.error('插屏广告加载失败', err)
         const content = JSON.stringify(err);
-        const title = '加载插屏广告时错误';
+        const title = 'Visit加载插屏广告时错误';
         app.rptErrInfo(title, content);
       })
       iAd.onClose(() => {
@@ -461,7 +461,7 @@ Page({
             wx.hideLoading()
             console.error('激励视频 广告显示失败', err)
             log.error('play video error,', err);
-            const title = '展示激励视频广告时错误';
+            const title = 'Visit展示激励视频广告时错误';
             const content = JSON.stringify(err);
             app.rptErrInfo(title, content);
             wx.showToast({
@@ -471,7 +471,7 @@ Page({
       })
     } else {
       log.error('load video fail');
-      const title = '激励视频广告播放异常';
+      const title = 'Visit激励视频广告播放异常';
       const content = '激励视频广告在播放广告时未完成初始化';
       app.rptErrInfo(title, content);
       wx.hideLoading()
@@ -496,12 +496,12 @@ Page({
     if (iAd) {
       iAd.show().then(() => { }).catch((err) => {
         console.error('插屏广告显示失败', err)
-        const title = '展示插屏广告时错误';
+        const title = 'Visit展示插屏广告时错误';
         const content = JSON.stringify(err);
         app.rptErrInfo(title, content);
       })
     } else {
-      const title = '插屏广告播放异常';
+      const title = 'Visit插屏广告播放异常';
       const content = '插屏广告在播放广告时未完成初始化';
       app.rptErrInfo(title, content);
     }
