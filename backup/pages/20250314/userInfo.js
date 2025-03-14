@@ -14,18 +14,7 @@ const utils = require('../utils/utils.js');
 // 观看加锁文章每次需要1个消耗豆子点数。
 // 用户打开小程序，连续打开按天获取豆子点数个数，鼓励用户活跃度，如果中断，则从1开始。
 // 观看广告获得10个豆子点数。
-
-// v4.10.0
-// 优化广告逻辑：
-// 观看加锁文章每次需要5个消耗豆子点数，普通文章每次需要1个豆子点数。
-// 用户打开小程序，连续打开的天数是5的倍数送5个豆子点数，其它送1个豆子点数。
-// 观看广告获得10个豆子点数。
-
-// APP版本记录：
-// 1，连续登录按天数送豆子点数
-// 2，连续登录是5的倍数送5个豆子点数，其它送1个豆子点数。
-
-const APP_VERSION = 2;
+const APP_VERSION = 1;
 
 class UserInfo {
     constructor() {
@@ -41,23 +30,22 @@ class UserInfo {
     loadFromCache() {
         const data = wx.getStorageSync('userInfo');
         if (data) {
-            this.version = data.version || this.version;
-            this.firstLoginTime = data.firstLoginTime || this.firstLoginTime;
-            this.lastLoginTime = data.lastLoginTime || this.lastLoginTime;
-            this.loginDays = data.loginDays || this.loginDays;
-            this.beanPoints = data.beanPoints || this.beanPoints;
             // 判断版本号
+            this.version = data.version || this.version;
             if (this.version < APP_VERSION) {
                 // 版本升级需要处理数据结构
-                // switch (this.version) {
-                //     case 1:
-                //         console.log(this.version)
-                //     case 2:
-                //         console.log(this.version)
-                //     default:
-                //         console.log(this.version)
-                // }
-                console.log(this.version)
+                switch (this.version) {
+                    case 1:
+                        console.log(this.version)
+                    default:
+                        console.log(this.version)
+                }
+            } else {
+                this.firstLoginTime = data.firstLoginTime || this.firstLoginTime;
+                this.lastLoginTime = data.lastLoginTime || this.lastLoginTime;
+                this.loginDays = data.loginDays || this.loginDays;
+                this.beanPoints = data.beanPoints || this.beanPoints;
+                this.version = data.version || this.version;
             }
         }
     }
@@ -87,16 +75,11 @@ class UserInfo {
             // 昨天登录了？
             if (this.lastLoginTime > yesterdayZerots) {
                 this.loginDays += 1;
-                if (this.loginDays % 5 === 0) {
-                    this.beanPoints += 5;
-                } else {
-                    this.beanPoints += 1;
-                }
-
+                this.beanPoints += this.loginDays;
             } else {
                 // 昨天以前登录了？
                 this.loginDays = 1;
-                this.beanPoints += 1;
+                this.beanPoints += this.loginDays;
             }
             // 今天登录了
             this.firstLoginTime = now;
@@ -114,12 +97,6 @@ class UserInfo {
 
     // 看加锁文章后修改用户信息
     updateReadLockArtInfo() {
-        this.beanPoints -= 5;
-        this.saveToCache();
-    }
-
-    // 看普通文章后修改用户信息
-    updateReadCommArtInfo() {
         this.beanPoints -= 1;
         this.saveToCache();
     }
@@ -145,7 +122,7 @@ class UserInfo {
     }
 
     // 获取版本号
-    getVersion() {
+    getVersion(){
         return this.version;
     }
 }

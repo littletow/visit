@@ -271,55 +271,6 @@ Page({
   //   }
   // },
 
-  // // 跳转到文章页面
-  // jump: function (e) {
-  //   const that = this;
-  //   // 获取索引
-  //   const idx = e.currentTarget.dataset.idx;
-  //   // 获取某篇文章信息
-  //   const art = that.data.artList[idx];
-  //   // 加锁标记
-  //   if (art.lock == 1) {
-  //     const isSeeAd = app.needSeeAd();
-  //     if (isSeeAd) {
-  //       // 弹出对话框，告知用户需要观看广告。
-  //       wx.showModal({
-  //         title: '支持作者',
-  //         content: '观看广告，解锁优质文章',
-  //         confirmText: '观看广告',
-  //         cancelText: '以后再说',
-  //         success(res) {
-  //           if (res.confirm) {
-  //             console.log('用户点击观看广告');
-  //             // 记录页面
-  //             const tp = {
-  //               'category': art.category,
-  //               'id': art.id,
-  //               'label': art.label,
-  //             }
-  //             tempPage = tp;
-  //             console.log(tempPage);
-  //             that.playvAd();
-  //           } else if (res.cancel) {
-  //             console.log('用户点击以后再说');
-  //           }
-  //         }
-  //       })
-  //       return
-  //     } else {
-  //       app.onReadLockArt();
-  //     }
-  //   }
-
-  //   if (art.label == "md" || art.label == "html") {
-  //     that.jumpToPage(art.category, art.id, art.label);
-  //   } else if (art.label == "gzh") {
-  //     that.jumpToGzh(art.id);
-  //   } else if (art.label == "mp") {
-  //     that.jumpToMiniApp(art.id);
-  //   }
-  // },
-
   // 跳转到文章页面
   jump: function (e) {
     const that = this;
@@ -327,50 +278,39 @@ Page({
     const idx = e.currentTarget.dataset.idx;
     // 获取某篇文章信息
     const art = that.data.artList[idx];
-
-    // 看
-    let isSeeAd = true;
+    // 加锁标记
     if (art.lock == 1) {
-      isSeeAd = app.needSeeAd(5);
-    } else {
-      isSeeAd = app.needSeeAd(1);
-    }
-
-    if (isSeeAd) {
-      // 弹出对话框，告知用户需要观看广告。
-      wx.showModal({
-        title: '支持作者',
-        content: '观看广告，浏览文章',
-        confirmText: '观看广告',
-        cancelText: '以后再说',
-        success(res) {
-          if (res.confirm) {
-            console.log('用户点击观看广告');
-            // 记录页面
-            const tp = {
-              'category': art.category,
-              'id': art.id,
-              'label': art.label,
+      const isSeeAd = app.needSeeAd();
+      if (isSeeAd) {
+        // 弹出对话框，告知用户需要观看广告。
+        wx.showModal({
+          title: '支持作者',
+          content: '观看广告，解锁优质文章',
+          confirmText: '观看广告',
+          cancelText: '以后再说',
+          success(res) {
+            if (res.confirm) {
+              console.log('用户点击观看广告');
+              // 记录页面
+              const tp = {
+                'category': art.category,
+                'id': art.id,
+                'label': art.label,
+              }
+              tempPage = tp;
+              console.log(tempPage);
+              that.playvAd();
+            } else if (res.cancel) {
+              console.log('用户点击以后再说');
             }
-            tempPage = tp;
-            console.log(tempPage);
-            that.playvAd();
-          } else if (res.cancel) {
-            console.log('用户点击以后再说');
           }
-        }
-      })
-      return
+        })
+        return
+      } else {
+        app.onReadLockArt();
+      }
     }
 
-    // 扣
-    if (art.lock == 1) {
-      app.onReadLockArt();
-    } else {
-      app.onReadCommArt();
-    }
-
-    // 跳
     if (art.label == "md" || art.label == "html") {
       that.jumpToPage(art.category, art.id, art.label);
     } else if (art.label == "gzh") {
@@ -556,7 +496,6 @@ Page({
     if (iAd) {
       iAd.show().then(() => { }).catch((err) => {
         console.error('插屏广告显示失败', err)
-        log.error('load iad fail');
         const title = 'Visit展示插屏广告时错误';
         const content = JSON.stringify(err);
         app.rptErrInfo(title, content);

@@ -27,7 +27,7 @@ App({
     const userInfo = new UserInfo();
     userInfo.updateLoginInfo();
     this.globalData.myUserInfo = userInfo;
-    console.log('userinfo1,', this.globalData.myUserInfo.getFirstLoginTime(), this.globalData.myUserInfo.getLastLoginTime(), this.globalData.myUserInfo.getLoginDays(), this.globalData.myUserInfo.getBeanPoints(), this.globalData.myUserInfo.getVersion());
+    console.log('userinfo1,', this.globalData.myUserInfo.getFirstLoginTime(), this.globalData.myUserInfo.getLastLoginTime(), this.globalData.myUserInfo.getLoginDays(), this.globalData.myUserInfo.getBeanPoints(),this.globalData.myUserInfo.getVersion());
   },
 
   // 看广告后调用
@@ -40,30 +40,20 @@ App({
   },
 
   // 阅读加锁文章后
-  onReadLockArt() {
+  onReadLockArt(){
     const userInfo = this.globalData.myUserInfo;
     userInfo.updateReadLockArtInfo();
     this.globalData.myUserInfo = userInfo;
 
     console.log('userinfo4,', this.globalData.myUserInfo.getFirstLoginTime(), this.globalData.myUserInfo.getLastLoginTime(), this.globalData.myUserInfo.getLoginDays(), this.globalData.myUserInfo.getBeanPoints());
-
-  },
-
-  // 阅读普通文章后
-  onReadCommArt() {
-    const userInfo = this.globalData.myUserInfo;
-    userInfo.updateReadCommArtInfo();
-    this.globalData.myUserInfo = userInfo;
-
-    console.log('userinfo5,', this.globalData.myUserInfo.getFirstLoginTime(), this.globalData.myUserInfo.getLastLoginTime(), this.globalData.myUserInfo.getLoginDays(), this.globalData.myUserInfo.getBeanPoints());
-
+  
   },
 
   // 是否需要观看广告？ 
-  needSeeAd(points) {
+  needSeeAd: function () {
     const userInfo = this.globalData.myUserInfo;
     console.log('userinfo3,', userInfo)
-    if (userInfo.beanPoints >= points) {
+    if (userInfo.beanPoints > 0) {
       return false
     }
     return true
