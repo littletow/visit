@@ -329,14 +329,17 @@ Page({
     const art = that.data.artList[idx];
 
     // 看
-    let isSeeAd = true;
-    if (art.lock) {
-      console.log('加锁文章必须看广告，用于获得豆子点数')
-    } else {
-      if (Number(art.grade) > 0) {
-        isSeeAd = app.needSeeAd(5 * art.grade);
+    let isSeeAd = false;
+    if (art.label == "md") {
+      if (art.lock) {
+        isSeeAd = true;
+        console.log('加锁文章必须看广告，用于获得豆子点数')
       } else {
-        isSeeAd = app.needSeeAd(1);
+        if (Number(art.grade) > 0) {
+          isSeeAd = app.needSeeAd(5 * art.grade);
+        } else {
+          isSeeAd = app.needSeeAd(1);
+        }
       }
     }
 
@@ -368,13 +371,15 @@ Page({
     }
 
     // 扣
-    if (art.lock) {
-      console.log('加锁文章不扣点数')
-    } else {
-      if (Number(art.grade) > 0) {
-        app.onReadLevelArt(art.grade);
+    if (art.label == "md") {
+      if (art.lock) {
+        console.log('加锁文章不扣点数')
       } else {
-        app.onReadCommArt();
+        if (Number(art.grade) > 0) {
+          app.onReadLevelArt(art.grade);
+        } else {
+          app.onReadCommArt();
+        }
       }
     }
 
@@ -414,8 +419,8 @@ Page({
     } else {
       wx.openOfficialAccountArticle({
         url: id, // 公众号文章连接
-        success: res => { },
-        fail: res => { }
+        success: res => {},
+        fail: res => {}
       })
     }
 
@@ -450,8 +455,8 @@ Page({
       adUnitId: 'adunit-2ce6db3cb1e45a86',
     })
     vAd.onLoad(() => {
-      hasLoadvAd = true
-    }),
+        hasLoadvAd = true
+      }),
       vAd.onError((err) => {
         console.error('激励视频广告加载失败,', err)
         log.error('load video error,', err);
@@ -522,9 +527,9 @@ Page({
       }).catch(() => {
         // 失败重试
         vAd.load().then(() => {
-          wx.hideLoading()
-          vAd.show()
-        })
+            wx.hideLoading()
+            vAd.show()
+          })
           .catch(err => {
             wx.hideLoading()
             console.error('激励视频 广告显示失败', err)
@@ -562,7 +567,7 @@ Page({
     }
     // 用户触发广告后，显示插屏广告
     if (iAd) {
-      iAd.show().then(() => { }).catch((err) => {
+      iAd.show().then(() => {}).catch((err) => {
         console.error('插屏广告显示失败', err)
         log.error('load iad fail');
         const title = 'Visit展示插屏广告时错误';
