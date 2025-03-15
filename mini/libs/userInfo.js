@@ -17,8 +17,9 @@ const utils = require('../utils/utils.js');
 
 // v4.10.0
 // 优化广告逻辑：
-// 观看加锁文章每次需要5个消耗豆子点数，普通文章每次需要1个豆子点数。
-// 用户打开小程序，连续打开的天数是5的倍数送5个豆子点数，其它送1个豆子点数。
+// 观看加锁文章每次都看广告，看广告获得豆子点数有效，添加到用户账户豆子点数中。
+// 普通文章每次需要1个豆子点数，文章分为三个等级分别为良优极，每次需要5*L个消耗豆子点数，L分别为1,2,3。
+// 用户打开小程序，连续打开的天数是5的倍数送5*倍数个豆子点数，其它送1个豆子点数。
 // 观看广告获得10个豆子点数。
 
 // APP版本记录：
@@ -88,7 +89,8 @@ class UserInfo {
             if (this.lastLoginTime > yesterdayZerots) {
                 this.loginDays += 1;
                 if (this.loginDays % 5 === 0) {
-                    this.beanPoints += 5;
+                    const n = this.loginDays / 5;
+                    this.beanPoints += 5 * n;
                 } else {
                     this.beanPoints += 1;
                 }
@@ -113,14 +115,20 @@ class UserInfo {
     }
 
     // 看加锁文章后修改用户信息
-    updateReadLockArtInfo() {
-        this.beanPoints -= 5;
-        this.saveToCache();
-    }
+    // updateReadLockArtInfo() {
+    //     this.beanPoints -= 5;
+    //     this.saveToCache();
+    // }
 
     // 看普通文章后修改用户信息
     updateReadCommArtInfo() {
         this.beanPoints -= 1;
+        this.saveToCache();
+    }
+
+    // 看等级文章后修改用户信息
+    updateReadLevelArtInfo(L) {
+        this.beanPoints -= 5 * L;
         this.saveToCache();
     }
 

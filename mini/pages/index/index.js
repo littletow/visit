@@ -330,10 +330,14 @@ Page({
 
     // 看
     let isSeeAd = true;
-    if (art.lock == 1) {
-      isSeeAd = app.needSeeAd(5);
+    if (art.lock) {
+      console.log('加锁文章必须看广告，用于获得豆子点数')
     } else {
-      isSeeAd = app.needSeeAd(1);
+      if (Number(art.grade) > 0) {
+        isSeeAd = app.needSeeAd(5 * art.grade);
+      } else {
+        isSeeAd = app.needSeeAd(1);
+      }
     }
 
     if (isSeeAd) {
@@ -364,10 +368,14 @@ Page({
     }
 
     // 扣
-    if (art.lock == 1) {
-      app.onReadLockArt();
+    if (art.lock) {
+      console.log('加锁文章不扣点数')
     } else {
-      app.onReadCommArt();
+      if (Number(art.grade) > 0) {
+        app.onReadLevelArt(art.grade);
+      } else {
+        app.onReadCommArt();
+      }
     }
 
     // 跳
