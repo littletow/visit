@@ -89,8 +89,9 @@ class UserInfo {
             if (this.lastLoginTime > yesterdayZerots) {
                 this.loginDays += 1;
                 if (this.loginDays % 5 === 0) {
-                    const n = this.loginDays / 5;
-                    this.beanPoints += 5 * n;
+                    // const n = this.loginDays / 5;
+                    // this.beanPoints += 5 * n;
+                    this.beanPoints += 5;
                 } else {
                     this.beanPoints += 1;
                 }
@@ -127,9 +128,11 @@ class UserInfo {
     }
 
     // 看等级文章后修改用户信息
-    updateReadLevelArtInfo(L) {
-        this.beanPoints -= 5 * L;
-        this.saveToCache();
+    updateReadLevelArtInfo(point) {
+        if (point > 0) {
+            this.beanPoints -= point;
+            this.saveToCache();
+        }
     }
 
     // 获取第一次登录时间
