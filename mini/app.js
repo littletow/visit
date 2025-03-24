@@ -41,8 +41,16 @@ App({
 
   // 阅读等级文章
   onReadLevelArt(L) {
+    let point = 10;
+    if (L == 1) {
+      point = 3
+    } else if (L == 2) {
+      point = 5
+    } else if (L == 3) {
+      point = 10
+    }
     const userInfo = this.globalData.myUserInfo;
-    userInfo.updateReadLevelArtInfo(L);
+    userInfo.updateReadLevelArtInfo(point);
     this.globalData.myUserInfo = userInfo;
 
     console.log('userinfo4,', this.globalData.myUserInfo.getFirstLoginTime(), this.globalData.myUserInfo.getLastLoginTime(), this.globalData.myUserInfo.getLoginDays(), this.globalData.myUserInfo.getBeanPoints());
@@ -67,6 +75,25 @@ App({
       return false
     }
     return true
+  },
+
+  // 看普通文章
+  canSeedAdByCommArt() {
+    return this.needSeeAd(1);
+  },
+
+  // 看优质文章
+  canSeedAdByLevelArt(L) {
+    let point = 10;
+    if (L == 1) {
+      point = 3
+    } else if (L == 2) {
+      point = 5
+    } else if (L == 3) {
+      point = 10
+    }
+
+    return this.needSeeAd(point);
   },
 
   // 本地缓存中记录设备信息
@@ -240,7 +267,7 @@ App({
             // console.log('版本12');
             // 取消动画
             wx.hideLoading({
-              success: (res) => { },
+              success: (res) => {},
             })
             // console.log(res.data)
             // 记录到本地缓存
@@ -256,7 +283,7 @@ App({
         console.error('Download failed:', err.message);
         log.error('file url,', fileUrl, 'error message,', err.message);
         wx.hideLoading({
-          success: (res) => { },
+          success: (res) => {},
         })
         const title = '下载data.json文件错误';
         const content = "文件地址：" + fileUrl + "，错误信息：" + JSON.stringify(err.message);
@@ -292,7 +319,7 @@ App({
             wx.setStorageSync('chkVerTs', now);
             // 取消动画
             wx.hideLoading({
-              success: (res) => { },
+              success: (res) => {},
             })
             // console.log(res.data)
             const onlineVersion = Number(res.data);
@@ -326,7 +353,7 @@ App({
         console.error('Download failed:', err.message);
         log.error('file url,', fileUrl, 'error message,', err.message);
         wx.hideLoading({
-          success: (res) => { },
+          success: (res) => {},
         })
         const title = '下载VERSION文件错误';
         const content = "文件地址：" + fileUrl + "，错误信息：" + JSON.stringify(err.message);
@@ -382,7 +409,7 @@ App({
     }
 
     wx.hideLoading({
-      success: (res) => { },
+      success: (res) => {},
     })
 
     return isAccessible

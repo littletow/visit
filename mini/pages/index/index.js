@@ -329,52 +329,70 @@ Page({
     const art = that.data.artList[idx];
 
     // 看
-    let isSeeAd = true;
-    if (art.lock) {
-      console.log('加锁文章必须看广告，用于获得豆子点数')
-    } else {
-      if (Number(art.grade) > 0) {
-        isSeeAd = app.needSeeAd(5 * art.grade);
+    let isSeeAd = false;
+    if (art.label == "md") {
+      if (art.lock) {
+        isSeeAd = true;
+        console.log('加锁文章必须看广告才能解锁')
       } else {
-        isSeeAd = app.needSeeAd(1);
+        if (Number(art.grade) > 0) {
+          isSeeAd = app.canSeedAdByLevelArt(art.grade);
+        } else {
+          isSeeAd = app.canSeedAdByCommArt();
+        }
       }
     }
 
     if (isSeeAd) {
+      // 记录页面
+      tempPage = art;
+      console.log(tempPage);
       // 弹出对话框，告知用户需要观看广告。
-      wx.showModal({
-        title: '支持作者',
-        content: '观看广告，浏览文章',
-        confirmText: '观看广告',
-        cancelText: '以后再说',
-        success(res) {
-          if (res.confirm) {
-            console.log('用户点击观看广告');
-            // 记录页面
-            const tp = {
-              'category': art.category,
-              'id': art.id,
-              'label': art.label,
+      if (art.lock) {
+        wx.showModal({
+          title: '支持作者',
+          content: '看广告解锁，广告结束自动打开文章',
+          confirmText: '观看广告',
+          cancelText: '以后再说',
+          success(res) {
+            if (res.confirm) {
+              console.log('用户点击观看广告');
+              that.playvAd();
+            } else if (res.cancel) {
+              console.log('用户点击以后再说');
             }
-            tempPage = tp;
-            console.log(tempPage);
-            that.playvAd();
-          } else if (res.cancel) {
-            console.log('用户点击以后再说');
           }
-        }
-      })
-      return
+        })
+        return
+      } else {
+        wx.showModal({
+          title: '支持作者',
+          content: '豆不足，观看广告获得豆子点数',
+          confirmText: '观看广告',
+          cancelText: '以后再说',
+          success(res) {
+            if (res.confirm) {
+              console.log('用户点击观看广告');
+              that.playvAd();
+            } else if (res.cancel) {
+              console.log('用户点击以后再说');
+            }
+          }
+        })
+        return
+      }
     }
 
     // 扣
-    if (art.lock) {
-      console.log('加锁文章不扣点数')
-    } else {
-      if (Number(art.grade) > 0) {
-        app.onReadLevelArt(art.grade);
+    if (art.label == "md") {
+      if (art.lock) {
+        console.log('加锁文章不扣点数')
       } else {
-        app.onReadCommArt();
+        if (Number(art.grade) > 0) {
+          app.onReadLevelArt(art.grade);
+        } else {
+          app.onReadCommArt();
+        }
       }
     }
 
@@ -414,8 +432,8 @@ Page({
     } else {
       wx.openOfficialAccountArticle({
         url: id, // 公众号文章连接
-        success: res => { },
-        fail: res => { }
+        success: res => {},
+        fail: res => {}
       })
     }
 
@@ -431,8 +449,12 @@ Page({
         that.jumpToPage(tempPage.category, tempPage.id, tempPage.label);
       } else {
         console.log('temp page is null')
+        log.error('延迟跳转tempPage为空')
+        wx.showToast({
+          title: '稍后再试',
+        })
       }
-    }, 100)
+    }, 500)
   },
 
   // 跳文章页面
@@ -450,8 +472,8 @@ Page({
       adUnitId: 'adunit-2ce6db3cb1e45a86',
     })
     vAd.onLoad(() => {
-      hasLoadvAd = true
-    }),
+        hasLoadvAd = true
+      }),
       vAd.onError((err) => {
         console.error('激励视频广告加载失败,', err)
         log.error('load video error,', err);
@@ -462,18 +484,33 @@ Page({
       }),
       vAd.onClose((res) => {
         if (res && res.isEnded) {
-          app.onWatchAd();
           const title = 'Visit播放激励视频广告';
           const content = 'Index文件playvAd函数';
           app.rptNotifyInfo(title, content);
           log.info('visit user watch ad');
-          that.delayJumpPage();
-          // wx.showToast({
-          //   title: '谢谢支持！',
-          // })
+
+          if (!utils.isEmpty(tempPage)) {
+            if (tempPage.lock) {
+              // 加锁文章
+              that.delayJumpPage();
+            } else {
+              // 优质文章
+              app.onWatchAd();
+              wx.showToast({
+                title: '+10豆',
+                icon:'none',
+                duration:2000
+              })
+            }
+          }else{
+            log.error('播放完广告tempPage为空');
+            wx.showToast({
+              title: '稍后再试',
+            })
+          }
         } else {
           wx.showToast({
-            title: '还需加油哟！',
+            title: '未完成',
           })
         }
       })
@@ -522,9 +559,9 @@ Page({
       }).catch(() => {
         // 失败重试
         vAd.load().then(() => {
-          wx.hideLoading()
-          vAd.show()
-        })
+            wx.hideLoading()
+            vAd.show()
+          })
           .catch(err => {
             wx.hideLoading()
             console.error('激励视频 广告显示失败', err)
@@ -562,7 +599,7 @@ Page({
     }
     // 用户触发广告后，显示插屏广告
     if (iAd) {
-      iAd.show().then(() => { }).catch((err) => {
+      iAd.show().then(() => {}).catch((err) => {
         console.error('插屏广告显示失败', err)
         log.error('load iad fail');
         const title = 'Visit展示插屏广告时错误';
