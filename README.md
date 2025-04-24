@@ -12,4 +12,4 @@
 
 小程序演示地址：
 
-![alt 豆子碎片](https://gitee.com/littletow/visit/raw/master/docs/images/visit.jpg)
+![alt 豆子碎片](docs/images/visit.jpg)
