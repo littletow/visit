@@ -53,7 +53,7 @@ const config = require('../../config'),
 //         md.use(require(`./plugins/${item}`));
 //     };
 // });
-md.use(require('./plugins/sub'));md.use(require('./plugins/sup'));md.use(require('./plugins/ins'));md.use(require('./plugins/mark'));md.use(require('./plugins/emoji'));md.use(require('./plugins/todo'));md.use(require('./plugins/echarts'));md.use(require('./plugins/latex'));md.use(require('./plugins/yuml'));
+md.use(require('./plugins/sub'));md.use(require('./plugins/sup'));md.use(require('./plugins/ins'));md.use(require('./plugins/mark'));md.use(require('./plugins/emoji'));md.use(require('./plugins/todo'));md.use(require('./plugins/latex'));md.use(require('./plugins/yuml'));
 
 // 定义emoji渲染规则
 md.renderer.rules.emoji = (token,index)=>{

@@ -2,12 +2,15 @@
 const app = getApp();
 const utils = require("../../utils/utils.js");
 const log = require('../../utils/log.js');
+
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    isFallback: false,
     isLoading: true,
     article: {}, // 内容数据
   },
@@ -20,8 +23,9 @@ Page({
   // 加载文章资源
   getArt(category, artId, label) {
     const that = this;
-    // 修改此处可以切换Git地址
-    let fileUrl = app.globalData.url + category + '/' + artId;
+    const artPath = category + '/' + artId;
+    const fileUrl = app.globalData.url + artPath;
+    // console.log('fileurl,', fileUrl)
     utils.downloadFile(
       fileUrl,
       20000, // 超时时间20秒
@@ -34,64 +38,52 @@ Page({
           filePath: tmpfile,
           encoding: 'utf8',
           success(res) {
-            // console.log(res.data)
-            if (label == 'md') {
               let obj = app.towxml(res.data, 'markdown', {
                 theme: 'light',
                 events: {
                   tap: (e) => {
                     // console.log('tap,',e)
-                    const { dataset } = e.currentTarget;
+                    const {
+                      dataset
+                    } = e.currentTarget;
                     if (dataset && dataset.data) {
-                      if(dataset.data.tag=='navigator'){
-                        console.log('点击内容:',dataset.data.attrs.href);
+                      if (dataset.data.tag == 'navigator') {
+                        console.log('点击内容:', dataset.data.attrs.href);
                         const content = dataset.data.attrs.href;
                         wx.showModal({
                           title: '内容',
                           content: content,
-                          confirmText:'复制内容',
+                          confirmText: '复制内容',
                           complete: (res) => {
                             if (res.cancel) {
                               console.log('cancel')
                             }
-                        
+
                             if (res.confirm) {
                               console.log('confirm')
                               wx.setClipboardData({
                                 data: content,
-                                success(res) {
-                                }
+                                success(res) {}
                               })
-                              
+
                             }
                           }
                         })
                       }
-                      
+
                     }
                   }
-                }
+                },
               });
+              // console.log('obj,', obj)
+              const modifiedAst = that.insertAdAfterFirstParagraph(obj.children);
+              obj.children = modifiedAst;
+              // console.log(modifiedAst);
               // 将文件内容赋值给towxml组件，它会自动进行解析渲染。然后将加载动画关闭。
               that.setData({
                 article: obj,
                 isLoading: false,
               });
-            } else if (label == 'html') {
-              let obj = app.towxml(res.data, 'html', {
-                theme: 'light',
-                events: {
-                  tap: (e) => {
-                    console.log('tap', e);
-                  }
-                }
-              });
-              // 将文件内容赋值给towxml组件，它会自动进行解析渲染。然后将加载动画关闭。
-              that.setData({
-                article: obj,
-                isLoading: false,
-              });
-            }
           },
         })
       },
@@ -103,6 +95,63 @@ Page({
         app.rptErrInfo(title, content);
       },
     );
+  },
+
+
+
+  // 假设 astNodes 是解析后的 AST 节点列表
+  insertAdAfterFirstParagraph(astNodes) {
+    const that = this;
+    // 遍历查找第一个 p 标签
+    let pIndex = -1;
+    for (let i = 0; i < astNodes.length; i++) {
+      const node = astNodes[i];
+      if (node.type === 'tag' && node.attrs.class === 'h2w__p') { // 根据实际 AST 结构判断
+        pIndex = i;
+        break;
+      }
+    }
+
+    if (pIndex !== -1) {
+      // 创建广告节点（参考 towxml 的 AST 结构）
+      const adNode = {
+        type: 'tag', // 节点类型
+        attrs: {
+          // 其他属性（如广告 ID）
+          unitId:'adunit-1b798fb35a6890a7',
+          bindload:that.adLoad,
+          binderror:that.adError,
+        },
+        tag: 'ad-custom', // 自定义组件名
+        rely: false,
+        children: [], // 若有子节点可在此定义
+        // 如果是微信小程序，可能需要标记为自定义组件
+        // isCustom: true
+      };
+
+      // 在 p 标签后插入广告（+1 表示插入到 p 的下一个位置）
+      astNodes.splice(pIndex + 1, 0, adNode);
+    }
+
+    return astNodes;
+  },
+
+  adLoad(e) {
+    console.log('原生模板广告加载成功', e)
+  },
+
+
+  adError(e) {
+    console.error('原生模板广告加载失败', e)
+    const {
+      errCode
+    } = e.detail;
+    if (errCode === 1004) { // 无广告填充
+      console.log('广告加载失败', e.detail)
+    }
+  },
+  adClose(e) {
+    console.log('原生模板广告关闭',e)
   },
 
   /**
@@ -139,7 +188,6 @@ Page({
    */
   onUnload() {
     // console.log('article unload')
-
   },
 
   /**

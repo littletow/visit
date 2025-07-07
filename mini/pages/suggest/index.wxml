@@ -1,0 +1,25 @@
+<!--pages/suggest/index.wxml-->
+<view class="page-container">
+	<!-- 介绍内容 -->
+	<view class="weui-article">
+		<view class="weui-article__h1">欢迎提出宝贵建议</view>
+		<view class="weui-article__section">
+			<view class="weui-article__h3">反馈说明</view>
+			<view class="weui-article__p">
+				<view class="content">
+					<text>1. 请详细描述您遇到的问题或建议</text>
+					<text>2. 我们会认真阅读每一条反馈</text>
+					<text>3. 技术问题请尽量附上截图说明</text>
+					<text>4. 紧急问题可联系：eagle.mon@qq.com</text>
+				</view>
+			</view>
+		</view>
+	</view>
+
+	<!-- 反馈按钮 -->
+	<view class="btn-container">
+		<button class="weui-btn" type="primary" open-type="feedback" bindtap="onFeedbackTap">
+			建议反馈
+		</button>
+	</view>
+</view>

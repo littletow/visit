@@ -1,195 +1,201 @@
-/* 现在的页面配置 */
-
-.page {
-  /* height: 100vh; */
-  background-color: #ededed;
-  color: #333333;
-}
-
-/* .page__hd {
-  padding: 64rpx 72rpx 16rpx 72rpx;
-  margin-bottom: 16rpx;
-} */
- 
-.contact-image {
-  margin-left: 4rpx;
-  width: 48rpx;
-  height: 48rpx;
-}
-
-
-.clickable {
-  margin-left: 4rpx;
-  color: #007BFF;
-  font-weight: bold;
-  cursor: pointer; /* 虽然小程序中没有鼠标指针，但可以让开发者了解这是可点击的 */
-}
-
-.text-with-image {
-  display: inline-flex;
-  align-items: center;
-}
-
-.text-with-image img {
-  height: 1em; /* 设置图片的高度为文字的行高 */
-  vertical-align: middle; /* 确保图片垂直居中对齐文字 */
-}
-
-.weui-search-bar {
-  background-color: #ededed;
-}
-
-.searchbar-result{
-  margin-top:0;
-  font-size:28rpx
-}
-
-.searchbar-result .weui-cell__bd{
-  padding:4rpx 0 4rpx 40rpx;
-  color:rgba(0,0,0,.55);
-}
-
-.searchbar-result .weui-cell {
-  padding:16rpx;
-}
-
-.searchbar-result::before{
-  display:none
-}
-
-.placeholder {
-  margin-top: 16rpx;
-  margin-left: 15rpx;
-  margin-right: 15rpx;
-  margin-bottom: 8rpx;
-  padding: 0 20rpx;
-  text-align: center;
-  background-color: #ffffff;
-  height: 2.3em;
-  line-height: 2.3em;
-  /* color: rgba(0,0,0,.55) ; */
-  color:#333333;
-}
-
-.placeholder-hover {
-  background-color: #f4f4f4;
-}
-
-.weui-cells {
-  margin-top: 16rpx;
-  margin-left: 15rpx;
-  margin-right: 15rpx;
-  margin-bottom: 8rpx;
-}
-
-.weui-footer {
-  margin-bottom: 16rpx;
-}
-
-.weui-footer_fixed-bottom {
-  margin-bottom: 16rpx;
-  padding-bottom: 16rpx;
-}
-
-.home-ad {
-  margin-bottom: 0;
-  position: fixed;
-  width: 220rpx;
-  height: 220rpx;
-  bottom: 220rpx;
-  right: 20rpx;
-  display: block;
+page,
+.page-bg {
+  width: 100vw;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e9f0ff 0%, #fafffd 100%);
   box-sizing: border-box;
-}
-
-
-.view-oa {
-  margin-top: 16rpx;
-  margin-bottom: 8rpx;
-  margin-left: 15rpx;
-  margin-right: 15rpx;
-}
-
-.view-ad {
-  margin-top: 16rpx;
-  margin-bottom: 8rpx;
-  margin-left: 15rpx;
-  margin-right: 15rpx;
-}
-
-.weui-cell_example .weui-cell__hd image {
-  width: 20px;
-  height: 20px;
-  display: block;
-  margin-right: 16px
-}
-
-.view-contact {
-  margin-top: 16rpx;
-  margin-bottom: 8rpx;
-  padding: 0 15rpx; /* 卡片整体离左右边框各45px */
-}
-
-.card {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 8px 10px; /* 调整卡片内边距 */
-  max-width: 400px; /* 最大宽度 */
-  background-color: #ffffff;
-  /* border-radius: 8px; */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.left-content {
-  width: 80px;
-  height: 80px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 10px; /* 左侧内容离左边框10px */
-}
-
-.icon-button {
-  background: none;
-  border: none;
-  padding: 0;
-}
-
-.icon {
-  width: 68px; /* 设置图标宽度 */
-  height: 68px; /* 设置图标高度 */
-}
-
-.right-content {
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* 右侧内容占满剩余空间 */
-  padding-left: 12px; /* 右侧内容左侧内边距 */
-  margin-right: 10px; /* 右侧内容离右边框10px */
-  overflow: hidden; /* 防止溢出 */
+  align-items: stretch;
 }
 
-.contact-button {
-  background: none;
+/* 主内容区 */
+.main-content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24rpx 24rpx 0 24rpx;
+  min-height: 82vh;
+}
+
+/* 搜索区 */
+.search-section-m {
+  margin-top: 34rpx;      /* 向下更多一点 */
+  margin-bottom: 24rpx;
+}
+.search-bar-m {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 34rpx;
+  box-shadow: 0 2rpx 8rpx #e0eaff;
+  padding: 0 26rpx;
+  height: 68rpx;
+}
+.search-icon-m {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 14rpx;
+}
+.search-input-m {
+  flex: 1;
   border: none;
-  padding: 0;
-  color: #007aff;
-  font-size: 16px;
-  margin-bottom: 4px; /* 调整联系我按钮下边距 */
-  text-align: left; /* 左对齐 */
-  white-space: nowrap; /* 防止按钮文本换行 */
-  overflow: hidden;
-  text-overflow: ellipsis; /* 超出部分显示省略号 */
+  outline: none;
+  background: transparent;
+  height: 48rpx;
+  font-size: 32rpx;
+  color: #333;
+}
+.search-btn-m {
+  margin-left: 16rpx;
+  color: #fff;
+  background: linear-gradient(90deg, #4e8cff 0%, #2073fa 100%);
+  font-size: 32rpx;
+  font-weight: 500;
+  padding: 0 22rpx;
+  border-radius: 22rpx;
+  height: 46rpx;
+  display: flex;
+  align-items: center;
 }
 
-.contact-button:active {
-  color: #005bb5; /* 点击时文本颜色 */
+/* 功能区 */
+.function-section-m {
+  margin-bottom: 20rpx;
+  padding: 20rpx 10rpx 8rpx 10rpx;
+  border-radius: 20rpx;
+  background: #fff;
+}
+.func-btn-grid-m {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20rpx 16rpx;
+}
+.func-btn-m {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 18rpx;
+  background: #f5f8ff;
+  box-shadow: 0 1rpx 4rpx #e0eaff;
+  padding: 20rpx 0 12rpx 0;
+  height: 110rpx;
+}
+.func-btn-icon-m {
+  width: 48rpx;
+  height: 48rpx;
+  margin-bottom: 8rpx;
+}
+.func-btn-name-m {
+  font-size: 32rpx;
+  color: #2073fa;
+  font-weight: 700;
 }
 
-.support-text {
-  color: #999999;
-  font-size: 14px;
-  text-align: left; /* 左对齐 */
-  word-wrap: break-word; /* 自动换行 */
+/* 介绍区 */
+.intro-section-m {
+  margin-bottom: 18rpx;
+  padding: 22rpx 16rpx 14rpx 16rpx;
+  border-radius: 18rpx;
+  background: #f7faff;
+}
+.intro-title-m {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #2c4e8a;
+  margin-bottom: 6rpx;
+}
+.intro-desc-m {
+  font-size: 28rpx;
+  color: #667ca3;
+  line-height: 1.7;
+}
+
+/* 开发者寄语 */
+.dev-msg-section {
+  display: flex;
+  align-items: center;
+  background: #f6fffc;
+  border-radius: 16rpx;
+  padding: 16rpx 16rpx;
+  margin-bottom: 18rpx;
+}
+.dev-msg-icon {
+  width: 34rpx;
+  height: 34rpx;
+  margin-right: 12rpx;
+}
+.dev-msg-content {
+  flex: 1;
+}
+.dev-msg-title {
+  font-size: 30rpx;
+  color: #2073fa;
+  font-weight: 700;
+}
+.dev-msg-desc {
+  font-size: 26rpx;
+  color: #6a849a;
+}
+
+/* 工具栏 */
+.tools-section-m {
+  margin-bottom: 32rpx;   /* 增加下部间隙 */
+  border-radius: 16rpx;
+  background: #fff;
+  padding: 12rpx 0;
+  box-shadow: 0 1rpx 4rpx #e9eaff;
+}
+.tool-bar-m {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.tool-item-m {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rpx 0;
+  flex: 1;
+}
+.tool-icon-m {
+  width: 32rpx;
+  height: 32rpx;
+  margin-bottom: 6rpx;
+}
+.tool-label-m {
+  font-size: 26rpx;
+  color: #2073fa;
+  font-weight: 600;
+}
+
+/* 广告区 */
+.banner-section-m {
+  border-radius: 12rpx;
+  background: #fff;
+  min-height: 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1rpx 4rpx #e9eaff;
+  margin-bottom: 10rpx;
+}
+.banner-section-m ad-custom {
+  width: 100%;
+}
+
+/* 卡片阴影 */
+.card-shadow-m {
+  box-shadow: 0 1rpx 4rpx #f0f2f7;
+}
+
+/* 页脚栏 */
+.footer-bar {
+  font-size: 22rpx;
+  color: #b2b2b2;
+  text-align: center;
+  padding: 14rpx 0 calc(38rpx + env(safe-area-inset-bottom)) 0;
+  background: transparent;
+  letter-spacing: 1rpx;
 }

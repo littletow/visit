@@ -1,10 +1,10 @@
 const utils = require("./utils/utils.js");
 const log = require('./utils/log.js');
-const UserInfo = require('./libs/userInfo.js');
 
-const fallbackUrl = "https://bee.91demo.top/";
-const mainUrl = "https://gitee.com/littletow/toad/raw/master/content/";
-
+const mainUrl = "https://bee.91demo.top/";
+const appDataVersion = "v6"; // 应用数据版本号，现在APP版本号v6.0.0，对应服务器数据文件，例如data_v6.json
+const dataFileName = "data_" + appDataVersion + ".json"; // 数据文件，存入文章索引，根据客户端版本进行升级，当客户端的文章索引数据结构变更时才升级此处。
+const versionFileName = "VVER"; // VISIT数据版本文件，存入日期字符串，例如20250703，按天更新
 
 App({
   towxml: require('./towxml/index'),
@@ -22,78 +22,17 @@ App({
     });
   },
 
-  // 登录时调用用户信息
-  onLogin() {
-    const userInfo = new UserInfo();
-    userInfo.updateLoginInfo();
-    this.globalData.myUserInfo = userInfo;
-    console.log('userinfo1,', this.globalData.myUserInfo.getFirstLoginTime(), this.globalData.myUserInfo.getLastLoginTime(), this.globalData.myUserInfo.getLoginDays(), this.globalData.myUserInfo.getBeanPoints(), this.globalData.myUserInfo.getVersion());
-  },
+  // 延长显示提示
+  showErrMsgDelay: function (msg) {
+    setTimeout(function () {
+      wx.showToast({
+        title: msg,
+        icon: 'none',
+        duration: 2000,
+        mask: true,
+      });
+    }, 1000)
 
-  // 看广告后调用
-  onWatchAd() {
-    const userInfo = this.globalData.myUserInfo;
-    userInfo.updateAdWatchInfo();
-    this.globalData.myUserInfo = userInfo;
-
-    console.log('userinfo2,', this.globalData.myUserInfo.getFirstLoginTime(), this.globalData.myUserInfo.getLastLoginTime(), this.globalData.myUserInfo.getLoginDays(), this.globalData.myUserInfo.getBeanPoints());
-  },
-
-  // 阅读等级文章
-  onReadLevelArt(L) {
-    let point = 10;
-    if (L == 1) {
-      point = 3
-    } else if (L == 2) {
-      point = 5
-    } else if (L == 3) {
-      point = 10
-    }
-    const userInfo = this.globalData.myUserInfo;
-    userInfo.updateReadLevelArtInfo(point);
-    this.globalData.myUserInfo = userInfo;
-
-    console.log('userinfo4,', this.globalData.myUserInfo.getFirstLoginTime(), this.globalData.myUserInfo.getLastLoginTime(), this.globalData.myUserInfo.getLoginDays(), this.globalData.myUserInfo.getBeanPoints());
-
-  },
-
-  // 阅读普通文章后
-  onReadCommArt() {
-    const userInfo = this.globalData.myUserInfo;
-    userInfo.updateReadCommArtInfo();
-    this.globalData.myUserInfo = userInfo;
-
-    console.log('userinfo5,', this.globalData.myUserInfo.getFirstLoginTime(), this.globalData.myUserInfo.getLastLoginTime(), this.globalData.myUserInfo.getLoginDays(), this.globalData.myUserInfo.getBeanPoints());
-
-  },
-
-  // 是否需要观看广告？ 
-  needSeeAd(points) {
-    const userInfo = this.globalData.myUserInfo;
-    console.log('userinfo3,', userInfo)
-    if (userInfo.beanPoints >= points) {
-      return false
-    }
-    return true
-  },
-
-  // 看普通文章
-  canSeedAdByCommArt() {
-    return this.needSeeAd(1);
-  },
-
-  // 看优质文章
-  canSeedAdByLevelArt(L) {
-    let point = 10;
-    if (L == 1) {
-      point = 3
-    } else if (L == 2) {
-      point = 5
-    } else if (L == 3) {
-      point = 10
-    }
-
-    return this.needSeeAd(point);
   },
 
   // 本地缓存中记录设备信息
@@ -210,7 +149,7 @@ App({
   writeDataFile: function (data) {
     const that = this;
     const fs = wx.getFileSystemManager();
-    const filePath = `${wx.env.USER_DATA_PATH}/data.json`;
+    const filePath = `${wx.env.USER_DATA_PATH}/` + dataFileName;
     // 会覆盖写入
     fs.writeFile({
       filePath: filePath,
@@ -229,12 +168,13 @@ App({
     })
   },
 
+
   // 读取文件
   readDataFile: function () {
     const fs = wx.getFileSystemManager();
     // 同步接口
     try {
-      const res = fs.readFileSync(`${wx.env.USER_DATA_PATH}/data.json`, 'utf8', 0)
+      const res = fs.readFileSync(`${wx.env.USER_DATA_PATH}/` + dataFileName, 'utf8', 0)
       // console.log(res)
       return res;
     } catch (e) {
@@ -251,7 +191,7 @@ App({
     wx.showLoading({
       title: '数据加载中..',
     })
-    let fileUrl = that.globalData.url + "data.json"
+    let fileUrl = that.globalData.url + dataFileName
     utils.downloadFile(
       fileUrl,
       20000, // 超时时间20秒
@@ -267,7 +207,7 @@ App({
             // console.log('版本12');
             // 取消动画
             wx.hideLoading({
-              success: (res) => {},
+              success: (res) => { },
             })
             // console.log(res.data)
             // 记录到本地缓存
@@ -283,7 +223,7 @@ App({
         console.error('Download failed:', err.message);
         log.error('file url,', fileUrl, 'error message,', err.message);
         wx.hideLoading({
-          success: (res) => {},
+          success: (res) => { },
         })
         const title = '下载data.json文件错误';
         const content = "文件地址：" + fileUrl + "，错误信息：" + JSON.stringify(err.message);
@@ -293,22 +233,22 @@ App({
     );
   },
 
+
   // 下载 article version 文件
   dlArtVersion: function () {
     const that = this;
     // 下载版本号加载动画
     wx.showLoading({
       title: '版本检测中..',
+      mask: true,
     })
 
     // 下载文件
-    let fileUrl = that.globalData.url + "VERSION"
+    let fileUrl = that.globalData.url + versionFileName
     utils.downloadFile(
       fileUrl,
       10000, // 超时时间10秒
       (tmpfile) => {
-        // console.log('Download successful, file saved at:', tmpfile);
-        // 可以在这里对下载的文件进行进一步处理
         // 下载成功后，会存储为临时文件，需要使用微信API读取文件内容。
         const fs = wx.getFileSystemManager()
         fs.readFile({
@@ -319,30 +259,22 @@ App({
             wx.setStorageSync('chkVerTs', now);
             // 取消动画
             wx.hideLoading({
-              success: (res) => {},
+              success: (res) => { },
             })
             // console.log(res.data)
-            const onlineVersion = Number(res.data);
+            const onlineVersion = res.data;
             // 查看本地版本号
-            const artVer = wx.getStorageSync("artVer");
-            if (utils.isEmpty(artVer)) {
-              // console.log('版本9');
+            const localVersion = wx.getStorageSync("vver");
+            if (utils.isEmpty(localVersion)) {
               // 记录到本地缓存
-              wx.setStorageSync('artVer', res.data);
-              // 下载文章数据
+              wx.setStorageSync('vver', onlineVersion);
               that.dlArtData();
             } else {
-              // console.log('版本10');
-              const localVersion = Number(artVer);
-              // console.log('调试',localVersion,onlineVersion);
               // 和线上进行对比，需要升级则重新下载数据
-              if (localVersion < onlineVersion) {
-                // console.log('版本11');
-                wx.setStorageSync('artVer', res.data);
-                // 下载文章数据
+              if (localVersion !== onlineVersion) {
+                wx.setStorageSync('vver', onlineVersion);
                 that.dlArtData();
               } else {
-                // console.log('版本21');
                 that.getArtData();
               }
             }
@@ -353,7 +285,7 @@ App({
         console.error('Download failed:', err.message);
         log.error('file url,', fileUrl, 'error message,', err.message);
         wx.hideLoading({
-          success: (res) => {},
+          success: (res) => { },
         })
         const title = '下载VERSION文件错误';
         const content = "文件地址：" + fileUrl + "，错误信息：" + JSON.stringify(err.message);
@@ -365,72 +297,31 @@ App({
   getArtData() {
     const that = this;
     const fileArtData = that.readDataFile(); // 从用户文件中获取
-    //  console.log(artData);
     if (!utils.isEmpty(fileArtData)) {
-      // console.log('版本4');
       const fileDataList = utils.json2ObjArr(fileArtData);
       that.globalData.artData = fileDataList;
     } else {
-      // console.log('版本5');
-      // 兼容以前版本
-      const cacheArtData = wx.getStorageSync("artData"); // 从缓存中获取
-      // 修复bug，如果缓存为空，会直接赋予空值
-      if (!utils.isEmpty(cacheArtData)) {
-        // console.log('版本6');
-        const cacheDataList = utils.json2ObjArr(cacheArtData);
-        that.globalData.artData = cacheDataList;
-      } else {
-        console.log('缓存也没有，文件也不存在');
-        that.dlArtData();
-        // 都没有数据，上报查找原因
-        const title = '获取本地文章数据错误';
-        const content = '本地用户目录和缓存都没有文章数据';
-        that.rptErrInfo(title, content);
-      }
-    }
-  },
-
-  // 检查Git服务器是否通畅？
-  async chkServerAlive() {
-    const that = this;
-    wx.showLoading({
-      title: '服务检测中..',
-    })
-
-    const serverUrl = mainUrl + 'VERSION';
-    const isAccessible = await utils.checkServer(serverUrl);
-
-    if (!isAccessible) {
-      log.warn('file url,', serverUrl, 'unreachable');
-      that.globalData.url = fallbackUrl;
-      const title = '检查Git服务器不通';
-      const content = JSON.stringify(err.message)
+      that.dlArtData();
+      // 都没有数据，上报查找原因
+      const title = '没有找到本地用户文件';
+      const content = '本地用户目录没有文章数据，重新下载';
       that.rptErrInfo(title, content);
     }
-
-    wx.hideLoading({
-      success: (res) => {},
-    })
-
-    return isAccessible
   },
 
   // 更新版本
   uptVer(zerots) {
+    // 一天更新一次
     const that = this;
     let chkVerTs = wx.getStorageSync("chkVerTs");
     if (!utils.isEmpty(chkVerTs)) {
-      // console.log('版本1');
       let chkVerTsNum = Number(chkVerTs);
       if (chkVerTsNum < zerots) {
-        // console.log('版本2');
         that.dlArtVersion();
       } else {
-        // console.log('版本3');
         that.getArtData();
       }
     } else {
-      // console.log('版本7');
       that.dlArtVersion();
       const title = 'Visit新设备登入';
       const content = 'App文件login函数';
@@ -444,13 +335,9 @@ App({
     const tzms = utils.getTodayZeroMsTime(); // 获取今日零时毫秒时间戳
     // 检查设备信息?
     that.logDevInfo();
-    // 检查Git服务是否正常？
-    const isAlive = await that.chkServerAlive();
-    console.log('url,', that.globalData.url, isAlive);
     // 检查版本更新?
     that.uptVer(tzms);
-    // 加载用户信息
-    that.onLogin();
+    // console.log('artdata,',that.globalData.artData)
   },
 
   // 小程序每次启动都会调用
@@ -473,7 +360,6 @@ App({
     devinfo: null, // 设备信息
     startTime: 0, // 首次启动时间戳
     artData: [], // 文章数据列表
-    myUserInfo: null, // 用户信息
   },
 
 });

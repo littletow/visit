@@ -599,6 +599,37 @@ function calculateDaysBetween(currentTimestamp, pastTimestamp) {
 //         console.error('Request failed:', error.message);
 //     });
 
+const cache = new Map();
+
+function getFilteredData(sourceArray,searchValue) {
+  if (cache.has(searchValue)) {
+    return cache.get(searchValue);
+  }
+  // 执行筛选，假设原数组为 sourceArray
+  const filtered = sourceArray.filter(item => 
+    Object.values(item).some(val => 
+      String(val).includes(searchValue)
+    )
+  );
+  cache.set(searchValue, filtered);
+  return filtered;
+}
+
+function getPaginatedData(filteredData, page, pageSize) {
+  const start = (page - 1) * pageSize;
+  const end = start + pageSize;
+  return {
+    data: filteredData.slice(start, end),
+    total: filteredData.length,
+    totalPages: Math.ceil(filteredData.length / pageSize)
+  };
+}
+
+function fetchArtData(sourceArray,searchValue, page, pageSize) {
+  const filtered = getFilteredData(sourceArray,searchValue);
+  return getPaginatedData(filtered, page, pageSize);
+}
+
 module.exports = {
   formatTime: formatTime,
   isEmpty: isEmpty,
@@ -635,4 +666,5 @@ module.exports = {
   searchListByKeyword3,
   searchRandListByKeyword3,
   calculateDaysBetween,
+  fetchArtData,
 }

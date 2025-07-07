@@ -1,9 +1,0 @@
-<!--pages/article/index.wxml-->
-<view class="page">
-        <!--loading 加载动画-->
-        <view class="loading" wx:if="{{isLoading}}">
-                <image class="loading__icon" src="../../images/loading.svg"></image>
-        </view>
-        <!--使用towxml-->
-        <towxml nodes="{{article}}" />
-</view>

@@ -1,119 +1,80 @@
-<view class="page">
-  <view class="page__hd">
-    <view class="page__title" bind:tap="bindShowContact"> Coder <text class="clickable">加油</text> <image class="contact-image" src="/images/email.png"></image>
-    </view>
-    <view class="page__desc">小程序开发全流程指南，碎片化学习也能掌握组件、调试、上线全链路技能。它是学习小程序开发的好工具，值得收藏！</view>
-  </view>
-  <view class="page__bd page__bd_spacing">
-    <!-- 搜索框-->
-    <view class="weui-search-bar {{inputShowed ? 'weui-search-bar_focusing' : ''}}" id="searchBar">
-      <form class="weui-search-bar__form">
-        <view class="weui-search-bar__box">
-          <i class="weui-icon-search"></i>
-          <input type="text" confirm-type="search" class="weui-search-bar__input" placeholder="请输入您要查找的内容" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" bindconfirm="bindSearch" />
-        </view>
-        <label class="weui-search-bar__label" bindtap="showInput">
-          <i class="weui-icon-search"></i>
-          <span class="weui-search-bar__text">搜索</span>
-        </label>
-      </form>
-      <view class="weui-search-bar__cancel-btn" bindtap="hideInput">取消</view>
+<view class="page-bg">
+  <view class="main-content">
+    <!-- 搜索区 -->
+    <view class="search-section-m">
+      <view class="search-bar-m">
+        <image class="search-icon-m" src="/images/search.png" mode="aspectFit"></image>
+        <input
+          class="search-input-m"
+          type="text"
+          confirm-type="search"
+          placeholder="每天搜一搜"
+          value="{{inputVal}}"
+          focus="{{inputShowed}}"
+          bindinput="inputTyping"
+          bindconfirm="bindSearch"
+        />
+        <view class="search-btn-m" bindtap="bindSearch">搜索</view>
+      </view>
     </view>
 
-    <!-- 推荐搜索内容 -->
-    <view aria-role="listbox" id="searchResult" class="weui-cells searchbar-result" wx:if="{{kwList.length > 0}}">
-      <block wx:for="{{kwList}}" wx:key="*this">
-        <view role="option" class="weui-cell weui-cell_active weui-cell_access" bindtap="selectKeyword" data-kw="{{item.kw}}">
-          <view class="weui-cell__bd weui-cell_primary">
-            <view>{{item.kw}}</view>
+    <!-- 功能区 -->
+    <view class="function-section-m card-shadow-m">
+      <view class="func-btn-grid-m">
+        <block wx:for="{{categoryConfig}}" wx:key="id">
+          <view class="func-btn-m" data-idx="{{index}}" data-cid="{{item.id}}" bindtap="bindBtn">
+            <image class="func-btn-icon-m" src="{{item.icon}}" mode="aspectFit"></image>
+            <text class="func-btn-name-m">{{item.name}}</text>
           </view>
-        </view>
-      </block>
+        </block>
+      </view>
     </view>
 
-    <!-- 查询快捷按钮，用于快速查找文章-->
-    <!-- 第一排快捷按钮-->
-    <view class="weui-flex">
-      <view class="weui-flex__item">
-        <view class="placeholder" id="DevEnv" bindtap="bindBtn" hover-class="placeholder-hover">开发环境</view>
-      </view>
-      <view class="weui-flex__item">
-        <view class="placeholder" id="CompDev" bindtap="bindBtn" hover-class="placeholder-hover">组件开发</view>
-      </view>
-      <view class="weui-flex__item">
-        <view class="placeholder" id="APIInte" bindtap="bindBtn" hover-class="placeholder-hover">接口集成</view>
-      </view>
-    </view>
-    <!-- 第二排快捷按钮-->
-    <view class="weui-flex">
-      <view class="weui-flex__item">
-        <view class="placeholder" id="ProjCase" bindtap="bindBtn" hover-class="placeholder-hover">项目实战</view>
-      </view>
-      <view class="weui-flex__item">
-        <view class="placeholder" id="DebugTest" bindtap="bindBtn" hover-class="placeholder-hover">调试测试</view>
-      </view>
-      <view class="weui-flex__item">
-        <view class="placeholder" id="AuditDeploy" bindtap="bindBtn" hover-class="placeholder-hover">审核上线</view>
-      </view>
-    </view>
-    <!-- 第三排快捷按钮-->
-    <view class="weui-flex">
-      <view class="weui-flex__item">
-        <view class="placeholder" id="OperPromo" bindtap="bindBtn" hover-class="placeholder-hover">运营推广</view>
-      </view>
-      <view class="weui-flex__item">
-        <view class="placeholder" id="MaintOpti" bindtap="bindBtn" hover-class="placeholder-hover">维护优化</view>
-      </view>
-      <view class="weui-flex__item">
-        <view class="placeholder" id="MyProject" bindtap="bindBtn" hover-class="placeholder-hover">我的项目</view>
-      </view>
-    </view>
-    <block wx:if="{{isShowContact}}">
-      <!--联系卡片-->
-      <view class="view-contact">
-        <view class="card">
-          <view class="left-content">
-            <button class="icon-button" open-type="feedback">
-              <image src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAABECAYAAAA4E5OyAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAOESURBVHhe7ZrbSxZBFMD7D8uuUET1YFQPET300t20C2ZlCaIRqElWWGZERZYE2l1Fw8hSs4jKCgyp6KU4zWHO4VsP+nk+nZ2drfnBoHvmzNnZn3vD2SUQmUEUIohCBFGIIAoRRCGCKEQQhQj+HSFfp+mXxVFcyM5GgKUHs2/3BmlCs9A1ALC93uadvQXw7gt1LIziQuTEsmr9ozQhQdv9Qs6OBvtzWx3A2EdKKJ35hexuoo3AaDRnA8vofWFjLKi8FuDlexsrkXwKSZ4ZHQ8pSHDfxhqA5xMU1JM/IUkZ2LacARj9QJ0E56w7BjAwRkEd+RKSlIGXCW+XnwIYEZcI9606DPBkhILzkx8hUgbD8U0nAIbfUpDgvmUVAM9eU7A4+RAylwyG+9dXAwy9oSDBfTVXKFCc8IXMJ4PhvLXmvtEv7hs8XkHYQrQyGM5fbe4bT1/NjOFjWkG4QkqVwfC4FZUA1e2FGnO93AnCFLJQGUxyfIk1whOyWBlIssb1xxTUEZYQ1zIWUCMcIQHIQMIQEogMJHshAclAshXiSwbGlfWzE+LzzOAcBdkI8SkD4TwF/oX4loFwrgK/QrKQgXC+An9CspKB8BgFfoRkKQPhcQrSF5K1DITHKkhXSAgyEB6vID0hochAuIaCdISEJAPhOgrcCznZsfgDcSkD4VoK3Ar58cuumPEEWu5SRwm4loFwPQVuhQyO2zFJKXiAWtKQgXBNBW6FtPfYMU1dAHtaChNp76WEIqQlA+G6CtwKOXLJjuH11H3n7TaunBX732aaMhCurcCdkKnvdh11jWm//1DQcKDV1ikzUm73UTBB2jIQrq/AnRBcGML8yjYKJKi4YPvKDgF0D1HQ4EMGwvtQ4E5Is7lvYH7nIwoIqi7a/uVGCh68LxkI70eBOyH8ndfEJAVm4ehlm4OrajzJtGUgvC8FboRMfrO5W+soIEBJVx8A7E08ebD5kIHw/hS4EXKn3+bW36CAAb/VaDYvZnzmcNt82n7d2NpNiR7gfStwI4QvBfyL13YCbDhemMTKKoD95kmD94y+UYDpnzTIIzwXBW6E4IsX7xQbnhUNNwF6hs3lNEVJGcLzUuBGyGdzD6m9Zl++xj9RMCC8CwmdKEQQhQiiEEEUIohCBFGIIAoROBeS9+ZMyK5zhWJ5byhGQXEh/yFRiCAKEUQhgihEEIUIopAZAPwF2AJS9v7V7qoAAAAASUVORK5CYII=" class="icon"></image>
-            </button>
-          </view>
-          <view class="right-content">
-            <button class="contact-button" bindtap="showContactDialog">联系我</button>
-            <text class="support-text">点击左侧按钮反馈，或联系我获取邮箱发邮件</text>
-          </view>
-        </view>
-      </view>
-    </block>
-    <!-- 内容-->
-    <!--循环输出-->
-    <view class="weui-cells">
-      <block wx:for="{{artList}}" wx:key="*this">
-        <view aria-labelledby="js_cell_l1_bd " aria-describedby="js_cell_l1_note" class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap="jump" data-idx="{{index}}">
-          <view class="weui-cell__bd" id="js_cell_l1_bd" aria-hidden="true">
-            <view>{{item.name}}</view>
-          </view>
-          <view class="weui-cell__ft weui-cell__ft_in-access" aria-hidden="true">
-           <block wx:if="{{ item.grade > 0}}">
-            <text wx:if="{{ item.grade === 1 }}" id="js_cell_l1_note" aria-label="良" class="weui-badge weui-badge_dot">良</text>
-            <text wx:elif="{{ item.grade === 2 }}" id="js_cell_l1_note" aria-label="优" class="weui-badge weui-badge_dot">优</text>
-            <text wx:elif="{{ item.grade === 3 }}" id="js_cell_l1_note" aria-label="极" class="weui-badge weui-badge_dot">极</text>
-           </block>
-           <text wx:if="{{ item.lock }}" id="js_cell_l1_note" aria-label="锁" class="weui-badge weui-badge_dot">锁</text>
-          </view>
-        </view>
-      </block>
+    <!-- 介绍区 -->
+    <view class="intro-section-m card-shadow-m">
+      <view class="intro-title-m">关于本站</view>
+      <view class="intro-desc-m">{{vdesc}}</view>
     </view>
 
-    <view class="weui-footer" wx:if="{{artList.length == 0 }}">
-      <!--广告-->
-      <view class="view-ad">
-        <ad unit-id="adunit-62a65ad78c1b3f40"></ad>
+    <!-- 开发者寄语 -->
+    <view class="dev-msg-section card-shadow-m">
+      <image src="/images/idea.png" class="dev-msg-icon"/>
+      <view class="dev-msg-content">
+        <view class="dev-msg-title">开发者寄语</view>
+        <view class="dev-msg-desc">{{devmsg}}</view>
       </view>
-      <!--公众号-->
-      <view class="view-oa">
-        <official-account bindload="bload" binderror="berror"></official-account>
+    </view>
+
+    <!-- 工具栏 -->
+    <view class="tools-section-m card-shadow-m">
+      <view class="tool-bar-m">
+        <view class="tool-item-m" bind:tap="jumpToBeanTool">
+          <image class="tool-icon-m" src="/images/gear.png" mode="aspectFit"></image>
+          <text class="tool-label-m">豆子工具</text>
+        </view>
+        <view class="tool-item-m" bind:tap="showSuggest">
+          <image class="tool-icon-m" src="/images/note.png" mode="aspectFit"></image>
+          <text class="tool-label-m">意见反馈</text>
+        </view>
+        <view class="tool-item-m" bind:tap="showEmail">
+          <image class="tool-icon-m" src="/images/new-post.png" mode="aspectFit"></image>
+          <text class="tool-label-m">联系我</text>
+        </view>
+        <view class="tool-item-m" bind:tap="showMe">
+          <image class="tool-icon-m" src="/images/share.png" mode="aspectFit"></image>
+          <text class="tool-label-m">收藏分享</text>
+        </view>
       </view>
+    </view>
+
+    <!-- 广告区（可选） -->
+    <view class="banner-section-m card-shadow-m">
+      <ad-custom unit-id="adunit-60ce4e32ab678f27"></ad-custom>
     </view>
   </view>
-  <!--<view class="page__ft"></view>-->
+
+  <!-- 页脚/备案/声明 -->
+  <view class="footer-bar">
+    <text>©2025 豆子碎片  ｜ 如有建议欢迎联系邮箱</text>
+  </view>
 </view>

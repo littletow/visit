@@ -82,6 +82,7 @@ var voidElements = new Set([
     "source",
     "track",
     "wbr",
+    "ad",
 ]);
 var foreignContextElements = new Set(["math", "svg"]);
 var htmlIntegrationElements = new Set([

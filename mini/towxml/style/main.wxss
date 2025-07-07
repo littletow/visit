@@ -1,12 +1,12 @@
 /*正文样式*/
 .h2w {
-    font-family: PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
-    font-weight:300;
+    font-family: system-ui, PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
+    font-weight: 300;
     font-size: 32rpx;
     line-height: 1.8;
     word-wrap: break-word;
     word-break: normal;
-    text-align:justify;
+    text-align: justify;
 }
 
 .h2w__main {
@@ -38,7 +38,7 @@
 .h2w__u,
 .h2w__navigatorParent,
 .h2w__ins {
-    display:inline;
+    display: inline;
 }
 
 .h2w__h1 {
@@ -80,17 +80,19 @@
 }
 
 /**组件父级容器**/
-.h2w__textParent, .h2w__viewParent {
-    display:inline;
+.h2w__textParent,
+.h2w__viewParent {
+    display: inline;
 }
+
 .h2w__rich-textParent {
-    overflow-x:auto;
+    overflow-x: auto;
 }
 
 /**表格**/
 .h2w__tableParent {
-    width:100%;
-    overflow-x:auto;
+    width: 100%;
+    overflow-x: auto;
 }
 
 .h2w__table {
@@ -154,10 +156,11 @@
     margin-bottom: 40rpx;
     white-space: nowrap;
     overflow-x: auto;
-    tab-size:4;
+    tab-size: 4;
 }
+
 .h2w__pre .h2w__p {
-    margin:0;
+    margin: 0;
 }
 
 .h2w__pre .h2w__code {
@@ -197,7 +200,7 @@
 }
 
 .h2w__pre .h2w__code {
-    white-space:nowrap;
+    white-space: nowrap;
     /* width: 9999px; */
     display: block;
     font-size: 80%;
@@ -351,40 +354,67 @@
 }
 
 /**内置元素**/
-image,video {
+image,
+video {
     max-width: 100%;
 }
 
 
 video {
-    width:100%; margin: 10rpx auto;
+    width: 100%;
+    margin: 10rpx auto;
 }
 
 image {
-    height:auto; vertical-align:middle;
+    height: auto;
+    vertical-align: middle;
 }
 
 video {
-    height:220px; font-size:0;
+    height: 220px;
+    font-size: 0;
 }
 
-.h2w__latex--line {margin:4rpx 8rpx; vertical-align:middle;}
-.h2w__latex--block {display:block; margin:1em auto;} 
+.h2w__latex--line {
+    margin: 4rpx 8rpx;
+    vertical-align: middle;
+}
 
-.h2w__yuml {display:block;}
+.h2w__latex--block {
+    display: block;
+    margin: 1em auto;
+}
+
+.h2w__yuml {
+    display: block;
+}
 
 .h2w__yumlBox {
-    width:100%;
-    overflow-x:auto;
+    width: 100%;
+    overflow-x: auto;
 }
+
 .h2w__yumlView {
-    margin:0 auto; padding-bottom:40rpx;
+    margin: 0 auto;
+    padding-bottom: 40rpx;
 }
 
 /**代码行号**/
 .h2w__lineNum {
-    text-align:right; float:left; padding:0; margin:0 1em 0 0;
+    text-align: right;
+    float: left;
+    padding: 0;
+    margin: 0 1em 0 0;
 }
+
 .h2w__lineNumLine {
-    list-style:none;
+    list-style: none;
+}
+
+/**广告**/
+.h2w__ad-customParent {
+    display: block;
+    margin: 20rpx 0;
+    min-height: 200rpx;
+    /*防止内容抖动*/
 }

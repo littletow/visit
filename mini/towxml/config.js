@@ -26,22 +26,22 @@ module.exports = {
         // 'c-like',
         // 'c',
         'bash',
-        // 'css',
+        'css',
         // 'dart',
         'go',
         // 'java',
         'javascript',
         'json',
-        //'less',
-        //'scss',
+        // 'less',
+        // 'scss',
         'shell',
-        //'xml',
-        //'htmlbars',
+        // 'xml',
+        // 'htmlbars',
         'nginx',
-        //'php',
-        //'python',
-        //'python-repl',
-        //'typescript',
+        // 'php',
+        'python',
+        // 'python-repl',
+        // 'typescript',
 
         // 'csharp',
         // 'http',
@@ -182,7 +182,7 @@ module.exports = {
         // 'routeros',
         // 'rsl',
         // 'ruleslanguage',
-        'rust',
+        // 'rust',
         // 'sas',
         // 'scala',
         // 'scheme',
@@ -234,6 +234,7 @@ module.exports = {
         'radio-group',
         'radio',
         'rich-text',
+        'ad-custom',
 
         // 可以解析的标签（html或markdown中会很少使用）
         // 'canvas',
@@ -253,11 +254,11 @@ module.exports = {
 
     // 自定义组件
     components: [
-        'audio-player',             // 音频组件，建议保留，由于小程序原生audio存在诸多问题，towxml解决了原生音频播放器的相关问题
-        'echarts',                  // echarts图表支持
+        // 'audio-player',             // 音频组件，建议保留，由于小程序原生audio存在诸多问题，towxml解决了原生音频播放器的相关问题
+        // 'echarts',                  // echarts图表支持
         'latex',                    // 数学公式支持
         'table',                    // 表格支持
-        'todogroup',                // todo支持
+        // 'todogroup',                // todo支持
         'yuml',                     // yuml图表支持
         'img'                       // 图片解析组件
     ],
