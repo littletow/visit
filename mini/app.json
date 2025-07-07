@@ -1,0 +1,27 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/list/index",
+    "pages/suggest/index",
+    "pages/article/index"
+    
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#e9f0ff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "豆子碎片",
+    "backgroundColor": "#e9f0ff",
+    "backgroundTextStyle": "light",
+    "enablePullDownRefresh": false
+  },
+
+  "networkTimeout": {
+    "request": 10000,
+    "connectSocket": 10000,
+    "uploadFile": 60000,
+    "downloadFile": 60000
+  },
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json"
+}

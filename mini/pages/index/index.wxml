@@ -1,0 +1,80 @@
+<view class="page-bg">
+  <view class="main-content">
+    <!-- 搜索区 -->
+    <view class="search-section-m">
+      <view class="search-bar-m">
+        <image class="search-icon-m" src="/images/search.png" mode="aspectFit"></image>
+        <input
+          class="search-input-m"
+          type="text"
+          confirm-type="search"
+          placeholder="每天搜一搜"
+          value="{{inputVal}}"
+          focus="{{inputShowed}}"
+          bindinput="inputTyping"
+          bindconfirm="bindSearch"
+        />
+        <view class="search-btn-m" bindtap="bindSearch">搜索</view>
+      </view>
+    </view>
+
+    <!-- 功能区 -->
+    <view class="function-section-m card-shadow-m">
+      <view class="func-btn-grid-m">
+        <block wx:for="{{categoryConfig}}" wx:key="id">
+          <view class="func-btn-m" data-idx="{{index}}" data-cid="{{item.id}}" bindtap="bindBtn">
+            <image class="func-btn-icon-m" src="{{item.icon}}" mode="aspectFit"></image>
+            <text class="func-btn-name-m">{{item.name}}</text>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <!-- 介绍区 -->
+    <view class="intro-section-m card-shadow-m">
+      <view class="intro-title-m">关于本站</view>
+      <view class="intro-desc-m">{{vdesc}}</view>
+    </view>
+
+    <!-- 开发者寄语 -->
+    <view class="dev-msg-section card-shadow-m">
+      <image src="/images/idea.png" class="dev-msg-icon"/>
+      <view class="dev-msg-content">
+        <view class="dev-msg-title">开发者寄语</view>
+        <view class="dev-msg-desc">{{devmsg}}</view>
+      </view>
+    </view>
+
+    <!-- 工具栏 -->
+    <view class="tools-section-m card-shadow-m">
+      <view class="tool-bar-m">
+        <view class="tool-item-m" bind:tap="jumpToBeanTool">
+          <image class="tool-icon-m" src="/images/gear.png" mode="aspectFit"></image>
+          <text class="tool-label-m">豆子工具</text>
+        </view>
+        <view class="tool-item-m" bind:tap="showSuggest">
+          <image class="tool-icon-m" src="/images/note.png" mode="aspectFit"></image>
+          <text class="tool-label-m">意见反馈</text>
+        </view>
+        <view class="tool-item-m" bind:tap="showEmail">
+          <image class="tool-icon-m" src="/images/new-post.png" mode="aspectFit"></image>
+          <text class="tool-label-m">联系我</text>
+        </view>
+        <view class="tool-item-m" bind:tap="showMe">
+          <image class="tool-icon-m" src="/images/share.png" mode="aspectFit"></image>
+          <text class="tool-label-m">收藏分享</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 广告区（可选） -->
+    <view class="banner-section-m card-shadow-m">
+      <ad-custom unit-id="adunit-60ce4e32ab678f27"></ad-custom>
+    </view>
+  </view>
+
+  <!-- 页脚/备案/声明 -->
+  <view class="footer-bar">
+    <text>©2025 豆子碎片  ｜ 如有建议欢迎联系邮箱</text>
+  </view>
+</view>

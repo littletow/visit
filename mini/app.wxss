@@ -1,0 +1,5 @@
+/* app.wxss */
+@import "styles/weui.wxss"; /* 导入全局公共样式 */
+page {
+  font-family: system-ui, -apple-system, sans-serif; /* 系统默认字体 */
+}
