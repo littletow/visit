@@ -282,7 +282,7 @@ Page({
       type: 'medium',
     })
     wx.navigateToMiniProgram({
-      appId: 'wx4f0e6ddeb1080cd3',
+      appId: 'yourkey',
       path: '',
       extraData: {},
       envVersion: 'release',
